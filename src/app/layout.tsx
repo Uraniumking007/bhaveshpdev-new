@@ -17,7 +17,6 @@ export default function RootLayout({
       <body className='h-full w-full'>
         <Header />
         {children}
-        <Script src='../path/to/flowbite/dist/flowbite.min.js'></Script>
       </body>
     </html>
   );
