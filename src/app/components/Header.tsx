@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Header = () => {
@@ -27,18 +28,22 @@ const Header = () => {
               tabIndex={0}
               className='menu menu-compact dropdown-content mt-3 p-2 shadow-2xl bg-base-100 rounded-box w-52'
             >
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>Projects</a>
-              </li>
-              <li>
+              <Link href={'/'}>
+                <li>
+                  <a>Home</a>
+                </li>
+              </Link>
+              <Link href={'/projects'}>
+                <li>
+                  <a>Projects</a>
+                </li>
+              </Link>
+              {/* <li>
                 <a>Blogs</a>
               </li>
               <li>
                 <a>About</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
