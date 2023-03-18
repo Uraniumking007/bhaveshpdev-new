@@ -18,8 +18,8 @@ export const Collapse = ({
       }}
       className={`collapse collapse-arrow border drop-shadow-md m-2 border-base-300 bg-base-100 rounded-xl ${
         collapseState
-          ? 'collapse-open bg-secondary text-secondary-content'
-          : 'collapse-close bg-primary   text-primary-content'
+          ? 'bg-secondary text-secondary-content'
+          : 'collapse-close bg-primary text-primary-content'
       }`}
     >
       <div className='collapse-title text-xl font-medium'>{title}</div>
