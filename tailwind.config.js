@@ -6,7 +6,12 @@ module.exports = {
     './node_modules/flowbite-react/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      dropShadow: {
+        '3xl': '0px 0px 15px rgb(0, 203, 251, 0.3)',
+        '4xl': '0px 0px 15px rgb(22, 62, 102, 0.3)',
+      },
+    },
   },
   plugins: [require('flowbite/plugin'), require('daisyui')],
   daisyui: {
