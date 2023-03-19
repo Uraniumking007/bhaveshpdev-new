@@ -7,10 +7,10 @@ const Introduction = () => {
         </div>
       </div>
       <div className='text-sm tracking-normal text-center items-center'>
-        Hi! I'm Bhavesh, and I'm a computer engineering student who enjoys using
-        JavaScript, TypeScript, Next.js, and Tailwind CSS. I am interested about
-        creating dynamic, responsive web applications that provide an excellent
-        user experience.
+        Hi! I&apos;m Bhavesh, and I&apos;m a computer engineering student who
+        enjoys using JavaScript, TypeScript, Next.js, and Tailwind CSS. I am
+        interested about creating dynamic, responsive web applications that
+        provide an excellent user experience.
       </div>
     </div>
   );
