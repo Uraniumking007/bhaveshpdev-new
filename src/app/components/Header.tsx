@@ -29,27 +29,29 @@ const Header = () => {
               className='menu menu-compact dropdown-content mt-3 p-2 shadow-2xl bg-base-100 rounded-box w-52'
             >
               <Link href={'/'}>
-                <li>
-                  <a>Home</a>
+                <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
+                  Home
                 </li>
               </Link>
               <Link href={'/projects'}>
-                <li>
-                  <a>Projects</a>
+                <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
+                  Projects
                 </li>
               </Link>
-              {/* <li>
-                <a>Blogs</a>
+              {/* <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
+                Blogs
               </li>
-              <li>
-                <a>About</a>
+              <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
+                About
               </li> */}
             </ul>
           </div>
         </div>
         <div className='navbar-center'>
-          <a className='btn btn-ghost normal-case text-xl'>
-            <Image src={'/BhaveshpD.png'} width={280} height={280} alt={''} />
+          <a className='btn btn-ghost normal-case text-xl '>
+            <div className='relative lg:w-96 md:w-64 w-40  lg:h-12 md:h-8 h-8'>
+              <Image src={'/BhaveshPatilText.png'} fill alt={''} />
+            </div>
           </a>
         </div>
         <div className='navbar-end'>
