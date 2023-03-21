@@ -1,5 +1,4 @@
 'use client';
-import CollapseProjects from './components/Collapse';
 import Introduction from './components/introduction';
 
 export default function Home() {
