@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' data-theme='night' className='w-full h-full'>
-      <body className='h-full w-full'>
+    <html lang='en' data-theme='night' className='h-screen'>
+      <body className='w-full h-full max-h-screen'>
         <Header />
         {children}
       </body>
