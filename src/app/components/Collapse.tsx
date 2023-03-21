@@ -7,26 +7,16 @@ export const Collapse = ({
   description,
   githubLink,
 }: ProjectsDetails) => {
-  const [collapseState, setCollapseState] = useState(false);
-
   return (
     <div
-      data-theme='business'
       tabIndex={0}
-      onClick={() => {
-        setCollapseState(!collapseState);
-      }}
-      className={`collapse collapse-arrow border drop-shadow-md m-2 border-base-300 bg-base-100 rounded-xl ${
-        collapseState
-          ? 'bg-secondary text-secondary-content'
-          : 'collapse-close bg-primary text-primary-content'
-      }`}
+      className=' mx-auto collapse collapse-arrow border border-base-300 bg-base-100 rounded-box w-[70%]'
     >
       <div className='collapse-title text-xl font-medium'>{title}</div>
       <div className='collapse-content'>
         <p>{description}</p>
         <Link href={githubLink}>
-          <button>Github</button>
+          <button className='btn'>github</button>
         </Link>
       </div>
     </div>
@@ -35,7 +25,7 @@ export const Collapse = ({
 
 const CollapseProjects = () => {
   return (
-    <>
+    <div className='flex flex-col justify-center w-full'>
       {projectsArr.map((project, key) => {
         return (
           <div key={key}>
@@ -50,7 +40,7 @@ const CollapseProjects = () => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 
