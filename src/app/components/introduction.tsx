@@ -7,7 +7,13 @@ const Introduction = () => {
       <div className='flex justify-center items-center flex-col sm:flex-row md:w-[75%] lg:w-[60%]'>
         <div className='avatar m-2 justify-center'>
           <div className='w-16 md:w-24 lg:w-72 mask mask-squircle'>
-            <img src='/BhaveshPatil.jpg' />
+            <Image
+              src='/BhaveshPatil.jpg'
+              width={1280}
+              height={720}
+              alt=''
+              loading='eager'
+            />
           </div>
         </div>
         <div className='text-sm tracking-normal lg:text-xl text-center items-center'>
