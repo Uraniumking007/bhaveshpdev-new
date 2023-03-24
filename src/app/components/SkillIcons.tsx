@@ -1,38 +1,30 @@
+'use client';
 import Image from 'next/image';
-
-interface skill {
-  src: string;
-  colorScheme: string;
-}
-const Skills = [
-  {
-    src: '/icons/FrontendDevelopment/tailwind.svg',
-    colorScheme: 'rgba(56,189,248,0.5)',
-  },
-  {
-    src: '/icons/FrontendDevelopment/html.svg',
-    colorScheme: 'rgba(251,110,34,0.5)',
-  },
-  {
-    src: '/icons/FrontendDevelopment/css.svg',
-    colorScheme: 'rgba(38,154,227,0.5)',
-  },
-];
+import { useRef } from 'react';
+import { useHover } from 'usehooks-ts';
+import { Skills, skill } from '../utils/projectArr';
 
 const SkillIcon = ({ colorScheme, src }: skill) => {
+  const hoverRef = useRef(null);
+  const isHover = useHover(hoverRef);
   return (
     <>
-      <div
-        className={`w-max h-max rounded-full p-2 m-2 drop-shadow-lg hover:drop-shadow-[0_0_10px_${colorScheme}]`}
-      >
-        <Image
-          src={src}
-          className='w-16 h-16'
-          width={150}
-          height={150}
-          loading='lazy'
-          alt={''}
-        />
+      <div ref={hoverRef}>
+        <div
+          className={`w-max h-max rounded-full p-2 m-2 drop-shadow-lg hover:drop-shadow-[0_0_10px_${colorScheme}]`}
+          style={{
+            filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : 'none',
+          }}
+        >
+          <Image
+            src={src}
+            className='w-16 h-16'
+            width={150}
+            height={150}
+            loading='lazy'
+            alt={''}
+          />
+        </div>
       </div>
     </>
   );
