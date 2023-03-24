@@ -6,6 +6,56 @@ export interface ProjectsDetails {
   previewLink: string;
   warning: string;
 }
+export interface skill {
+  src: string;
+  colorScheme: string;
+}
+export const Skills = [
+  {
+    src: '/icons/FrontendDevelopment/html.svg',
+    colorScheme: 'rgba(251,110,34,0.5)',
+  },
+  {
+    src: '/icons/FrontendDevelopment/css.svg',
+    colorScheme: 'rgba(38,154,227,0.5)',
+  },
+  {
+    src: '/icons/FrontendDevelopment/tailwind.svg',
+    colorScheme: 'rgba(56,189,248,0.5)',
+  },
+  {
+    src: '/icons/FrontendDevelopment/reactjs.svg',
+    colorScheme: 'rgba(0, 216, 255,0.5)',
+  },
+  {
+    src: '/icons/Database/xatafly.png',
+    colorScheme: 'rgba(254, 1, 116,0.5)',
+  },
+  {
+    src: '/icons/Social/github.svg',
+    colorScheme: 'rgba(92, 107, 192,0.5)',
+  },
+  {
+    src: '/icons/ProgrammingLanguages/javascript.svg',
+    colorScheme: 'rgba(255, 214, 0,0.5)',
+  },
+  {
+    src: '/icons/ProgrammingLanguages/typescript.svg',
+    colorScheme: 'rgba(25, 118, 210,0.5)',
+  },
+  {
+    src: '/icons/Database/oracle.svg',
+    colorScheme: 'rgba(199, 70, 52,0.5)',
+  },
+  {
+    src: '/icons/BackendDevelopment/nodejs.svg',
+    colorScheme: 'rgba(83, 158, 67,0.5)',
+  },
+  {
+    src: '/icons/Software/photoshop.svg',
+    colorScheme: 'rgba(49, 168, 255,0.5)',
+  },
+];
 
 export const projectsArr = [
   {
