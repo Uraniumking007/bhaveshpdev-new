@@ -11,7 +11,7 @@ const NewHeader = () => {
     }, 160);
   };
   return (
-    <div className='fixed bg-base-100 w-full h-20 shadow-xl z-[100]'>
+    <div className='fixed bg-base w-full h-20 shadow-xl z-[100]'>
       <div className='flex justify-between items-center w-full h-full px-2 2xl:px-16'>
         <div
           className='md:hidden active:scale-75 ease-in-out duration-150'
@@ -81,7 +81,7 @@ const NewHeader = () => {
               : 'fixed left-[-100%] top-0 w-[75%] p-10 ease-in duration-500'
           }
         >
-          <div className='w-full'>
+          <div className=''>
             <div className='flex w-full items-center justify-between'>
               <Image
                 src={'/BhaveshPatilText.png'}

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Card = (project: ProjectsDetails) => {
   return (
-    <div className='m-4'>
+    <div className='m-2 md:m-4'>
       <div
         data-theme='business'
         className='card md:w-96 w-64 md:text-lg text-sm bg-base-100 shadow-xl h-96 rounded-3xl hover:drop-shadow-4xl hover:scale-105 '
