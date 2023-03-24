@@ -1,4 +1,5 @@
 import './globals.css';
+import Head from 'next/head';
 import Header from './components/Header';
 
 export const metadata = {
@@ -12,8 +13,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' data-theme='night' className='h-screen'>
+    <html lang='en' data-theme='night' className='h-screen w-screen'>
+      <head>
+        <link
+          rel='shortcut icon'
+          href='/BhaveshPatil.jpg'
+          type='image/x-icon'
+        />
+      </head>
+      <Head>
+        <link
+          rel='shortcut icon'
+          href='/BhaveshPatil.jpg'
+          type='image/x-icon'
+        />
+        <link
+          rel='stylesheet'
+          href='https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css'
+        />
+      </Head>
       <body className='w-full h-full max-h-screen'>
+        {/* <NewHeader /> */}
         <Header />
         {children}
       </body>

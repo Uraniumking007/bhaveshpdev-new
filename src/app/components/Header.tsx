@@ -37,6 +37,11 @@ const Header = () => {
                 Projects
               </li>
             </Link>
+            <Link href={'/skills'}>
+              <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
+                Skills
+              </li>
+            </Link>
             {/* <li className='text-sm pl-4 p-2 hover:bg-[#1f293e] rounded-lg'>
                 Blogs
               </li>
