@@ -1,6 +1,8 @@
 import Script from 'next/script';
 import './globals.css';
 import Header from './components/Header';
+import Head from 'next/head';
+import NewHeader from './components/NewHeader';
 
 export const metadata = {
   title: 'Create Next App',
@@ -13,9 +15,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' data-theme='night' className='h-screen'>
+    <html lang='en' data-theme='night' className='h-screen w-screen'>
+      <head>
+        <link
+          rel='shortcut icon'
+          href='/BhaveshPatil.jpg'
+          type='image/x-icon'
+        />
+      </head>
+      <Head>
+        <link
+          rel='shortcut icon'
+          href='/BhaveshPatil.jpg'
+          type='image/x-icon'
+        />
+        <link
+          rel='stylesheet'
+          href='https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css'
+        />
+      </Head>
       <body className='w-full h-full max-h-screen'>
-        <Header />
+        <NewHeader />
+        {/* <Header /> */}
         {children}
       </body>
     </html>
