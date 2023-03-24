@@ -1,6 +1,6 @@
 import './globals.css';
 import Head from 'next/head';
-import NewHeader from './components/NewHeader';
+import Header from './components/Header';
 
 export const metadata = {
   title: 'Create Next App',
@@ -33,8 +33,8 @@ export default function RootLayout({
         />
       </Head>
       <body className='w-full h-full max-h-screen'>
-        <NewHeader />
-        {/* <Header /> */}
+        {/* <NewHeader /> */}
+        <Header />
         {children}
       </body>
     </html>
