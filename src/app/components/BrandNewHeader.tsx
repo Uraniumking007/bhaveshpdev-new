@@ -68,13 +68,6 @@ export default function BrandNewHeader() {
     <>
       <Navbar className='sticky inset-0 z-10 h-max max-w-full bg-base-300 border-none shadow-lg shadow-black/40  rounded-none py-2 px-4 lg:px-8 lg:py-4'>
         <div className='flex items-center justify-between text-base-content'>
-          {/* <Typography
-            as='a'
-            href='#'
-            className='mr-4 cursor-pointer py-1.5 font-medium'
-          >
-            Material Tailwind
-          </Typography> */}
           <div className='btn btn-ghost'>
             <Image
               src={'/BhaveshPatilText.png'}
