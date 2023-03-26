@@ -1,10 +1,10 @@
-
 import Introduction from './components/introduction';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Bhavesh Patil - Home',
-  description: 'This is a home page it contains information about me.',
+  description:
+    "I'm a computer engineering student who enjoys using JavaScript,TypeScript, Next.js, and Tailwind CSS. I am interested about creating dynamic, responsive web applications that provide an excellent user experience.",
 };
 
 export default function Home() {

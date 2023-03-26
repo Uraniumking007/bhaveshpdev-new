@@ -4,9 +4,7 @@ import {
   Navbar,
   MobileNav,
   Typography,
-  Button,
   IconButton,
-  Card,
 } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,7 +27,7 @@ export default function BrandNewHeader() {
         color='blue-gray'
         className='p-1 font-normal'
       >
-        <Link href='#' className='flex text-base-content items-center'>
+        <Link href='/' className='flex text-base-content items-center'>
           Home
         </Link>
       </Typography>
