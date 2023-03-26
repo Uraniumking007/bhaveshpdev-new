@@ -1,5 +1,6 @@
 import './globals.css';
 import MaterialHeader from './components/BrandNewHeader';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Bhavesh Patil',
@@ -26,6 +27,12 @@ export default function RootLayout({
         {/* <Header /> */}
         <MaterialHeader />
         {children}
+        <Script
+          async
+          defer
+          data-website-id='47bf1143-18d3-42f9-a612-87498dc2d1b7'
+          src='https://umami-analytics-fawn.vercel.app/umami.js'
+        ></Script>
       </body>
     </html>
   );
