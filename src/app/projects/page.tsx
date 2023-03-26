@@ -11,10 +11,8 @@ export const metadata: Metadata = {
 
 const projects = () => {
   return (
-    <div className='flex select-none h-[calc(100%-4rem)] max-w-full'>
-      <div className='flex mt-20 flex-wrap justify-evenly'>
-        <ProjectCards />
-      </div>
+    <div className='flex my-4 cursor-default h-full max-w-full'>
+      <ProjectCards />
     </div>
   );
 };
