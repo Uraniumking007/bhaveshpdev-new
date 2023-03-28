@@ -4,7 +4,56 @@ import Image from 'next/image';
 import React from 'react';
 import { ProjectsDetails, projectsArr } from '../utils/projectArr';
 import Link from 'next/link';
-import { Button } from '@material-tailwind/react';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Tooltip,
+} from '@material-tailwind/react';
+
+export const SocialCard = () => {
+  return (
+    <div className='m-2 text-base-content flex flex-col md:flex-row md:m-4'>
+      <div className='card md:w-80 w-64 md:text-lg text-sm bg-neutral shadow-xl h-96 rounded-3xl'>
+        <figure className='relative md:h-56'>
+          <Image
+            src={'/BhaveshPatil.jpg'}
+            alt={''}
+            width={1280}
+            height={720}
+            // fill
+            className='h-full w-full'
+          />
+        </figure>
+        <div className='card-body text-center justify-center flex p-4 md:p-8'>
+          <h2 className='text-2xl text-neutral-content text-center font-semibold '>
+            Bhavesh Patil
+          </h2>
+          <p className='text-neutral-content '>Frontend Web Developer</p>
+          <div className=' mt-2 flex justify-evenly'>
+            <Link href='#'>
+              <div className='card-actions justify-end'>
+                <Button className='btn rounded-2xl bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
+                  Preview
+                </Button>
+              </div>
+            </Link>
+            <Link href={'#'}>
+              <div className='card-actions justify-end'>
+                <Button className='btn rounded-2xl bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
+                  GitHub
+                </Button>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Cardss = (project: ProjectsDetails) => {
   return (
@@ -51,15 +100,15 @@ const Cardss = (project: ProjectsDetails) => {
 const ProjectCards = () => {
   return (
     <>
-      <div className='flex flex-wrap justify-evenly gap-4 m-4'>
-        {projectsArr.map((project, key) => {
-          return (
-            <div key={key}>
-              <Cardss {...project} />
-            </div>
-          );
-        })}
-      </div>
+      {/* <div className='flex flex-wrap justify-evenly gap-4 m-4'> */}
+      {projectsArr.map((project, key) => {
+        return (
+          <div key={key}>
+            <Cardss {...project} />
+          </div>
+        );
+      })}
+      {/* </div> */}
     </>
   );
 };
