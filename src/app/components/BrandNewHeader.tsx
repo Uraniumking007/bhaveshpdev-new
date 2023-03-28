@@ -5,6 +5,7 @@ import {
   MobileNav,
   Typography,
   IconButton,
+  Button,
 } from '@material-tailwind/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,46 +22,57 @@ export default function BrandNewHeader() {
 
   const navList = (
     <ul className='mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6'>
-      <Typography
-        as='li'
-        variant='small'
-        color='blue-gray'
-        className='p-1 font-normal'
-      >
-        <Link href='/' className='flex text-base-content items-center'>
-          Home
-        </Link>
-      </Typography>
-      <Typography
-        as='li'
-        variant='small'
-        color='blue-gray'
-        className='p-1 font-normal'
-      >
-        <Link href='/projects' className='flex items-center text-base-content'>
-          Projects
-        </Link>
-      </Typography>
-      <Typography
-        as='li'
-        variant='small'
-        color='blue-gray'
-        className='p-1 font-normal'
-      >
-        <Link href='/skills' className='flex items-center text-base-content'>
-          Skills
-        </Link>
-      </Typography>
-      <Typography
-        as='li'
-        variant='small'
-        color='blue-gray'
-        className='p-1 font-normal'
-      >
-        <Link href='/about' className='flex items-center text-base-content'>
-          About
-        </Link>
-      </Typography>
+      <Button className='m-0 p-0 capitalize md:p-1 bg-transparent text-base-content shadow-none hover:shadow-none'>
+        <Typography
+          as='li'
+          variant='small'
+          color='blue-gray'
+          className='p-1 font-normal'
+        >
+          <Link href='/' className='flex text-base-content items-center'>
+            Home
+          </Link>
+        </Typography>
+      </Button>
+      <Button className='m-0 p-0 capitalize md:p-1 bg-transparent text-base-content shadow-none hover:shadow-none'>
+        <Typography
+          as='li'
+          variant='small'
+          color='blue-gray'
+          className='p-1 font-normal'
+        >
+          <Link
+            href='/projects'
+            className='flex items-center text-base-content'
+          >
+            Projects
+          </Link>
+        </Typography>
+      </Button>
+      <Button className='m-0 p-0 capitalize bg-transparent text-base-content shadow-none hover:shadow-none'>
+        <Typography
+          as='li'
+          variant='small'
+          color='blue-gray'
+          className='p-1 font-normal'
+        >
+          <Link href='/skills' className='flex items-center text-base-content'>
+            Skills
+          </Link>
+        </Typography>
+      </Button>
+      <Button className='m-0 p-0 capitalize md:p-1 bg-transparent text-base-content shadow-none hover:shadow-none'>
+        <Typography
+          as='li'
+          variant='small'
+          color='blue-gray'
+          className='p-1 font-normal'
+        >
+          <Link href='/about' className='flex items-center text-base-content'>
+            About
+          </Link>
+        </Typography>
+      </Button>
     </ul>
   );
 
