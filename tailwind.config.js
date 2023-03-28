@@ -7,6 +7,9 @@ module.exports = withMT({
     './node_modules/flowbite-react/**/*.js',
   ],
   theme: {
+    fontFamily: {
+      sans: ['Nunito', 'sans-serif'],
+    },
     extend: {
       dropShadow: {
         '3xl': '0px 0px 15px rgb(0, 203, 251, 0.3)',
