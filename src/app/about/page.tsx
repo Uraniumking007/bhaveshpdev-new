@@ -13,16 +13,16 @@ const about = () => {
           <div className='flex flex-col p-4 mt-2 md:p-8'>
             <div className='text-sm text-center md:text-base lg:text-lg'>
               I am a computer engineering student at CGPIT, Uka Tarsadia
-              University. I'm just getting started with coding and attempting to
-              learn various programming languages.
+              University. I&apos;m just getting started with coding and
+              attempting to learn various programming languages.
             </div>
             <div className='text-[0.975rem] md:text-[1.075rem] lg:text-xl text-center mt-2'>
               Web Developer | Student | Content Creator
             </div>
             <div className='text-xs md:text-sm lg:text-base mt-2'>
-              * 🌍 I'm based in Gujarat, India
-              <br /> * 🧠 I'm learning Javascript
-              <br /> * 🤔 I'm looking for help with learning more about
+              * 🌍 I&apos;m based in Gujarat, India
+              <br /> * 🧠 I&apos;m learning Javascript
+              <br /> * 🤔 I&apos;m looking for help with learning more about
               javascript.
               <br /> * 😄 Pronouns: he/his
               <br /> * ⚡ I like playing games.
