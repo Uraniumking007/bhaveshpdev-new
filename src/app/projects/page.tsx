@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const projects = () => {
   return (
     <div className='flex my-4 justify-center  items-center overflow-auto flex-wrap cursor-default h-[100vh-5rem] max-w-full'>
-      <div className='overflow-scroll h-screen w-full flex flex-wrap justify-center pb-20'>
+      <div className='overflow-auto h-screen w-full flex flex-wrap justify-center pb-40 lg:pb-20'>
         <ProjectCards />
       </div>
     </div>

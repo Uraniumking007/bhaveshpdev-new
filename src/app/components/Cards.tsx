@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { ProjectsDetails, projectsArr } from '../utils/projectArr';
 import Link from 'next/link';
-import { Button, CardHeader } from '@material-tailwind/react';
+import { Button, CardHeader, IconButton } from '@material-tailwind/react';
 
 export const SocialCard = () => {
   return (
@@ -12,32 +12,33 @@ export const SocialCard = () => {
       <div className='card md:w-80 w-64 md:text-lg text-sm bg-neutral shadow-xl h-96 rounded-3xl'>
         <CardHeader className='relative shadow-md shadow-base-300 md:h-56'>
           <Image
-            src={'/BhaveshPatil.jpg'}
-            alt={''}
+            src='/BhaveshPatil.jpg'
+            alt=''
             width={720}
             height={720}
             className='h-full w-full'
           />
         </CardHeader>
         <div className='card-body text-center justify-center flex p-4 md:p-8'>
-          <h2 className='text-2xl text-neutral-content text-center font-semibold '>
+          <h2 className='text-2xl text-neutral-content text-center font-semibold'>
             Bhavesh Patil
           </h2>
-          <p className='text-neutral-content '>Frontend Web Developer</p>
-          <div className=' mt-2 flex justify-evenly'>
+          <p className='text-neutral-content'>Frontend Web Developer</p>
+          <div className='mt-2 flex justify-evenly'>
             <Link href='#'>
-              <div className='card-actions justify-end'>
-                <Button className='btn rounded-2xl bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
-                  Preview
-                </Button>
-              </div>
+              <IconButton className='bg-base-300 rounded-full shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
+                <i className='devicon-linkedin-plain text-xl'></i>
+              </IconButton>
             </Link>
-            <Link href={'#'}>
-              <div className='card-actions justify-end'>
-                <Button className='btn rounded-2xl bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
-                  GitHub
-                </Button>
-              </div>
+            <Link href='#'>
+              <IconButton className='bg-base-300 rounded-full shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
+                <i className='devicon-github-original text-2xl'></i>
+              </IconButton>
+            </Link>
+            <Link href='#'>
+              <IconButton className='rounded-full bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
+                <i className='devicon-twitter-original colored text-xl'></i>
+              </IconButton>
             </Link>
           </div>
         </div>
