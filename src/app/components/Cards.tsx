@@ -4,30 +4,21 @@ import Image from 'next/image';
 import React from 'react';
 import { ProjectsDetails, projectsArr } from '../utils/projectArr';
 import Link from 'next/link';
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Tooltip,
-} from '@material-tailwind/react';
+import { Button, CardHeader } from '@material-tailwind/react';
 
 export const SocialCard = () => {
   return (
     <div className='m-2 text-base-content flex flex-col md:flex-row md:m-4'>
       <div className='card md:w-80 w-64 md:text-lg text-sm bg-neutral shadow-xl h-96 rounded-3xl'>
-        <figure className='relative md:h-56'>
+        <CardHeader className='relative shadow-md shadow-base-300 md:h-56'>
           <Image
             src={'/BhaveshPatil.jpg'}
             alt={''}
-            width={1280}
+            width={720}
             height={720}
-            // fill
             className='h-full w-full'
           />
-        </figure>
+        </CardHeader>
         <div className='card-body text-center justify-center flex p-4 md:p-8'>
           <h2 className='text-2xl text-neutral-content text-center font-semibold '>
             Bhavesh Patil
