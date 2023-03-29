@@ -25,17 +25,17 @@ export const SocialCard = () => {
           </h2>
           <p className='text-neutral-content'>Frontend Web Developer</p>
           <div className='mt-2 flex justify-evenly'>
-            <Link href='#'>
+            <Link href='https://www.linkedin.com/in/bhavesh-patil-399bab248/'>
               <IconButton className='bg-base-300 rounded-full shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
                 <i className='devicon-linkedin-plain text-xl'></i>
               </IconButton>
             </Link>
-            <Link href='#'>
+            <Link href='#https://github.com/Uraniumking007'>
               <IconButton className='bg-base-300 rounded-full shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
                 <i className='devicon-github-original text-2xl'></i>
               </IconButton>
             </Link>
-            <Link href='#'>
+            <Link href='https://twitter.com/UraniumKing0'>
               <IconButton className='rounded-full bg-base-300 shadow-none hover:shadow-md hover:shadow-base-100 hover:bg-base-100 active:bg-base-focus text-neutral-content'>
                 <i className='devicon-twitter-original colored text-xl'></i>
               </IconButton>
