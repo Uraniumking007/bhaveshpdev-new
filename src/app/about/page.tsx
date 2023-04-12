@@ -1,5 +1,12 @@
 import React from 'react';
-import { SocialCard } from '../components/Cards';
+import { SocialCard } from '../components/cards/SocialCards';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Bhavesh Patil - Projects',
+  description:
+    'Bhavesh is a computer engineering student with adapt knowledge in javascript,typescript,react,nextjs',
+};
 
 const About = () => {
   return (

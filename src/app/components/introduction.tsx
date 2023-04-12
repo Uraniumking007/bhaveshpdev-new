@@ -8,7 +8,7 @@ const Introduction = () => {
         <div className='avatar m-2 justify-center'>
           <div className='w-16 md:w-40 lg:w-72 mask mask-squircle'>
             <Image
-              src='/BhaveshPatil.jpg'
+              src='/assets/bhavesh5.jpg'
               width={1280}
               height={720}
               alt=''

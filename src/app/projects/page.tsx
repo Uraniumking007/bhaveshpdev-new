@@ -1,12 +1,12 @@
 import React from 'react';
-import ProjectCards from '../components/Cards';
+import ProjectCards from '../components/cards/ProjectCards';
 
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Bhavesh Patil - Projects',
   description:
-    "This is a project page that contains all the information about projects that i've created in past.",
+    'This is a project page that contains all the information about projects that bhavesh has created in past.',
 };
 
 const projects = () => {
