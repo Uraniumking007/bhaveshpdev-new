@@ -7,53 +7,85 @@ export interface ProjectsDetails {
   warning: string;
 }
 export interface skill {
+  language: string;
   src: string;
   colorScheme: string;
 }
 export const Skills = [
   {
+    language: 'html',
     src: '/icons/FrontendDevelopment/html.svg',
     colorScheme: 'rgba(251,110,34,0.5)',
   },
   {
+    language: 'CSS',
     src: '/icons/FrontendDevelopment/css.svg',
     colorScheme: 'rgba(38,154,227,0.5)',
   },
   {
+    language: 'TailwindCss',
     src: '/icons/FrontendDevelopment/tailwind.svg',
     colorScheme: 'rgba(56,189,248,0.5)',
   },
   {
+    language: 'Reactjs',
     src: '/icons/FrontendDevelopment/reactjs.svg',
     colorScheme: 'rgba(0, 216, 255,0.5)',
   },
   {
+    language: 'Xata',
     src: '/icons/Database/xatafly.png',
     colorScheme: 'rgba(254, 1, 116,0.5)',
   },
   {
+    language: 'github',
     src: '/icons/Social/github.svg',
     colorScheme: 'rgba(92, 107, 192,0.5)',
   },
   {
+    language: 'javascript',
     src: '/icons/ProgrammingLanguages/javascript.svg',
     colorScheme: 'rgba(255, 214, 0,0.5)',
   },
   {
-    src: '/icons/ProgrammingLanguages/typescript.svg',
-    colorScheme: 'rgba(25, 118, 210,0.5)',
-  },
-  {
+    language: 'oracle',
     src: '/icons/Database/oracle.svg',
     colorScheme: 'rgba(199, 70, 52,0.5)',
   },
   {
+    language: 'mongoDB',
+    src: '/icons/Database/mongodb.svg',
+    colorScheme: 'rgba(70, 160, 55,0.5)',
+  },
+  {
+    language: 'sql',
+    src: '/icons/Database/mysql.svg',
+    colorScheme: 'rgba(4, 77, 99,0.5)',
+  },
+  {
+    language: 'nodejs',
     src: '/icons/BackendDevelopment/nodejs.svg',
     colorScheme: 'rgba(83, 158, 67,0.5)',
   },
   {
+    language: 'expressjs',
+    src: '/icons/BackendDevelopment/express.svg',
+    colorScheme: 'rgba(0, 0, 0,0.5)',
+  },
+  {
+    language: 'photoshop',
     src: '/icons/Software/photoshop.svg',
     colorScheme: 'rgba(49, 168, 255,0.5)',
+  },
+  {
+    language: 'postman',
+    src: '/icons/Software/postman.svg',
+    colorScheme: 'rgba(255, 108, 55,0.5)',
+  },
+  {
+    language: 'c',
+    src: '/icons/ProgrammingLanguages/c.svg',
+    colorScheme: 'rgba(57, 73, 171,0.5)',
   },
 ];
 
@@ -62,7 +94,7 @@ export const projectsArr = [
     githubLink: 'https://github.com/Uraniumking007/todo-app-new',
     title: 'Todo App',
     description:
-      "This is a simple web application for managing your todo list. You can add, edit, and delete tasks, and mark them as completed when you're done.",
+    "This is a simple web application for managing your todo list. You can add, edit, and delete tasks, and mark them as completed when you're done.",
     imgLink:
       'https://cdn.discordapp.com/attachments/1079592365821526078/1081903624394911924/Fqc6rWuWcAEtQL7.png',
     previewLink: 'https://todo.bhaveshp.dev/',

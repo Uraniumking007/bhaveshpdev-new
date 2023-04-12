@@ -23,8 +23,6 @@ export default function RootLayout({
   return (
     <html lang='en' data-theme='night' className=''>
       <body className='h-screen overflow-hidden w-full'>
-        {/* <NewHeader /> */}
-        {/* <Header /> */}
         <MaterialHeader />
         {children}
         <Script
