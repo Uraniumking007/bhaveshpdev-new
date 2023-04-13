@@ -13,7 +13,7 @@ export interface skill {
 }
 export const Skills = [
   {
-    language: 'html',
+    language: 'HTML',
     src: '/icons/FrontendDevelopment/html.svg',
     colorScheme: 'rgba(251,110,34,0.5)',
   },
@@ -23,12 +23,12 @@ export const Skills = [
     colorScheme: 'rgba(38,154,227,0.5)',
   },
   {
-    language: 'TailwindCss',
-    src: '/icons/FrontendDevelopment/tailwind.svg',
+    language: 'TailwindCSS',
+    src: '/icons/FrontendDevelopment/tailwindcss.svg',
     colorScheme: 'rgba(56,189,248,0.5)',
   },
   {
-    language: 'Reactjs',
+    language: 'React.js',
     src: '/icons/FrontendDevelopment/reactjs.svg',
     colorScheme: 'rgba(0, 216, 255,0.5)',
   },
@@ -38,52 +38,52 @@ export const Skills = [
     colorScheme: 'rgba(254, 1, 116,0.5)',
   },
   {
-    language: 'github',
+    language: 'GitHub',
     src: '/icons/Social/github.svg',
     colorScheme: 'rgba(92, 107, 192,0.5)',
   },
   {
-    language: 'javascript',
+    language: 'JavaScript',
     src: '/icons/ProgrammingLanguages/javascript.svg',
     colorScheme: 'rgba(255, 214, 0,0.5)',
   },
   {
-    language: 'oracle',
+    language: 'Oracle',
     src: '/icons/Database/oracle.svg',
     colorScheme: 'rgba(199, 70, 52,0.5)',
   },
   {
-    language: 'mongoDB',
+    language: 'MongoDB',
     src: '/icons/Database/mongodb.svg',
     colorScheme: 'rgba(70, 160, 55,0.5)',
   },
   {
-    language: 'sql',
+    language: 'MySQL',
     src: '/icons/Database/mysql.svg',
     colorScheme: 'rgba(4, 77, 99,0.5)',
   },
   {
-    language: 'nodejs',
+    language: 'Node.js',
     src: '/icons/BackendDevelopment/nodejs.svg',
     colorScheme: 'rgba(83, 158, 67,0.5)',
   },
   {
-    language: 'expressjs',
+    language: 'Express.js',
     src: '/icons/BackendDevelopment/express.svg',
     colorScheme: 'rgba(0, 0, 0,0.5)',
   },
   {
-    language: 'photoshop',
+    language: 'Photoshop',
     src: '/icons/Software/photoshop.svg',
     colorScheme: 'rgba(49, 168, 255,0.5)',
   },
   {
-    language: 'postman',
+    language: 'Postman',
     src: '/icons/Software/postman.svg',
     colorScheme: 'rgba(255, 108, 55,0.5)',
   },
   {
-    language: 'c',
+    language: 'C',
     src: '/icons/ProgrammingLanguages/c.svg',
     colorScheme: 'rgba(57, 73, 171,0.5)',
   },

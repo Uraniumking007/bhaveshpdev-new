@@ -11,7 +11,7 @@ const SkillIcon = ({ language, colorScheme, src }: skill) => {
   return (
     <div ref={hoverRef}>
       <div
-        className={`w-max text-center h-max rounded-full p-2 m-2 drop-shadow-lg`}
+        className={`w-max text-center h-max flex items-center flex-col rounded-full p-2 m-2 drop-shadow-lg`}
         style={{
           filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
         }}

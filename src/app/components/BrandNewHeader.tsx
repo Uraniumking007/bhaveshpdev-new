@@ -27,8 +27,7 @@ export default function BrandNewHeader() {
           <Typography
             as="li"
             variant="small"
-            color="blue-gray"
-            className="p-1 font-normal"
+            className="p-1 text-base-content font-normal"
           >
             Home
           </Typography>
@@ -39,20 +38,18 @@ export default function BrandNewHeader() {
           <Typography
             as="li"
             variant="small"
-            color="blue-gray"
-            className="p-1 font-normal"
+            className="p-1 text-base-content font-normal"
           >
             Projects
           </Typography>
         </Button>
       </Link>
       <Link href="/skills" className="flex items-center text-base-content">
-        <Button className="m-0 p-0 capitalize bg-transparent text-base-content shadow-none hover:shadow-none">
+        <Button className="m-0 p-0 capitalize md:p-1 bg-transparent text-base-content shadow-none hover:shadow-none">
           <Typography
             as="li"
             variant="small"
-            color="blue-gray"
-            className="p-1 font-normal"
+            className="p-1 text-base-content font-normal"
           >
             Skills
           </Typography>
