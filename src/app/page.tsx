@@ -12,7 +12,6 @@ export default function Home() {
     <>
       <main className='flex justify-center items-center select-none h-[calc(100%-4rem)] w-full'>
         <Introduction />
-        {/* <CollapseProjects /> */}
       </main>
     </>
   );
