@@ -1,5 +1,6 @@
 const { hostname } = require('os');
 
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -22,5 +23,9 @@ const nextConfig = {
     ],
   },
 };
+
+// const millionConfig = {
+//   auto: true
+// }
 
 module.exports = nextConfig;
