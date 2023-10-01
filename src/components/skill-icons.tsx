@@ -1,34 +1,36 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import Image from "next/image";
 import { useRef } from "react";
 import { useHover } from "usehooks-ts";
-import { Skills, skill } from "../utils/projectArr";
+import { Skills, type skill } from "@/utils/data";
 
 const SkillIcon = ({ language, colorScheme, src }: skill) => {
   const hoverRef = useRef(null);
-  const isHover = useHover(hoverRef);
+  const isHover: boolean = useHover(hoverRef);
   const languageCapz = language.charAt(0).toUpperCase() + language.slice(1);
   return (
     <div ref={hoverRef}>
       <div
-        className={`w-max text-center h-max flex items-center flex-col rounded-full p-2 m-2 drop-shadow-lg`}
+        className={`m-2 flex h-max w-max flex-col items-center rounded-full p-2 text-center drop-shadow-lg`}
         style={{
           filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
         }}
       >
         <Image
           src={src}
-          className="w-16 h-16"
+          className="h-16 w-16"
           width={150}
           height={150}
           loading="lazy"
           alt={""}
         />
         <div
-          className={`pt-1 relative w-full justify-center ease-in-out transition-all duration-150 ${
+          className={`relative w-full justify-center pt-1 transition-all duration-150 ease-in-out ${
             isHover
-              ? "opacity-100 translate-y-[0rem]"
-              : "opacity-0 translate-y-[-3rem]"
+              ? "translate-y-[0rem] opacity-100"
+              : "translate-y-[-3rem] opacity-0"
           }`}
           style={{
             filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
@@ -43,7 +45,7 @@ const SkillIcon = ({ language, colorScheme, src }: skill) => {
 
 const SkillIcons = () => {
   return (
-    <div className="flex flex-wrap w-full justify-center items-center">
+    <div className="flex w-full flex-wrap items-center justify-center">
       {Skills.map((skill, key) => {
         return (
           <div key={key}>

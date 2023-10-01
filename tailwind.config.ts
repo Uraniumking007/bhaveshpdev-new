@@ -1,4 +1,5 @@
-const withMT = require("@material-tailwind/react/utils/withMT");
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import withMT from "@material-tailwind/react/utils/withMT";
 /** @type {import('tailwindcss').Config} */
 module.exports = withMT({
   content: [
@@ -21,7 +22,6 @@ module.exports = withMT({
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     styled: true,
-    themes: true,
     base: true,
     utils: true,
     logs: true,

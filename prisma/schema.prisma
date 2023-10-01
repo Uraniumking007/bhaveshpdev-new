@@ -10,15 +10,13 @@ datasource db {
 }
 
 model User {
-  id            String       @id
+  id            String    @id
   name          String?
-  email         String?      @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   password      String
-  username      String       @unique
-  Categories    Categories[]
-  Tasks         Tasks[]
+  username      String    @unique
 
   @@schema("public")
 }

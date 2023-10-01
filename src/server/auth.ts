@@ -4,12 +4,14 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  type Session,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-
-import { env } from "@/env.mjs";
-import { db } from "@/server/db";
+import { compare } from "bcryptjs";
+import { prisma } from "@/server/db";
 import Credentials from "next-auth/providers/credentials";
+import type { User } from "@prisma/client";
+import { type JWT } from "next-auth/jwt";
+import { type AdapterUser } from "next-auth/adapters";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -20,33 +22,55 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      username: string;
     };
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+}
+declare module "next-auth/adapters" {
+  interface AdapterUser extends User {
+    id: string;
+    username: string;
+  }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    jwt({ token, user }) {
+      // console.log("jwt callback", token, user, session);
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          username: user.username,
+        };
+      }
+      return token;
+    },
+    session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT;
+      user: AdapterUser;
+    }) {
+      // console.log("session callback", session, token, user);
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          username: token.username,
+        },
+      };
+    },
   },
-  adapter: PrismaAdapter(db),
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       name: "credentials",
@@ -58,39 +82,33 @@ export const authOptions: NextAuthOptions = {
           type: "password",
         },
       },
-      async authorize(credentials) {
-        const { email, password } = credentials!;
+      async authorize(credentials: { email: string; password: string }) {
+        const { email, password } = credentials;
 
-        // const user = await prisma.user.findFirst({
-        //   where: {
-        //     email,
-        //   },
-        // });
+        const user: User | null = await prisma.user.findFirst({
+          where: {
+            email,
+          },
+        });
 
-        // if (!user) return null;
+        if (!user) return null;
 
-        // if (!user.password) return null;
+        if (!user.password) return null;
 
-        // const isPasswordValid = await bcrypt.compare(password, user.password);
-        // if (!isPasswordValid) return null;
+        const isPasswordValid = await compare(password, user.password);
+        if (!isPasswordValid) return null;
 
-        // return user;
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         return {
-          email,
-          password,
+          id: user.id,
+          name: user.name ?? null,
+          email: user.email ?? null,
+          emailVerified: user.emailVerified ?? null,
+          image: user.image ?? null,
+          password: user.password,
+          username: user.username,
         };
       },
     }),
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
 };
 
