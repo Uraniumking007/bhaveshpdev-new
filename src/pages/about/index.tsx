@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { SocialCard } from "@/components/cards/social-cards";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtom } from "jotai";

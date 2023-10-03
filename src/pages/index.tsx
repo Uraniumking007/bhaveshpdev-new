@@ -6,7 +6,7 @@ import { tabHistory } from "@/utils/atom";
 import { variants } from "@/utils/animationVariants";
 
 export default function Home() {
-  const [previousTab, setPreviousTab] = useAtom(tabHistory);
+  const [previousTab] = useAtom(tabHistory);
   console.log("previousTab", previousTab);
 
   return (

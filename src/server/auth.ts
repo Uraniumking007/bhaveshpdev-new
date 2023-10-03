@@ -20,10 +20,7 @@ import { type AdapterUser } from "next-auth/adapters";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
-      id: string;
-      username: string;
-    };
+    user: User;
   }
 }
 declare module "next-auth/adapters" {
@@ -41,7 +38,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: user.id,
-          username: user.username,
+          // username: user.username,
         };
       }
       return token;
@@ -82,8 +79,8 @@ export const authOptions: NextAuthOptions = {
           type: "password",
         },
       },
-      async authorize(credentials: { email: string; password: string }) {
-        const { email, password } = credentials;
+      async authorize(credentials) {
+        const { email, password } = credentials!;
 
         const user: User | null = await prisma.user.findFirst({
           where: {
