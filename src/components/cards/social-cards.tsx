@@ -6,9 +6,9 @@ export const SocialCard = () => {
   return (
     <div className="m-2 flex flex-col text-base-content md:m-4 md:flex-row">
       <div className="card h-max w-64 rounded-3xl bg-neutral text-sm shadow-xl md:w-80 md:text-lg">
-        <CardHeader className="relative shadow-md shadow-base-300 md:h-56">
+        <CardHeader className="relative mx-auto shadow-md shadow-base-300 md:h-56 md:w-56">
           <Image
-            src="/assets/bhavesh4.jpg"
+            src="/assets/bhaveshcloseup.jpg"
             alt=""
             width={720}
             height={720}
@@ -26,7 +26,7 @@ export const SocialCard = () => {
                 <i className="devicon-linkedin-plain text-xl" />
               </IconButton>
             </Link>
-            <Link href="#https://github.com/Uraniumking007">
+            <Link href="https://github.com/Uraniumking007">
               <IconButton className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
                 <i className="devicon-github-original text-2xl" />
               </IconButton>
