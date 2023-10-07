@@ -101,6 +101,23 @@ export const Skills = [
 
 export const projectsArr = [
   {
+    githubLink: "https://github.com/bug-busterss/snippy",
+    title: "Snippy",
+    description: "This is a Code Sharing Platform.",
+    imgLink:
+      "https://cdn.discordapp.com/attachments/1079592365821526078/1160201279650398258/image.png",
+    previewLink: "https://snippy-bb.vercel.app/",
+  },
+  {
+    githubLink: "https://github.com/Uraniumking007/Tasky",
+    title: "Tasky",
+    description: "This is a Task Management App.",
+    imgLink:
+      "https://cdn.discordapp.com/attachments/1079592365821526078/1160200599321706567/image.png",
+    previewLink: "https://tasky.bhaveshp.dev/",
+    warning: "Work Still in Progress",
+  },
+  {
     githubLink: "https://github.com/Uraniumking007/wheelosity",
     title: "Wheelosity",
     description:
