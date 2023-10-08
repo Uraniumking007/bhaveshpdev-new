@@ -4,7 +4,7 @@ export interface ProjectsDetails {
   description: string;
   imgLink: string;
   previewLink: string;
-  warning: string;
+  warning: string | undefined | null;
 }
 export interface skill {
   language: string;
