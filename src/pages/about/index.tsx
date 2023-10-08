@@ -28,13 +28,13 @@ const About = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0 }}
           transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
-          className="flex h-[calc(100%-5rem)] w-full flex-col items-center overflow-auto"
+          className="flex h-[calc(100%-5rem)] w-full flex-col items-center justify-center overflow-auto"
         >
-          <h1 className="mb-12 mt-4 text-center text-2xl md:text-4xl lg:text-6xl">
-            About
-          </h1>
-          <div className="flex flex-grow items-center justify-center">
-            <div className="mb-20 block h-full w-full md:mb-0 lg:w-[95%] xl:w-[55%]">
+          <div className="flex h-full flex-grow flex-col items-center justify-center">
+            <h1 className="mb-28 flex items-center justify-center text-center text-2xl md:text-4xl lg:text-6xl">
+              About
+            </h1>
+            <div className="flex  w-full items-center justify-center md:mb-0 lg:w-[95%] xl:w-[55%]">
               <div className="mt-4 flex w-full flex-col items-center md:flex-row md:justify-center">
                 <SocialCard />
                 <div className="mt-2 flex flex-col p-4 md:p-8">

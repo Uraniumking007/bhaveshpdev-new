@@ -28,6 +28,6 @@ module.exports = withMT({
     rtl: false,
     prefix: "",
     darkTheme: "dark",
-    themes: ["light", "dark", "night", "business"],
+    themes: ["light", "dark", "night", "business", "synthwave    "],
   },
 });

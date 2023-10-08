@@ -16,7 +16,7 @@ export default function Document() {
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
         />
       </Head>
-      <body theme-data="night">
+      <body data-theme="night">
         <Main />
         <NextScript />
       </body>
