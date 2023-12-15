@@ -1,5 +1,7 @@
+import { api } from "@/utils/api";
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogBody,
   DialogFooter,
@@ -16,8 +18,9 @@ interface ProjectData {
   projectLink: string;
   imageLink: string;
   projectStarted: string;
-  projectFinished: string;
+  projectFinished?: string;
   languages: string[];
+  isCompleted: boolean;
 }
 
 const CreateProjectModal = ({
@@ -28,19 +31,39 @@ const CreateProjectModal = ({
   setOpenProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const handleProjectModal = () => setOpenProjectModal(!openProjectModal);
+  const ctx = api.useContext();
+
+  const { mutate, data, error } = api.example.createProject.useMutation({
+    onSuccess: () => {
+      void router.push("/admin");
+    },
+  });
+
   const [projectData, setProjectData] = React.useState<ProjectData>({
     title: "",
     description: "",
     githubLink: "",
     imageLink: "",
     projectLink: "",
-    projectStarted: "",
-    projectFinished: "",
+    projectStarted: Date.now().toString(),
+    projectFinished: Date.now().toString(),
     languages: [],
+    isCompleted: false,
   });
 
-  const handleCreateProject = async () => {
+  const handleCreateProject = () => {
     console.log(projectData);
+    mutate({
+      name: projectData.title,
+      description: projectData.description,
+      githubUrl: projectData.githubLink,
+      ImageUrl: projectData.imageLink,
+      projectUrl: projectData.projectLink,
+      projectInitiated: projectData.projectStarted,
+      projectCompleted: projectData.projectFinished,
+      languages: projectData.languages,
+      isCompleted: true,
+    });
   };
 
   return (
@@ -103,6 +126,16 @@ const CreateProjectModal = ({
                 setProjectData({
                   ...projectData,
                   projectStarted: e.target.value,
+                });
+              }}
+            />
+            <Checkbox
+              crossOrigin={""}
+              label="Completed"
+              onChange={(e) => {
+                setProjectData({
+                  ...projectData,
+                  projectFinished: e.target.value,
                 });
               }}
             />
