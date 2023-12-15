@@ -32,24 +32,17 @@ model VerificationToken {
 }
 
 model Projects {
-  id               String           @id @db.Uuid
+  id               String   @id @db.Uuid
   name             String
   description      String
   image            String
   link             String
   github           String
   tech             String[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   projectInitiated DateTime
-  projectCompleted projectCompleted
-
-  @@schema("public")
-}
-
-enum projectCompleted {
-  String
-  DateTime
+  projectCompleted DateTime
 
   @@schema("public")
 }
