@@ -48,7 +48,7 @@ model Projects {
 }
 
 enum projectCompleted {
-  PRESENT
+  String
   DateTime
 
   @@schema("public")
