@@ -32,7 +32,7 @@ model VerificationToken {
 }
 
 model Projects {
-  id               String           @id
+  id               String           @id @db.Uuid
   name             String
   description      String
   image            String
