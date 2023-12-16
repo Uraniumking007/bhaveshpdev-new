@@ -31,11 +31,13 @@ const CreateProjectModal = ({
   setOpenProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const handleProjectModal = () => setOpenProjectModal(!openProjectModal);
-  const ctx = api.useContext();
 
-  const { mutate, data, error } = api.example.createProject.useMutation({
+  const { mutate } = api.example.createProject.useMutation({
     onSuccess: () => {
-      void router.push("/admin");
+      void router.push("/adminjod");
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 
@@ -52,7 +54,6 @@ const CreateProjectModal = ({
   });
 
   const handleCreateProject = () => {
-    console.log(projectData);
     mutate({
       name: projectData.title,
       description: projectData.description,
@@ -63,6 +64,18 @@ const CreateProjectModal = ({
       projectCompleted: projectData.projectFinished,
       languages: projectData.languages,
       isCompleted: true,
+    });
+    setOpenProjectModal(false);
+    setProjectData({
+      title: "",
+      description: "",
+      githubLink: "",
+      imageLink: "",
+      projectLink: "",
+      projectStarted: Date.now().toString(),
+      projectFinished: Date.now().toString(),
+      languages: [],
+      isCompleted: false,
     });
   };
 
@@ -77,6 +90,7 @@ const CreateProjectModal = ({
               variant="standard"
               label="Title"
               type="text"
+              defaultValue={projectData.title}
               onChange={(e) => {
                 setProjectData({ ...projectData, title: e.target.value });
               }}
@@ -86,6 +100,7 @@ const CreateProjectModal = ({
               type="text"
               variant="standard"
               label="Description"
+              defaultValue={projectData.description}
               onChange={(e) => {
                 setProjectData({ ...projectData, description: e.target.value });
               }}
@@ -93,10 +108,11 @@ const CreateProjectModal = ({
             <Input
               crossOrigin=""
               type="url"
+              defaultValue={projectData.projectLink}
               variant="standard"
               label="Project Link"
               onChange={(e) => {
-                setProjectData({ ...projectData, githubLink: e.target.value });
+                setProjectData({ ...projectData, projectLink: e.target.value });
               }}
             />{" "}
             <Input
@@ -104,6 +120,7 @@ const CreateProjectModal = ({
               type="url"
               variant="standard"
               label="GitHub Link"
+              defaultValue={projectData.githubLink}
               onChange={(e) => {
                 setProjectData({ ...projectData, githubLink: e.target.value });
               }}
@@ -113,6 +130,7 @@ const CreateProjectModal = ({
               type="url"
               variant="standard"
               label="Image Link"
+              defaultValue={projectData.imageLink}
               onChange={(e) => {
                 setProjectData({ ...projectData, imageLink: e.target.value });
               }}
@@ -122,16 +140,19 @@ const CreateProjectModal = ({
               type="date"
               variant="standard"
               label="Project Started"
+              defaultValue={projectData.projectStarted}
               onChange={(e) => {
+                const d = new Date(e.target.value);
                 setProjectData({
                   ...projectData,
-                  projectStarted: e.target.value,
+                  projectStarted: d.toISOString(),
                 });
               }}
             />
             <Checkbox
               crossOrigin={""}
               label="Completed"
+              checked={projectData.isCompleted}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
@@ -144,10 +165,13 @@ const CreateProjectModal = ({
               type="date"
               variant="standard"
               label="Project Finished"
+              defaultValue={projectData.projectFinished}
               onChange={(e) => {
+                const d = new Date(e.target.value);
+
                 setProjectData({
                   ...projectData,
-                  projectFinished: e.target.value,
+                  projectFinished: d.toISOString(),
                 });
               }}
             />
@@ -156,6 +180,7 @@ const CreateProjectModal = ({
               type="text"
               variant="standard"
               label="Languages"
+              defaultValue={projectData.languages.join(",")}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,

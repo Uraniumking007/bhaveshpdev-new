@@ -26,26 +26,26 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div>
-      Admin Dashboard
-      <br />
-      <Button
-        onClick={() => {
-          void handleLogOut();
-        }}
-        className="btn btn-primary"
-      >
-        Logout
-      </Button>
-      <br />
-      <Button
-        onClick={() => {
-          setOpenProjectModal(true);
-        }}
-        className="btn btn-primary"
-      >
-        Create Project
-      </Button>
+    <div className="flex w-full flex-col justify-evenly">
+      <p>Admin Dashboard</p>
+      <div className="flex w-full justify-between px-10 py-4">
+        <Button
+          onClick={() => {
+            void handleLogOut();
+          }}
+          className="btn btn-primary"
+        >
+          Logout
+        </Button>
+        <Button
+          onClick={() => {
+            setOpenProjectModal(true);
+          }}
+          className="btn btn-primary"
+        >
+          Create Project
+        </Button>
+      </div>
       <CreateProjectModal
         openProjectModal={openProjectModal}
         setOpenProjectModal={setOpenProjectModal}
