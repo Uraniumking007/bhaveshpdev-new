@@ -9,7 +9,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 import router from "next/router";
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 
 interface ProjectData {
   title: string;
@@ -154,11 +154,11 @@ const CreateProjectModal = ({
             <Checkbox
               crossOrigin={""}
               label="Completed"
-              checked={projectData.isCompleted}
+              // defaultValue={projectData.isCompleted}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
-                  projectFinished: e.target.value,
+                  isCompleted: e.target.checked,
                 });
               }}
             />
@@ -167,10 +167,10 @@ const CreateProjectModal = ({
               type="date"
               variant="standard"
               label="Project Finished"
+              disabled={!projectData.isCompleted}
               defaultValue={projectData.projectFinished}
               onChange={(e) => {
-                const d = new Date(e.target.value);
-
+                const d = e.target.valueAsDate!;
                 setProjectData({
                   ...projectData,
                   projectFinished: d.toISOString(),

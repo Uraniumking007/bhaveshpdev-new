@@ -28,39 +28,46 @@ const AdminCards = (project: Projects) => {
   }
 
   return (
-    <Card className="w-full  flex-row">
-      <CardHeader
-        shadow={false}
-        floated={false}
-        className="m-0 w-2/5 shrink-0 rounded-md p-2 "
-      >
-        <img
-          src={project.image}
-          alt="card-image"
-          className="h-full w-full rounded-md object-fill"
-        />
-      </CardHeader>
-      <CardBody>
-        <Typography variant="h6" color="gray" className="mb-4 uppercase">
-          {project.tech}
-        </Typography>
-        <Typography variant="h4" color="blue-gray" className="mb-2">
-          {project.name}
-        </Typography>
-        <Typography color="gray" className="mb-8 font-normal">
-          {project.description}
-        </Typography>
-      </CardBody>
-      <CardFooter className="flex flex-col gap-2">
-        <Button size="lg" ripple className="text-sm">
+    <Card className="w-full flex-row items-center justify-evenly">
+      <div className=" flex">
+        <CardHeader
+          shadow={false}
+          floated={false}
+          className="m-0 w-2/5 max-w-sm shrink-0 rounded-md p-2 "
+        >
+          <img
+            src={project.image}
+            alt="card-image"
+            className=" h-full rounded-md object-fill"
+          />
+        </CardHeader>
+        <CardBody>
+          <Typography variant="h6" color="gray" className="mb-4 uppercase">
+            {project.tech.join(" + ")}
+          </Typography>
+          <Typography variant="h4" color="blue-gray" className="mb-2">
+            {project.name}
+          </Typography>
+          <Typography color="gray" className="mb-8 font-normal">
+            {project.description}
+          </Typography>
+        </CardBody>
+      </div>
+      <CardFooter className="ml-16 flex flex-col gap-2">
+        <Button
+          size="lg"
+          className="text-sm"
+          onClick={() => {
+            window.open(project.link, "_blank");
+          }}
+        >
           View Project
         </Button>
-        <Button size="lg" ripple className="text-sm">
+        <Button size="lg" className="text-sm">
           Edit Project
         </Button>
         <Button
           size="lg"
-          ripple
           className="text-sm"
           onClick={() => {
             deleteProject(project.id);
