@@ -7,6 +7,7 @@ import {
 } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import { TRPCError } from "@trpc/server";
+import { Projects } from "@prisma/client";
 
 export const projectsRouter = createTRPCRouter({
   createProject: protectedProcedure
@@ -49,11 +50,38 @@ export const projectsRouter = createTRPCRouter({
         message: "Project created",
       };
     }),
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+  getProjects: publicProcedure.query(async () => {
+    const data = await prisma.projects.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const projects: Projects[] = data;
+
+    return {
+      projects,
+    };
+  }),
+
+  deleteProject: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      const data = await prisma.projects.delete({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!data) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Not Deleted",
+        });
+      }
+
       return {
-        greeting: `Hello ${input.text}`,
+        message: "Project deleted",
       };
     }),
 

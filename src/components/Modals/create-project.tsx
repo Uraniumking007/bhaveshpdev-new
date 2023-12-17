@@ -9,7 +9,7 @@ import {
   Input,
 } from "@material-tailwind/react";
 import router from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 
 interface ProjectData {
   title: string;
@@ -31,9 +31,11 @@ const CreateProjectModal = ({
   setOpenProjectModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const handleProjectModal = () => setOpenProjectModal(!openProjectModal);
+  const ctx = api.useContext();
 
   const { mutate } = api.example.createProject.useMutation({
     onSuccess: () => {
+      void ctx.example.getProjects.invalidate();
       void router.push("/adminjod");
     },
     onError: (err) => {

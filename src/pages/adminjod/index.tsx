@@ -1,28 +1,43 @@
 import CreateProjectModal from "@/components/Modals/create-project";
 import LoginModal from "@/components/Modals/login-modal";
+import AdminCards from "@/components/cards/admin-cards";
+import Loading from "@/components/loading";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import { api } from "@/utils/api";
 import { Button } from "@material-tailwind/react";
 import { type GetServerSideProps } from "next";
 import { signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 const AdminDashboard = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [openProjectModal, setOpenProjectModal] = useState<boolean>(false);
-
-  console.log(session);
+  const { data, error, isFetched, isLoading } =
+    api.example.getProjects.useQuery(undefined, {
+      staleTime: 100 * 60 * 5,
+    });
 
   async function handleLogOut() {
     await signOut();
   }
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (status === "unauthenticated") {
     return <LoginModal />;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+  if (!isFetched) {
+    return <Loading />;
   }
 
   return (
@@ -50,6 +65,11 @@ const AdminDashboard = () => {
         openProjectModal={openProjectModal}
         setOpenProjectModal={setOpenProjectModal}
       />
+      <div className="flex w-full flex-col items-center justify-center gap-2 px-10 align-middle">
+        {data.projects.map((project, key) => (
+          <AdminCards {...project} key={key} />
+        ))}
+      </div>
     </div>
   );
 };
