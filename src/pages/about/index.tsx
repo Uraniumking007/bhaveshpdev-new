@@ -53,7 +53,7 @@ const About = () => {
                       🤔 I&apos;m looking for help with learning more about
                       javascript.
                     </li>
-                    <li>😄 Pronouns: he/his</li>
+                    <li>😄 Pronouns: he/him</li>
                     <li>⚡ I like playing games.</li>
                   </ul>
                 </div>

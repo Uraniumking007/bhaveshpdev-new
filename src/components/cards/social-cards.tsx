@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const SocialCard = () => {
   return (
-    <div className="m-2 flex flex-col text-base-content md:m-4 md:flex-row">
+    <div className="m-2 flex flex-col text-base-content md:m-4 md:flex-row duration-150 ease-in-out hover:scale-105 hover:drop-shadow-4xl">
       <div className="card h-max w-64 rounded-3xl bg-neutral text-sm shadow-xl md:w-80 md:text-lg">
         <CardHeader className="relative mx-auto shadow-md shadow-base-300 md:h-56 md:w-56">
           <Image

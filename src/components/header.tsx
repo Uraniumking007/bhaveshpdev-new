@@ -72,14 +72,14 @@ export default function BrandNewHeader() {
     <>
       <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-none border-none bg-base-100 px-4  py-2 shadow-lg shadow-black/40 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-base-content">
-          <div className="btn btn-ghost">
+          <Link href={"/"} className="btn btn-ghost">
             <Image
               src={"/BhaveshPatilText.png"}
               alt={""}
               width={250}
               height={30}
             />
-          </div>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <IconButton
