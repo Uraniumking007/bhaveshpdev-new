@@ -38,7 +38,7 @@ const AdminCards = (project: Projects) => {
           <img
             src={project.image}
             alt="card-image"
-            className=" h-full rounded-md object-fill"
+            className="h-full rounded-md object-fill"
           />
         </CardHeader>
         <CardBody>
