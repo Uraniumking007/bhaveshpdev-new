@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const [openProjectModal, setOpenProjectModal] = useState<boolean>(false);
   const { data, error, isFetched, isLoading } =
     api.example.getProjects.useQuery(undefined, {
-      staleTime: 100 * 60 * 5,
+      staleTime: 100 * 60 * 60,
     });
 
   async function handleLogOut() {
