@@ -9,10 +9,11 @@ import {
   Input,
 } from "@material-tailwind/react";
 import router from "next/router";
-import React, { useState, useContext } from "react";
+import React from "react";
+import ProjectInput from "./projectInput";
 
 interface ProjectData {
-  title: string;
+  name: string;
   description: string;
   githubLink: string;
   projectLink: string;
@@ -44,7 +45,7 @@ const CreateProjectModal = ({
   });
 
   const [projectData, setProjectData] = React.useState<ProjectData>({
-    title: "",
+    name: "",
     description: "",
     githubLink: "",
     imageLink: "",
@@ -56,20 +57,31 @@ const CreateProjectModal = ({
   });
 
   const handleCreateProject = () => {
+    const {
+      name,
+      description,
+      githubLink,
+      imageLink,
+      isCompleted,
+      languages,
+      projectLink,
+      projectStarted,
+      projectFinished,
+    } = projectData;
     mutate({
-      name: projectData.title,
-      description: projectData.description,
-      githubUrl: projectData.githubLink,
-      ImageUrl: projectData.imageLink,
-      projectUrl: projectData.projectLink,
-      projectInitiated: projectData.projectStarted,
-      projectCompleted: projectData.projectFinished,
-      languages: projectData.languages,
-      isCompleted: true,
+      name,
+      description,
+      githubUrl: githubLink,
+      ImageUrl: imageLink,
+      projectUrl: projectLink,
+      projectInitiated: projectStarted,
+      projectCompleted: projectFinished,
+      languages,
+      isCompleted,
     });
     setOpenProjectModal(false);
     setProjectData({
-      title: "",
+      name: "",
       description: "",
       githubLink: "",
       imageLink: "",
@@ -87,52 +99,42 @@ const CreateProjectModal = ({
         <DialogHeader>Create Project</DialogHeader>
         <DialogBody>
           <div className="flex  flex-col gap-5">
-            <Input
-              crossOrigin=""
-              variant="standard"
+            <ProjectInput
               label="Title"
               type="text"
-              defaultValue={projectData.title}
+              value={projectData.name}
               onChange={(e) => {
-                setProjectData({ ...projectData, title: e.target.value });
+                setProjectData({ ...projectData, name: e.target.value });
               }}
             />
-            <Input
-              crossOrigin=""
+            <ProjectInput
               type="text"
-              variant="standard"
               label="Description"
-              defaultValue={projectData.description}
+              value={projectData.description}
               onChange={(e) => {
                 setProjectData({ ...projectData, description: e.target.value });
               }}
             />
-            <Input
-              crossOrigin=""
+            <ProjectInput
               type="url"
-              defaultValue={projectData.projectLink}
-              variant="standard"
+              value={projectData.projectLink}
               label="Project Link"
               onChange={(e) => {
                 setProjectData({ ...projectData, projectLink: e.target.value });
               }}
             />{" "}
-            <Input
-              crossOrigin=""
+            <ProjectInput
               type="url"
-              variant="standard"
               label="GitHub Link"
-              defaultValue={projectData.githubLink}
+              value={projectData.githubLink}
               onChange={(e) => {
                 setProjectData({ ...projectData, githubLink: e.target.value });
               }}
             />
-            <Input
-              crossOrigin=""
+            <ProjectInput
               type="url"
-              variant="standard"
               label="Image Link"
-              defaultValue={projectData.imageLink}
+              value={projectData.imageLink}
               onChange={(e) => {
                 setProjectData({ ...projectData, imageLink: e.target.value });
               }}
@@ -177,12 +179,10 @@ const CreateProjectModal = ({
                 });
               }}
             />
-            <Input
-              crossOrigin=""
+            <ProjectInput
               type="text"
-              variant="standard"
               label="Languages"
-              defaultValue={projectData.languages.join(",")}
+              value={projectData.languages.join(",")}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
