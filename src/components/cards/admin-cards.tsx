@@ -10,12 +10,16 @@ import {
 } from "@material-tailwind/react";
 import { type Projects } from "@prisma/client";
 import { api } from "@/utils/api";
+import EditProjectModal from "../Modals/edit-project";
 
-const AdminCards = (project: Projects) => {
+const AdminCards = ({ project }: { project: Projects }) => {
   const ctx = api.useContext();
+  const [openProjectModal, setOpenProjectModal] =
+    React.useState<boolean>(false);
 
   const { mutate } = api.example.deleteProject.useMutation({
     onSuccess: () => {
+      setOpenProjectModal(false);
       void ctx.example.getProjects.invalidate();
     },
     onError: (err) => {
@@ -63,7 +67,13 @@ const AdminCards = (project: Projects) => {
         >
           View Project
         </Button>
-        <Button size="lg" className="text-sm">
+        <Button
+          size="lg"
+          className="text-sm"
+          onClick={() => {
+            setOpenProjectModal(!openProjectModal);
+          }}
+        >
           Edit Project
         </Button>
         <Button
@@ -76,6 +86,11 @@ const AdminCards = (project: Projects) => {
           Delete Project
         </Button>
       </CardFooter>
+      <EditProjectModal
+        openProjectModal={openProjectModal}
+        setOpenProjectModal={setOpenProjectModal}
+        id={project.id}
+      />
     </Card>
   );
 };

@@ -12,6 +12,7 @@ import React, { useState } from "react";
 
 const AdminDashboard = () => {
   const { status } = useSession();
+
   const [openProjectModal, setOpenProjectModal] = useState<boolean>(false);
   const { data, error, isFetched, isLoading } =
     api.example.getProjects.useQuery(undefined, {
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
       />
       <div className="flex w-full flex-col items-center justify-center gap-2 px-10 align-middle">
         {data.projects.map((project, key) => (
-          <AdminCards {...project} key={key} />
+          <AdminCards project={{ ...project }} key={key} />
         ))}
       </div>
     </div>
