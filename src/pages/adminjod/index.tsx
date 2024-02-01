@@ -42,9 +42,8 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="flex w-full flex-col justify-evenly">
-      <p>Admin Dashboard</p>
-      <div className="flex w-full justify-between px-10 py-4">
+    <div className="flex h-full w-full flex-col justify-evenly">
+      <div className="flex h-fit w-full justify-between px-10 py-4">
         <Button
           onClick={() => {
             void handleLogOut();
@@ -62,15 +61,15 @@ const AdminDashboard = () => {
           Create Project
         </Button>
       </div>
-      <CreateProjectModal
-        openProjectModal={openProjectModal}
-        setOpenProjectModal={setOpenProjectModal}
-      />
-      <div className="flex w-full flex-col items-center justify-center gap-2 px-10 align-middle">
+      <div className="flex h-fit w-full flex-col items-center justify-center gap-2 overflow-y-scroll px-10 align-middle">
         {data.projects.map((project, key) => (
           <AdminCards project={{ ...project }} key={key} />
         ))}
       </div>
+      <CreateProjectModal
+        openProjectModal={openProjectModal}
+        setOpenProjectModal={setOpenProjectModal}
+      />
     </div>
   );
 };
