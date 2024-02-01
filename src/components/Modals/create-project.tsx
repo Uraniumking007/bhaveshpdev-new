@@ -11,18 +11,7 @@ import {
 import router from "next/router";
 import React from "react";
 import ProjectInput from "./projectInput";
-
-interface ProjectData {
-  name: string;
-  description: string;
-  githubLink: string;
-  projectLink: string;
-  imageLink: string;
-  projectStarted: string;
-  projectFinished?: string;
-  languages: string[];
-  isCompleted: boolean;
-}
+import type { Projects } from "@prisma/client";
 
 const CreateProjectModal = ({
   openProjectModal,
@@ -44,52 +33,58 @@ const CreateProjectModal = ({
     },
   });
 
-  const [projectData, setProjectData] = React.useState<ProjectData>({
+  const [projectData, setProjectData] = React.useState<Projects>({
+    id: "",
     name: "",
     description: "",
-    githubLink: "",
-    imageLink: "",
-    projectLink: "",
-    projectStarted: Date.now().toString(),
-    projectFinished: Date.now().toString(),
-    languages: [],
+    github: "",
+    image: "",
+    link: "",
+    projectInitiated: new Date(),
+    projectCompleted: new Date(),
+    tech: [],
     isCompleted: false,
+    createdAt: new Date(), // Add createdAt property
+    updatedAt: new Date(), // Add updatedAt property
   });
 
   const handleCreateProject = () => {
     const {
       name,
       description,
-      githubLink,
-      imageLink,
+      github,
+      image,
       isCompleted,
-      languages,
-      projectLink,
-      projectStarted,
-      projectFinished,
+      tech,
+      link,
+      projectInitiated,
+      projectCompleted,
     } = projectData;
     mutate({
       name,
       description,
-      githubUrl: githubLink,
-      ImageUrl: imageLink,
-      projectUrl: projectLink,
-      projectInitiated: projectStarted,
-      projectCompleted: projectFinished,
-      languages,
+      github,
+      image,
+      link,
+      projectInitiated,
+      projectCompleted,
+      tech,
       isCompleted,
     });
     setOpenProjectModal(false);
     setProjectData({
+      id: "",
       name: "",
       description: "",
-      githubLink: "",
-      imageLink: "",
-      projectLink: "",
-      projectStarted: Date.now().toString(),
-      projectFinished: Date.now().toString(),
-      languages: [],
+      github: "",
+      image: "",
+      link: "",
+      projectInitiated: new Date(),
+      projectCompleted: new Date(),
+      tech: [],
       isCompleted: false,
+      createdAt: new Date(), // Add createdAt property
+      updatedAt: new Date(), // Add updatedAt property
     });
   };
 
@@ -100,7 +95,7 @@ const CreateProjectModal = ({
         <DialogBody>
           <div className="flex  flex-col gap-5">
             <ProjectInput
-              label="Title"
+              label="Name"
               type="text"
               value={projectData.name}
               onChange={(e) => {
@@ -117,26 +112,26 @@ const CreateProjectModal = ({
             />
             <ProjectInput
               type="url"
-              value={projectData.projectLink}
+              value={projectData.link}
               label="Project Link"
               onChange={(e) => {
-                setProjectData({ ...projectData, projectLink: e.target.value });
+                setProjectData({ ...projectData, link: e.target.value });
               }}
             />{" "}
             <ProjectInput
               type="url"
               label="GitHub Link"
-              value={projectData.githubLink}
+              value={projectData.github}
               onChange={(e) => {
-                setProjectData({ ...projectData, githubLink: e.target.value });
+                setProjectData({ ...projectData, github: e.target.value });
               }}
             />
             <ProjectInput
               type="url"
               label="Image Link"
-              value={projectData.imageLink}
+              value={projectData.image}
               onChange={(e) => {
-                setProjectData({ ...projectData, imageLink: e.target.value });
+                setProjectData({ ...projectData, image: e.target.value });
               }}
             />
             <Input
@@ -144,12 +139,12 @@ const CreateProjectModal = ({
               type="date"
               variant="standard"
               label="Project Started"
-              defaultValue={projectData.projectStarted}
+              // defaultValue={projectData.projectStarted}
               onChange={(e) => {
                 const d = new Date(e.target.value);
                 setProjectData({
                   ...projectData,
-                  projectStarted: d.toISOString(),
+                  projectInitiated: d,
                 });
               }}
             />
@@ -157,6 +152,7 @@ const CreateProjectModal = ({
               crossOrigin={""}
               label="Completed"
               // defaultValue={projectData.isCompleted}
+              checked={projectData.isCompleted}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
@@ -170,23 +166,23 @@ const CreateProjectModal = ({
               variant="standard"
               label="Project Finished"
               disabled={!projectData.isCompleted}
-              defaultValue={projectData.projectFinished}
+              // defaultValue={projectData.projectFinished}
               onChange={(e) => {
-                const d = e.target.valueAsDate!;
+                const d = new Date(e.target.value);
                 setProjectData({
                   ...projectData,
-                  projectFinished: d.toISOString(),
+                  projectCompleted: d,
                 });
               }}
             />
             <ProjectInput
               type="text"
               label="Languages"
-              value={projectData.languages.join(",")}
+              value={projectData.tech.join(",")}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
-                  languages: e.target.value.split(","),
+                  tech: e.target.value.split(","),
                 });
               }}
             />

@@ -10,18 +10,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useEffect } from "react";
 import ProjectInput from "./projectInput";
-
-interface ProjectData {
-  title: string;
-  description: string;
-  githubLink: string;
-  projectLink: string;
-  imageLink: string;
-  projectStarted: string;
-  projectFinished?: string;
-  languages: string[];
-  isCompleted: boolean;
-}
+import type { Projects } from "@prisma/client";
 
 const EditProjectModal = ({
   openProjectModal,
@@ -36,16 +25,19 @@ const EditProjectModal = ({
 
   const { mutate } = api.example.updateProject.useMutation();
 
-  const [projectData, setProjectData] = React.useState<ProjectData>({
-    title: "",
+  const [projectData, setProjectData] = React.useState<Projects>({
+    id: "",
+    name: "",
     description: "",
-    githubLink: "",
-    imageLink: "",
-    projectLink: "",
-    projectStarted: Date.now().toString(),
-    projectFinished: Date.now().toString(),
-    languages: [],
+    github: "",
+    image: "",
+    link: "",
+    projectInitiated: new Date(),
+    projectCompleted: new Date(),
+    tech: [],
     isCompleted: false,
+    createdAt: new Date(), // Add createdAt property
+    updatedAt: new Date(), // Add updatedAt property
   });
 
   const { data, error, isFetched } = api.example.getOneProject.useQuery({
@@ -54,6 +46,7 @@ const EditProjectModal = ({
   useEffect(() => {
     if (data) {
       const {
+        id,
         name,
         description,
         github,
@@ -66,15 +59,18 @@ const EditProjectModal = ({
       } = data.project;
 
       setProjectData({
-        title: name,
+        id,
+        name,
         description,
-        githubLink: github,
-        imageLink: image,
-        projectLink: link,
-        projectStarted: projectInitiated.toISOString(),
-        projectFinished: projectCompleted ? projectCompleted.toISOString() : "",
-        languages: tech,
+        github,
+        image,
+        link,
+        projectInitiated: new Date(projectInitiated),
+        projectCompleted: projectCompleted ? new Date(projectCompleted) : null,
+        tech,
         isCompleted,
+        createdAt: new Date(), // Add createdAt property
+        updatedAt: new Date(), // Add updatedAt property
       });
     }
   }, [data]);
@@ -96,11 +92,11 @@ const EditProjectModal = ({
         <DialogBody>
           <div className="flex  flex-col gap-5">
             <ProjectInput
-              label="Title"
+              label="Name"
               type="text"
-              value={projectData.title}
+              value={projectData.name}
               onChange={(e) => {
-                setProjectData({ ...projectData, title: e.target.value });
+                setProjectData({ ...projectData, name: e.target.value });
               }}
             />
             <ProjectInput
@@ -113,44 +109,50 @@ const EditProjectModal = ({
             />
             <ProjectInput
               type="url"
-              value={projectData.projectLink}
+              value={projectData.link}
               label="Project Link"
               onChange={(e) => {
-                setProjectData({ ...projectData, projectLink: e.target.value });
+                setProjectData({ ...projectData, link: e.target.value });
               }}
             />{" "}
             <ProjectInput
               type="url"
               label="GitHub Link"
-              value={projectData.githubLink}
+              value={projectData.github}
               onChange={(e) => {
-                setProjectData({ ...projectData, githubLink: e.target.value });
+                setProjectData({ ...projectData, github: e.target.value });
               }}
             />
             <ProjectInput
               type="url"
               label="Image Link"
-              value={projectData.imageLink}
+              value={projectData.image}
               onChange={(e) => {
-                setProjectData({ ...projectData, imageLink: e.target.value });
+                setProjectData({ ...projectData, image: e.target.value });
               }}
             />
-            <ProjectInput
+            <Input
+              crossOrigin=""
               type="date"
               label="Project Started"
-              value={projectData.projectStarted}
+              disabled={!projectData.projectInitiated}
+              value={`${projectData.projectInitiated.getFullYear()}-${String(
+                projectData.projectInitiated.getMonth() + 1,
+              ).padStart(2, "0")}-${String(
+                projectData.projectInitiated.getDate(),
+              ).padStart(2, "0")}`}
               onChange={(e) => {
                 const d = new Date(e.target.value);
                 setProjectData({
                   ...projectData,
-                  projectStarted: d.toISOString(),
+                  projectInitiated: d,
                 });
               }}
             />
             <Checkbox
               crossOrigin={""}
               label="Completed"
-              // value={projectData.isCompleted}
+              checked={projectData.isCompleted}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
@@ -163,23 +165,31 @@ const EditProjectModal = ({
               type="date"
               label="Project Finished"
               disabled={!projectData.isCompleted}
-              defaultValue={projectData.projectFinished}
+              value={
+                projectData.projectCompleted
+                  ? `${projectData.projectCompleted.getFullYear()}-${String(
+                      projectData.projectCompleted.getMonth() + 1,
+                    ).padStart(2, "0")}-${String(
+                      projectData.projectCompleted.getDate(),
+                    ).padStart(2, "0")}`
+                  : ""
+              }
               onChange={(e) => {
                 const d = e.target.valueAsDate!;
                 setProjectData({
                   ...projectData,
-                  projectFinished: d.toISOString(),
+                  projectCompleted: d,
                 });
               }}
             />
             <ProjectInput
               type="text"
               label="Languages"
-              value={projectData.languages.join(",")}
+              value={projectData.tech.join(",")}
               onChange={(e) => {
                 setProjectData({
                   ...projectData,
-                  languages: e.target.value.split(","),
+                  tech: e.target.value.split(","),
                 });
               }}
             />
@@ -192,20 +202,17 @@ const EditProjectModal = ({
               onClick={() => {
                 void mutate({
                   id,
-                  name: projectData.title,
+                  name: projectData.name,
                   description: projectData.description,
-                  githubUrl: projectData.githubLink,
-                  ImageUrl: projectData.imageLink,
-                  projectUrl: projectData.projectLink,
-                  languages: projectData.languages,
-                  projectInitiated: new Date(
-                    projectData.projectStarted,
-                  ).toString(),
-                  projectCompleted: projectData.projectFinished
-                    ? new Date(projectData.projectFinished).toString()
-                    : undefined,
+                  github: projectData.github,
+                  image: projectData.image,
+                  link: projectData.link,
+                  projectInitiated: projectData.projectInitiated,
+                  projectCompleted: projectData.projectCompleted,
+                  tech: projectData.tech,
                   isCompleted: projectData.isCompleted,
                 });
+                setOpenProjectModal(false);
               }}
             >
               Save
