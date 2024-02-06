@@ -6,6 +6,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { Button } from "@material-tailwind/react";
+import { Projects } from "@prisma/client";
 import { type GetServerSideProps } from "next";
 import { signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
@@ -42,7 +43,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col justify-evenly">
+    <div className="flex h-screen w-full flex-col justify-evenly">
       <div className="flex h-fit w-full justify-between px-10 py-4">
         <Button
           onClick={() => {
@@ -61,11 +62,15 @@ const AdminDashboard = () => {
           Create Project
         </Button>
       </div>
-      <div className="flex h-fit w-full flex-col items-center justify-center gap-2 overflow-y-scroll px-10 align-middle">
-        {data.projects.map((project, key) => (
-          <AdminCards project={{ ...project }} key={key} />
+      <div
+        className="mb-20 flex h-fit flex-col gap-3 overflow-y-scroll bg-[#0f172a]"
+        data-theme="luxury"
+      >
+        {data.projects.map((project: Projects) => (
+          <AdminCards key={project.id} project={project} />
         ))}
       </div>
+
       <CreateProjectModal
         openProjectModal={openProjectModal}
         setOpenProjectModal={setOpenProjectModal}

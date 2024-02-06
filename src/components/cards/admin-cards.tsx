@@ -32,66 +32,38 @@ const AdminCards = ({ project }: { project: Projects }) => {
   }
 
   return (
-    <Card className="w-full flex-row items-center justify-evenly">
-      <div className=" flex">
-        <CardHeader
-          shadow={false}
-          floated={false}
-          className="m-0 w-2/5 max-w-sm shrink-0 rounded-md p-2 "
-        >
-          <img
-            src={project.image}
-            alt="card-image"
-            className="h-full rounded-md object-fill"
-          />
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h6" color="gray" className="mb-4 uppercase">
-            {project.tech.join(" + ")}
-          </Typography>
-          <Typography variant="h4" color="blue-gray" className="mb-2">
-            {project.name}
-          </Typography>
-          <Typography color="gray" className="mb-8 font-normal">
-            {project.description}
-          </Typography>
-        </CardBody>
+    <div className="card card-side mx-2 bg-base-100 shadow-xl">
+      <figure className="w-1/4">
+        <img src={project.image} alt="" />
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">{project.name}</h2>
+        <p>{project.description}</p>
       </div>
-      <CardFooter className="ml-16 flex flex-col gap-2">
-        <Button
-          size="lg"
-          className="text-sm"
-          onClick={() => {
-            window.open(project.link, "_blank");
-          }}
-        >
-          View Project
-        </Button>
-        <Button
-          size="lg"
-          className="text-sm"
+      <div className="mx-6 flex flex-col justify-evenly gap-2 py-4">
+        <button
+          className="btn btn-primary"
           onClick={() => {
             setOpenProjectModal(!openProjectModal);
           }}
         >
-          Edit Project
-        </Button>
-        <Button
-          size="lg"
-          className="text-sm"
+          Edit
+        </button>
+        <button
+          className="btn btn-primary"
           onClick={() => {
             deleteProject(project.id);
           }}
         >
-          Delete Project
-        </Button>
-      </CardFooter>
+          Delete
+        </button>
+      </div>
       <EditProjectModal
+        id={project.id}
         openProjectModal={openProjectModal}
         setOpenProjectModal={setOpenProjectModal}
-        id={project.id}
       />
-    </Card>
+    </div>
   );
 };
 
