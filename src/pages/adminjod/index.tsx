@@ -6,7 +6,7 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { Button } from "@material-tailwind/react";
-import { Projects } from "@prisma/client";
+import type { Projects } from "@prisma/client";
 import { type GetServerSideProps } from "next";
 import { signOut, useSession } from "next-auth/react";
 import React, { useState } from "react";
