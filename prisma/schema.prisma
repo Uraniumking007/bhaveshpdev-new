@@ -17,6 +17,7 @@ model User {
   image         String?
   password      String
   username      String    @unique
+  isAdmin       Boolean   @default(false)
 
   @@schema("public")
 }
@@ -27,5 +28,22 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@schema("public")
+}
+
+model Projects {
+  id               String    @id @default(uuid())
+  name             String
+  description      String
+  image            String
+  link             String
+  github           String
+  tech             String[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  projectInitiated DateTime
+  projectCompleted DateTime?
+  isCompleted      Boolean   @default(false)
+
   @@schema("public")
 }
