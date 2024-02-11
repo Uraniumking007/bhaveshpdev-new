@@ -43,6 +43,13 @@ const Cards = (project: Projects) => {
             {project.name}
           </Typography>
         </div>
+        <div className="my-2 flex gap-1">
+          {project.tech.map((tech, key) => (
+            <div className="badge badge-neutral" key={key}>
+              {tech}
+            </div>
+          ))}
+        </div>
         <Typography
           variant="small"
           color="gray"
