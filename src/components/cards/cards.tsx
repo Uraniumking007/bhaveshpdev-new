@@ -47,34 +47,31 @@ const Cards = (project: Projects) => {
           variant="small"
           color="gray"
           className="font-normal text-base-content opacity-75"
+          style={
+            readmore
+              ? { display: "block" }
+              : {
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 1,
+                  overflow: "hidden",
+                  // textOverflow: "ellipsis",
+                }
+          }
+          ref={desRef}
         >
-          <p
-            style={
-              readmore
-                ? { display: "block" }
-                : {
-                    display: "-webkit-box",
-                    WebkitBoxOrient: "vertical",
-                    WebkitLineClamp: 1,
-                    overflow: "hidden",
-                    // textOverflow: "ellipsis",
-                  }
-            }
-            ref={desRef}
-          >
-            {project.description}
-          </p>
-          {showReadMore && (
-            <p
-              className="cursor-pointer select-none font-medium text-secondary underline"
-              onClick={() => {
-                setReadmore(!readmore);
-              }}
-            >
-              {readmore ? "Read Less" : "Read More"}
-            </p>
-          )}
+          {project.description}
         </Typography>
+        {showReadMore && (
+          <Typography
+            className="cursor-pointer select-none font-medium text-secondary underline"
+            onClick={() => {
+              setReadmore(!readmore);
+            }}
+          >
+            {readmore ? "Read Less" : "Read More"}
+          </Typography>
+        )}
       </CardBody>
       <CardFooter className="flex gap-2 pt-0">
         <Link href={project.link} className="w-full">
