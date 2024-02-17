@@ -45,7 +45,7 @@ const Cards = (project: Projects) => {
         </div>
         <div className="my-2 flex gap-1">
           {project.tech.map((tech, key) => (
-            <div className="badge badge-neutral" key={key}>
+            <div className="badge badge-neutral capitalize" key={key}>
               {tech}
             </div>
           ))}

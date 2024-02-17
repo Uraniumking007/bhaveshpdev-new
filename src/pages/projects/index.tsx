@@ -30,7 +30,7 @@ const Projects = () => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0 }}
         transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
-        className="my-4 flex h-[100vh-5rem]  max-w-full cursor-default flex-wrap items-center justify-center overflow-auto"
+        className="my-4 flex h-[100vh-5rem] max-w-full cursor-default flex-wrap items-center justify-center overflow-auto"
       >
         <div className="flex h-screen w-full flex-wrap justify-center overflow-auto pb-40 lg:pb-20">
           <ProjectCards />
