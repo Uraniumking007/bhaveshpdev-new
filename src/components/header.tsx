@@ -54,14 +54,14 @@ export default function BrandNewHeader() {
           </Typography>
         </Button>
       </Link>
-      <Link href="/about" className="flex items-center text-base-content">
+      <Link href="/resume" className="flex items-center text-base-content">
         <Button className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
           <Typography
             as="li"
             variant="small"
             className="p-1 font-normal text-base-content"
           >
-            About
+            Resume
           </Typography>
         </Button>
       </Link>
