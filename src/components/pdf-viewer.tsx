@@ -70,7 +70,7 @@ export default function PDFViewer(props: { file: string }) {
 
         <div className="mx-auto flex h-full justify-center overflow-auto overscroll-auto">
           <Document
-            file={"/Resume.pdf"}
+            file={props.file}
             onLoadSuccess={onDocumentLoadSuccess}
             options={options}
             renderMode="canvas"
