@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   return (
     <div className="flex h-screen w-full flex-col justify-evenly">
       <div className="flex h-fit w-full justify-between px-10 py-4">
-        <Button
+        <Button placeholder={true}
           onClick={() => {
             void handleLogOut();
           }}
@@ -54,6 +54,7 @@ const AdminDashboard = () => {
           Logout
         </Button>
         <Button
+         placeholder={true}
           onClick={() => {
             setOpenProjectModal(true);
           }}
