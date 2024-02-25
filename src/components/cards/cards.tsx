@@ -26,17 +26,18 @@ export default function Cards(project: Projects) {
   }, []);
 
   return (
-    <Card className="h-96 w-96 bg-base-300 ">
-      <CardHeader shadow={false} floated={false} className="h-56">
+    <Card placeholder={""} className="h-96 w-96 bg-base-300 ">
+      <CardHeader placeholder={""} shadow={false} floated={false} className="h-56">
         <img
           src={project.image}
           alt="card-image"
           className="h-52 w-full object-cover"
         />
       </CardHeader>
-      <CardBody>
+      <CardBody placeholder={""}>
         <div className="mb-2 flex items-center justify-between">
           <Typography
+          placeholder={""}
             color="blue-gray"
             className="font-medium text-base-content"
           >
@@ -51,6 +52,7 @@ export default function Cards(project: Projects) {
           ))}
         </div>
         <Typography
+        placeholder={""}
           variant="small"
           color="gray"
           className="font-normal text-base-content opacity-75"
@@ -71,6 +73,7 @@ export default function Cards(project: Projects) {
         </Typography>
         {showReadMore && (
           <Typography
+          placeholder={""}
             className="cursor-pointer select-none font-medium text-secondary underline"
             onClick={() => {
               setReadmore(!readmore);
@@ -80,9 +83,12 @@ export default function Cards(project: Projects) {
           </Typography>
         )}
       </CardBody>
-      <CardFooter className="flex gap-2 pt-0">
+      <CardFooter
+      placeholder={""}
+      className="flex gap-2 pt-0">
         <Link href={project.link} className="w-full">
           <Button
+          placeholder={""}
             ripple={true}
             fullWidth={true}
             className="flex items-center justify-center gap-1 bg-primary text-primary-content shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
@@ -93,6 +99,7 @@ export default function Cards(project: Projects) {
         </Link>
         <Link href={project.github} className="w-full">
           <Button
+          placeholder={""}
             ripple={true}
             fullWidth={true}
             className="flex items-center justify-center gap-1 bg-primary text-primary-content shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"

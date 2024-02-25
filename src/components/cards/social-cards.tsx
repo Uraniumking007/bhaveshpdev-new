@@ -6,7 +6,9 @@ export const SocialCard = () => {
   return (
     <div className="m-2 flex flex-col text-base-content md:m-4 md:flex-row duration-150 ease-in-out hover:scale-105 hover:drop-shadow-4xl">
       <div className="card h-max w-64 rounded-3xl bg-neutral text-sm shadow-xl md:w-80 md:text-lg">
-        <CardHeader className="relative mx-auto shadow-md shadow-base-300 md:h-56 md:w-56">
+        <CardHeader
+        placeholder={""}
+        className="relative mx-auto shadow-md shadow-base-300 md:h-56 md:w-56">
           <Image
             src="/assets/bhaveshcloseup.jpg"
             alt=""
@@ -22,17 +24,23 @@ export const SocialCard = () => {
           <p className="text-neutral-content">Frontend Web Developer</p>
           <div className="mt-2 flex justify-evenly">
             <Link href="https://www.linkedin.com/in/bhavesh-patil-399bab248/">
-              <IconButton className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
+              <IconButton
+              placeholder={""}
+              className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
                 <i className="devicon-linkedin-plain text-xl" />
               </IconButton>
             </Link>
             <Link href="https://github.com/Uraniumking007">
-              <IconButton className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
+              <IconButton 
+              placeholder={""}
+              className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
                 <i className="devicon-github-original text-2xl" />
               </IconButton>
             </Link>
             <Link href="https://twitter.com/UraniumKing0">
-              <IconButton className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
+              <IconButton
+              placeholder={""} 
+              className="active:bg-base-focus rounded-full bg-base-300 text-neutral-content shadow-none hover:bg-base-100 hover:shadow-md hover:shadow-base-100">
                 <i className="devicon-twitter-original colored text-xl" />
               </IconButton>
             </Link>

@@ -87,9 +87,12 @@ const EditProjectModal = ({
 
   return (
     <div>
-      <Dialog handler={handleProjectModal} open={openProjectModal}>
-        <DialogHeader>Create Project</DialogHeader>
-        <DialogBody>
+      <Dialog placeholder={true}
+      handler={handleProjectModal} open={openProjectModal}>
+        <DialogHeader placeholder={true}
+        >Create Project</DialogHeader>
+        <DialogBody placeholder={true}
+        >
           <div className="flex  flex-col gap-5">
             <ProjectInput
               label="Name"
@@ -195,9 +198,12 @@ const EditProjectModal = ({
             />
           </div>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter
+        placeholder={true}
+        >
           <div className="flex gap-4">
             <Button
+            placeholder={true}
               className="btn btn-primary"
               onClick={() => {
                 void mutate({
@@ -217,7 +223,8 @@ const EditProjectModal = ({
             >
               Save
             </Button>
-            <Button className="btn btn-primary" onClick={handleProjectModal}>
+            <Button
+            placeholder={true} className="btn btn-primary" onClick={handleProjectModal}>
               Cancel
             </Button>
           </div>

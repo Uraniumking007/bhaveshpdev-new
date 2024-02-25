@@ -90,9 +90,14 @@ const CreateProjectModal = ({
 
   return (
     <div>
-      <Dialog handler={handleProjectModal} open={openProjectModal}>
-        <DialogHeader>Create Project</DialogHeader>
-        <DialogBody>
+      <Dialog placeholder={""} handler={handleProjectModal} open={openProjectModal}>
+        <DialogHeader
+        placeholder={""}
+        
+        >Create Project</DialogHeader>
+        <DialogBody
+        placeholder={""}
+        >
           <div className="flex  flex-col gap-5">
             <ProjectInput
               label="Name"
@@ -188,17 +193,17 @@ const CreateProjectModal = ({
             />
           </div>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter
+        placeholder={""}
+        >
           <div className="flex gap-4">
-            <Button
-              className="btn btn-primary"
-              onClick={() => {
+            <Button placeholder={true} className="btn btn-primary" onClick={() => {
                 void handleCreateProject();
               }}
             >
               Save
             </Button>
-            <Button className="btn btn-primary" onClick={handleProjectModal}>
+            <Button placeholder={true} className="btn btn-primary" onClick={handleProjectModal}>
               Cancel
             </Button>
           </div>
