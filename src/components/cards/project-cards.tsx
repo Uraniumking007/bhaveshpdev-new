@@ -1,4 +1,3 @@
-import { projectsArr } from "@/utils/data";
 import Cards from "@/components/cards/cards";
 import { api } from "@/utils/api";
 import Loading from "../loading";

@@ -124,7 +124,7 @@ export const projectsRouter = createTRPCRouter({
         isCompleted: z.boolean(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const data = await prisma.projects.update({
         where: {
           id: input.id,

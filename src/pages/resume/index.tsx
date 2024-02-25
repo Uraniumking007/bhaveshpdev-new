@@ -33,7 +33,7 @@ export default function ResumePage() {
         className="my-4 flex h-[100vh-5rem] max-w-full cursor-default flex-wrap items-center justify-center overflow-auto"
       >
         <div className="flex h-screen w-full flex-wrap justify-center overflow-auto pb-40 lg:pb-20">
-          <PDFViewer file={"/resume.pdf"} />
+          <PDFViewer file={"/Resume.pdf"} />
         </div>
       </motion.div>
     </>
