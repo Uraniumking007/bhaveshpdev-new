@@ -1,11 +1,7 @@
-const { hostname } = require('os');
-
+const { hostname } = require("os");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     remotePatterns: [
       // {
@@ -15,10 +11,16 @@ const nextConfig = {
       //   pathname: '/account123/**',
       // },
       {
-        protocol: 'https',
-        hostname: 'cdn.discordapp.com',
-        port: '',
-        pathname: '/attachments/**/**',
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+        port: "",
+        pathname: "/attachments/**/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+        port: "",
+        pathname: "/**/**",
       },
     ],
   },

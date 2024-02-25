@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { useHover } from "usehooks-ts";
-import { Skills, skill } from "../utils/projectArr";
+import { Skills, skill } from "../../utils/projectArr";
 
 const SkillIcon = ({ language, colorScheme, src }: skill) => {
   const hoverRef = useRef(null);

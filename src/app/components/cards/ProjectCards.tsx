@@ -1,5 +1,5 @@
-import { projectsArr } from '@/app/utils/projectArr';
-import Cards from './Cards';
+import { projectsArr } from "@/utils/projectArr";
+import Cards from "./Cards";
 
 const ProjectCards = () => {
   return (

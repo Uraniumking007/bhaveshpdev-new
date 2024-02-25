@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import { ProjectsDetails } from "../../utils/projectArr";
+import { ProjectsDetails } from "../../../utils/projectArr";
 import Link from "next/link";
 import { Button } from "@material-tailwind/react";
 
