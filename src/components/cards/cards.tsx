@@ -12,7 +12,7 @@ import type { Projects } from "@prisma/client";
 import { FaGithub, FaGlobe } from "react-icons/fa";
 import Link from "next/link";
 
-const Cards = (project: Projects) => {
+export default function Cards(project: Projects) {
   const [readmore, setReadmore] = React.useState(false);
   const [showReadMore, setShowReadMore] = React.useState(false);
   const desRef = useRef<HTMLParagraphElement>(null);
@@ -104,6 +104,4 @@ const Cards = (project: Projects) => {
       </CardFooter>
     </Card>
   );
-};
-
-export default Cards;
+}

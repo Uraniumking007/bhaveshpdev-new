@@ -1,13 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Typography,
-} from "@material-tailwind/react";
 import { type Projects } from "@prisma/client";
 import { api } from "@/utils/api";
 import EditProjectModal from "../Modals/edit-project";
