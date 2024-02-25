@@ -1,6 +1,9 @@
+import { motion } from "framer-motion";
+import { useAtom } from "jotai";
 import { variants } from "@/utils/variants";
 import Introduction from "./components/introduction";
 import { Metadata } from "next";
+import { tabHistory } from "@/utils/atoms";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Home",
