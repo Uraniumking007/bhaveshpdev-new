@@ -1,9 +1,5 @@
-import { motion } from "framer-motion";
-import { useAtom } from "jotai";
-import { variants } from "@/utils/variants";
 import Introduction from "./components/introduction";
 import { Metadata } from "next";
-import { tabHistory } from "@/utils/atoms";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Home",
@@ -12,22 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const [previousTab] = useAtom(tabHistory);
-  console.log("previousTab", previousTab);
-
   return (
-    <>
-      <main className="flex h-[calc(100%-4rem)] w-full select-none items-center justify-center">
-        <motion.div
-          initial={previousTab === "/" ? "fade" : "left"}
-          variants={variants}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
-        >
-          <Introduction />
-        </motion.div>
-      </main>
-    </>
+    <main className="flex h-[calc(100%-4rem)] w-full select-none items-center justify-center">
+      <Introduction />
+    </main>
   );
 }
