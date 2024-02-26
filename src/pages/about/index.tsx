@@ -13,21 +13,13 @@ export const metadata = {
 };
 
 const About = () => {
-  const [previousTab] = useAtom(tabHistory);
-
   return (
     <>
       <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </Head>
-      <AnimatePresence>
-        <motion.div
-          initial={previousTab === "/about" ? "fade" : "right"}
-          variants={variants}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
+        <div
           className="flex h-[calc(100%-5rem)] w-full flex-col items-center justify-center overflow-auto"
         >
           <div className="flex h-full flex-grow flex-col items-center justify-center">
@@ -60,8 +52,7 @@ const About = () => {
               </div>
             </div>
           </div>
-        </motion.div>
-      </AnimatePresence>
+        </div>
     </>
   );
 };
