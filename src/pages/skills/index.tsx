@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { tabHistory } from "@/utils/atom";
 import { variants } from "@/utils/animationVariants";
+import PageTransition from "@/components/page-transition";
 
 const metadata = {
   title: "Bhavesh Patil - Home",
@@ -12,31 +13,17 @@ const metadata = {
     "This is a home page it contains information regarding bhavesh's skills",
 };
 
-const SkillsPage = () => {
-  const [previousTab] = useAtom(tabHistory);
+const SkillsPage = (_: unknown, ref: React.ForwardedRef<HTMLDivElement>) => {
   return (
-    <>
+    <PageTransition ref={ref}>
       <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </Head>
-      <motion.div
-        initial={
-          previousTab === "projects"
-            ? "fade"
-            : previousTab === "/" || previousTab === "/projects"
-            ? "right"
-            : "left"
-        }
-        variants={variants}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ type: "spring", bounce: 0.3, duration: 0.4 }}
-        className="flex h-[calc(100%-4rem)] w-full select-none items-center justify-center"
-      >
+      <div className="flex h-[calc(100%-4rem)] w-full select-none items-center justify-center">
         <SkillIcons />
-      </motion.div>
-    </>
+      </div>
+    </PageTransition>
   );
 };
 
