@@ -34,9 +34,9 @@ const LoginModal = () => {
 
   return (
     <div>
-      <Dialog placeholder={true} handler={handleLoginModal} open={true}>
-        <DialogHeader placeholder={true} > Login Now</DialogHeader>
-        <DialogBody placeholder={true}>
+      <Dialog handler={handleLoginModal} open={true}>
+        <DialogHeader> Login Now</DialogHeader>
+        <DialogBody>
           <div className="flex  flex-col gap-8">
             <Input
               crossOrigin=""
@@ -60,9 +60,9 @@ const LoginModal = () => {
             />
           </div>
         </DialogBody>
-        <DialogFooter placeholder={true}>
+        <DialogFooter>
           <div className="flex gap-4">
-            <Button placeholder={true}
+            <Button
               className="btn btn-primary"
               onClick={() => {
                 void handleLogin();
@@ -70,7 +70,7 @@ const LoginModal = () => {
             >
               Login
             </Button>
-            <Button placeholder={true}
+            <Button
               className="btn btn-primary"
               onClick={() => {
                 void router.push("/");
