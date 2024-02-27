@@ -22,8 +22,8 @@ export default function BrandNewHeader() {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Link href="/" className="flex items-center text-base-content">
-        <Button placeholder={true} className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
-          <Typography placeholder={true}
+        <Button className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
+          <Typography
             as="li"
             variant="small"
             className="p-1 font-normal text-base-content"
@@ -33,8 +33,8 @@ export default function BrandNewHeader() {
         </Button>
       </Link>
       <Link href="/projects" className="flex items-center text-base-content">
-        <Button placeholder={true} className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
-          <Typography placeholder={true}
+        <Button className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
+          <Typography
             as="li"
             variant="small"
             className="p-1 font-normal text-base-content"
@@ -44,8 +44,8 @@ export default function BrandNewHeader() {
         </Button>
       </Link>
       <Link href="/skills" className="flex items-center text-base-content">
-        <Button placeholder={true} className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
-          <Typography placeholder={true}
+        <Button className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
+          <Typography
             as="li"
             variant="small"
             className="p-1 font-normal text-base-content"
@@ -55,8 +55,8 @@ export default function BrandNewHeader() {
         </Button>
       </Link>
       <Link href="/resume" className="flex items-center text-base-content">
-        <Button placeholder={true} className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
-          <Typography placeholder={true}
+        <Button className="m-0 bg-transparent p-0 capitalize text-base-content shadow-none hover:shadow-none md:p-1">
+          <Typography
             as="li"
             variant="small"
             className="p-1 font-normal text-base-content"
@@ -70,7 +70,7 @@ export default function BrandNewHeader() {
 
   return (
     <>
-      <Navbar placeholder={true} className="sticky inset-0 z-10 h-max max-w-full rounded-none border-none bg-base-100 px-4  py-2 shadow-lg shadow-black/40 lg:px-8 lg:py-4">
+      <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-none border-none bg-base-100 px-4  py-2 shadow-lg shadow-black/40 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-base-content">
           <Link href={"/"} className="btn btn-ghost">
             <Image
@@ -82,7 +82,7 @@ export default function BrandNewHeader() {
           </Link>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            <IconButton placeholder={true}
+            <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
               ripple={false}
