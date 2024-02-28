@@ -195,6 +195,7 @@ const CreateProjectModal = ({
         <DialogFooter placeholder={""}>
           <div className="flex gap-4">
             <Button
+              placeholder={""}
               className="btn btn-primary"
               onClick={() => {
                 void handleCreateProject();
@@ -202,7 +203,11 @@ const CreateProjectModal = ({
             >
               Save
             </Button>
-            <Button className="btn btn-primary" onClick={handleProjectModal}>
+            <Button
+              placeholder={""}
+              className="btn btn-primary"
+              onClick={handleProjectModal}
+            >
               Cancel
             </Button>
           </div>

@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef } from "react";
+import React, { type ForwardedRef, forwardRef } from "react";
 import { SocialCard } from "@/components/cards/social-cards";
 import Head from "next/head";
 import PageTransitions from "@/components/page-transitions";
