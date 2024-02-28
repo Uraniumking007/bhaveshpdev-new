@@ -16,8 +16,9 @@ const SkillsPage = (_: unknown, ref: ForwardedRef<HTMLDivElement>) => {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </Head>
-
-      <SkillIcons />
+      <main className="flex h-full items-center justify-center">
+        <SkillIcons />
+      </main>
     </PageTransitions>
   );
 };

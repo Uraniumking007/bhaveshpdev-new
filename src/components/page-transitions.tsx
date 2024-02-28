@@ -59,6 +59,7 @@ function PageTransition(
       exit={getDirection(router, tab)}
       transition={transition}
       {...rest}
+      className="h-full w-full overflow-hidden"
     >
       {children}
     </motion.div>
