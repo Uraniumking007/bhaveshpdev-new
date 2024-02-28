@@ -27,7 +27,6 @@ const LoginModal = () => {
       callbackUrl: "/adminjod",
       redirect: false,
     });
-    console.log("Signed");
 
     setOpenLoginModal(false);
   };

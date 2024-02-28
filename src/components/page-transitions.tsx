@@ -70,7 +70,6 @@ function PageTransition(
         : onTheLeft;
     }
 
-    console.log(routesMap[currentPath]?.[previousPagePath ?? ""]);
     return {
       entry,
       exit,
