@@ -29,7 +29,6 @@ function PageTransition(
     previousPagePath?: string | null,
   ): Chainable {
     const currentPath = router.asPath;
-    const lastTab = previousPagePath;
 
     const routesMap: Record<string, Record<string, Record<string, string>>> = {
       "/": {
@@ -55,30 +54,28 @@ function PageTransition(
     };
 
     function entry() {
-      if (lastTab == null) {
+      if (previousPagePath == null) {
         return inTheCenter;
       }
-      return routesMap[currentPath]?.[lastTab] == onTheLeft
+      return routesMap[currentPath]?.[previousPagePath] == onTheLeft
         ? onTheLeft
         : onTheRight;
     }
     function exit() {
-      if (lastTab == null) {
+      if (previousPagePath == null) {
         return inTheCenter;
       }
-      return routesMap[lastTab]?.[currentPath] == onTheLeft
+      return routesMap[previousPagePath]?.[currentPath] == onTheLeft
         ? onTheRight
         : onTheLeft;
     }
 
-    console.log(routesMap[currentPath]?.[lastTab ?? ""]);
+    console.log(routesMap[currentPath]?.[previousPagePath ?? ""]);
     return {
       entry,
       exit,
     };
   }
-
-  console.log(getDirection(router, tab));
 
   return (
     <motion.div
