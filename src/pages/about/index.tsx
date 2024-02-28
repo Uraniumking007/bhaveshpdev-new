@@ -1,6 +1,7 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 import { SocialCard } from "@/components/cards/social-cards";
 import Head from "next/head";
+import PageTransitions from "@/components/page-transitions";
 
 export const metadata = {
   title: "Bhavesh Patil - Projects",
@@ -8,9 +9,9 @@ export const metadata = {
     "Bhavesh is a computer engineering student with adapt knowledge in javascript,typescript,react,nextjs",
 };
 
-const About = () => {
+const About = (_: unknown, ref: ForwardedRef<HTMLDivElement>) => {
   return (
-    <>
+    <PageTransitions ref={ref}>
       <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
@@ -46,8 +47,8 @@ const About = () => {
           </div>
         </div>
       </div>
-    </>
+    </PageTransitions>
   );
 };
 
-export default About;
+export default forwardRef(About);

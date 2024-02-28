@@ -1,10 +1,14 @@
-import React from "react";
+import React, { type ForwardedRef } from "react";
 import Head from "next/head";
 import PDFViewer from "@/components/pdf-viewer";
+import PageTransitions from "@/components/page-transitions";
 
-export default function ResumePage() {
+export default function ResumePage(
+  _: unknown,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   return (
-    <>
+    <PageTransitions ref={ref}>
       <Head>
         <title>Bhavesh Patil | Resume</title>
         <meta
@@ -16,6 +20,6 @@ export default function ResumePage() {
       <div className="flex h-screen w-full flex-wrap justify-center overflow-auto pb-40 lg:pb-20">
         <PDFViewer file={"/Resume.pdf"} />
       </div>
-    </>
+    </PageTransitions>
   );
 }
