@@ -8,6 +8,11 @@ import { tabHistory } from "@/utils/atom";
 type PageTransitionProps = HTMLMotionProps<"div">;
 type PageTransitionRef = React.ForwardedRef<HTMLDivElement>;
 
+interface Chainable {
+  entry: () => { x: string };
+  exit: () => { x: string };
+}
+
 function PageTransition(
   { children, ...rest }: PageTransitionProps,
   ref: PageTransitionRef,
@@ -15,48 +20,72 @@ function PageTransition(
   const router = useRouter();
   const [tab] = useAtom(tabHistory);
   const onTheRight = { x: "100%" };
-  const inTheCenter = { x: 0 };
+  const inTheCenter = { x: "0%" };
   const onTheLeft = { x: "-100%" };
   const transition = { duration: 0.6, ease: "easeInOut" };
 
-  function getDirection(router: NextRouter, previousPagePath?: string | null) {
+  function getDirection(
+    router: NextRouter,
+    previousPagePath?: string | null,
+  ): Chainable {
     const currentPath = router.asPath;
     const lastTab = previousPagePath;
 
-    if (lastTab === null) {
-      return inTheCenter;
+    const routesMap: Record<string, Record<string, Record<string, string>>> = {
+      "/": {
+        "/projects": onTheLeft,
+        "/skills": onTheLeft,
+        "/resume": onTheLeft,
+      },
+      "/projects": {
+        "/": onTheRight,
+        "/skills": onTheLeft,
+        "/resume": onTheLeft,
+      },
+      "/skills": {
+        "/": onTheRight,
+        "/projects": onTheRight,
+        "/resume": onTheLeft,
+      },
+      "/resume": {
+        "/": onTheRight,
+        "/projects": onTheRight,
+        "/skills": onTheRight,
+      },
+    };
+
+    function entry() {
+      if (lastTab == null) {
+        return inTheCenter;
+      }
+      return routesMap[currentPath]?.[lastTab] == onTheLeft
+        ? onTheLeft
+        : onTheRight;
     }
-    if (lastTab === currentPath) {
-      return inTheCenter;
+    function exit() {
+      if (lastTab == null) {
+        return inTheCenter;
+      }
+      return routesMap[lastTab]?.[currentPath] == onTheLeft
+        ? onTheRight
+        : onTheLeft;
     }
-    if (
-      (lastTab === "/projects" && currentPath === "/") ||
-      (lastTab === "/skills" && currentPath === "/") ||
-      (lastTab === "/resume" && currentPath === "/") ||
-      (lastTab === "/skills" && currentPath === "/projects") ||
-      (lastTab === "/resume" && currentPath === "/projects") ||
-      (lastTab === "/resume" && currentPath === "/skills")
-    ) {
-      return onTheLeft;
-    }
-    if (
-      (lastTab === "/" && currentPath === "/projects") ||
-      (lastTab === "/" && currentPath === "/skills") ||
-      (lastTab === "/projects" && currentPath === "/skills") ||
-      (lastTab === "/" && currentPath === "/resume") ||
-      (lastTab === "/projects" && currentPath === "/resume") ||
-      (lastTab === "/skills" && currentPath === "/resume")
-    ) {
-      return onTheRight;
-    }
+
+    console.log(routesMap[currentPath]?.[lastTab ?? ""]);
+    return {
+      entry,
+      exit,
+    };
   }
+
+  console.log(getDirection(router, tab));
 
   return (
     <motion.div
       ref={ref}
-      initial={getDirection(router, tab)}
+      initial={getDirection(router, tab).entry()}
       animate={inTheCenter}
-      exit={getDirection(router, tab)}
+      exit={getDirection(router, tab).exit()}
       transition={transition}
       {...rest}
       className="h-full w-full overflow-hidden"
