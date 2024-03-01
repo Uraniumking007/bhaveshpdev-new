@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
 import React, { forwardRef } from "react";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, type HTMLMotionProps, AnimatePresence } from "framer-motion";
 import { type NextRouter, useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { tabHistory } from "@/utils/atom";
@@ -22,7 +22,7 @@ function PageTransition(
   const onTheRight = { x: "100%" };
   const inTheCenter = { x: "0%" };
   const onTheLeft = { x: "-100%" };
-  const transition = { duration: 0.6, ease: "easeInOut" };
+  const transition = { duration: 0.3, ease: "easeInOut" };
 
   function getDirection(
     router: NextRouter,
@@ -66,8 +66,8 @@ function PageTransition(
         return inTheCenter;
       }
       return routesMap[previousPagePath]?.[currentPath] == onTheLeft
-        ? onTheRight
-        : onTheLeft;
+        ? onTheLeft
+        : onTheRight;
     }
 
     return {

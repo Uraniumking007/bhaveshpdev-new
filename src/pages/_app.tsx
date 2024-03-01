@@ -28,13 +28,13 @@ const MyApp = ({
   }, [router, setCurrentTab]);
 
   return (
-    <AnimatePresence mode={"popLayout"} initial={false}>
-      <SessionProvider session={session}>
-        <RootLayout>
+    <SessionProvider session={session}>
+      <RootLayout>
+        <AnimatePresence mode={"wait"} initial={false}>
           <Component {...pageProps} key={router.asPath} />
-        </RootLayout>
-      </SessionProvider>
-    </AnimatePresence>
+        </AnimatePresence>
+      </RootLayout>
+    </SessionProvider>
   );
 };
 
