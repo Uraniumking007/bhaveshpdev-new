@@ -26,7 +26,6 @@ const CreateProjectModal = ({
   const { mutate } = api.example.createProject.useMutation({
     onSuccess: () => {
       void ctx.example.getProjects.invalidate();
-      void router.push("/adminjod");
     },
     onError: (err) => {
       console.log(err);

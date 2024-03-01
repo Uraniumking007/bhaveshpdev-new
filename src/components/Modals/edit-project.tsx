@@ -22,8 +22,12 @@ const EditProjectModal = ({
   id: string;
 }) => {
   const handleProjectModal = () => setOpenProjectModal(!openProjectModal);
-
-  const { mutate } = api.example.updateProject.useMutation();
+  const ctx = api.useContext();
+  const { mutate } = api.example.updateProject.useMutation({
+    onSuccess: () => {
+      void ctx.example.getProjects.invalidate();
+    },
+  });
 
   const [projectData, setProjectData] = React.useState<Projects>({
     id: "",
