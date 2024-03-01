@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
 import React, { forwardRef } from "react";
-import { motion, type HTMLMotionProps, AnimatePresence } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { type NextRouter, useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { tabHistory } from "@/utils/atom";
