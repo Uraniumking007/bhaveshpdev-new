@@ -11,7 +11,7 @@ const DevInfo = () => {
   return (
     <HeroHighlight>
       <div className="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row">
-        <ButtonWithMovingBorder children={undefined} className="select-none" />
+        <ButtonWithMovingBorder className="select-none" />
         <div>
           <motion.h1
             initial={{

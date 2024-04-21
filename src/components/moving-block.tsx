@@ -12,7 +12,7 @@ import { cn } from "@/utils/cn";
 
 export function ButtonWithMovingBorder({
   borderRadius = "1.75rem",
-  children,
+
   as: Component = "button",
   containerClassName,
   borderClassName,
@@ -21,7 +21,6 @@ export function ButtonWithMovingBorder({
   ...otherProps
 }: {
   borderRadius?: string;
-  children: React.ReactNode;
   as?: any;
   containerClassName?: string;
   borderClassName?: string;
