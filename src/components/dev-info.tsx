@@ -1,11 +1,5 @@
 "use client";
 
-import {
-  IconBrandDiscord,
-  IconBrandGithub,
-  IconBrandGmail,
-  IconBrandX,
-} from "@tabler/icons-react";
 import React from "react";
 import { HeroHighlight, Highlight } from "./hero-highlight";
 import { motion } from "framer-motion";
@@ -16,7 +10,7 @@ import { TooltipButton } from "./Buttons/tooltip-button";
 const DevInfo = () => {
   return (
     <HeroHighlight>
-      <div className="flex flex-col justify-center w-full items-center lg:pl-40 lg:flex-row">
+      <div className="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row">
         <ButtonWithMovingBorder children={undefined} className="select-none" />
         <div>
           <motion.h1
