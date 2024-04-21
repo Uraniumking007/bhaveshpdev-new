@@ -56,16 +56,16 @@ export const Navigation = () => (
     className="flex gap-2 flex-col w-28 absolute -top-4 right-8"
   >
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton>Home</MagicBorderButton>
+      <MagicBorderButton path="/">Home</MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton>Projects</MagicBorderButton>
+      <MagicBorderButton path="projects">Projects</MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton>Skills</MagicBorderButton>
+      <MagicBorderButton path="skills">Skills</MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton>Resume</MagicBorderButton>
+      <MagicBorderButton path="resume">Resume</MagicBorderButton>
     </motion.li>
   </motion.ul>
 );
