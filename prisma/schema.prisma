@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Projects {
+  id               String    @id
+  name             String
+  description      String
+  image            String
+  link             String
+  github           String
+  tech             String[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime
+  projectInitiated DateTime
+  projectCompleted DateTime?
+  isCompleted      Boolean   @default(false)
+}
+
+model User {
+  id            String    @id
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String
+  username      String    @unique
+  isAdmin       Boolean   @default(false)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
