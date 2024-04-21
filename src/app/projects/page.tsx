@@ -7,12 +7,14 @@ import React from "react";
 const ProjectPage: React.FC = () => {
   return (
     <HeroHighlight>
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
-      <ProjectCard />
+      <div className="flex flex-wrap gap-8 w-full justify-center">
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+        <ProjectCard />
+      </div>
     </HeroHighlight>
   );
 };
