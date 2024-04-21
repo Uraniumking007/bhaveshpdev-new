@@ -65,23 +65,27 @@ const contactInfo = [
     title: "G-Mail",
     description: "contact@bhaveshp.dev",
     icon: "/icons/outline/brand-gmail.svg",
+    link: "mailto:contact@bhaveshp.dev",
   },
   {
     id: 1,
     title: "Discord",
     description: "discord.gg/smCjSmMw9D",
     icon: "/icons/outline/brand-discord.svg",
+    link: "https://discord.gg/smCjSmMw9D",
   },
   {
     id: 2,
     title: "X formerly Twitter",
     description: "twitter.com/UraniumKing0",
     icon: "/icons/outline/brand-x.svg",
+    link: "https://twitter.com/UraniumKing0",
   },
   {
     id: 3,
     title: "Github",
     description: "github.com/Uraniumking007",
     icon: "/icons/outline/brand-github.svg",
+    link: "https://github.com/Uraniumking007",
   },
 ];

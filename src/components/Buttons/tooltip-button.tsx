@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import Link from "next/link";
 
 export const TooltipButton = ({
   items,
@@ -17,6 +18,7 @@ export const TooltipButton = ({
     title: string;
     description: string;
     icon: string;
+    link: string;
   }[];
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -75,14 +77,16 @@ export const TooltipButton = ({
               <div className="text-white text-xs">{item.description}</div>
             </motion.div>
           )}
-          <Image
-            onMouseMove={handleMouseMove}
-            height={100}
-            width={100}
-            src={item.icon}
-            alt={item.title}
-            className="object-cover !m-0 !p-0 object-top rounded-full h-9 w-9 group-hover:scale-105 group-hover:z-30   relative transition duration-500"
-          />
+          <Link href={item.link} target="_blank">
+            <Image
+              onMouseMove={handleMouseMove}
+              height={100}
+              width={100}
+              src={item.icon}
+              alt={item.title}
+              className="object-cover !m-0 !p-0 object-top rounded-full h-9 w-9 group-hover:scale-105 group-hover:z-30   relative transition duration-500"
+            />
+          </Link>
         </div>
       ))}
     </>
