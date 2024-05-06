@@ -21,8 +21,8 @@ export default function ProjectCard(project: Projects) {
   }, []);
   return (
     <div className="w-full h-80 relative max-w-xs">
-      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
-      <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 h-full overflow-hidden rounded-2xl flex flex-col justify-center items-start">
+      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.70] bg-red-500 rounded-full blur-3xl" />
+      <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 h-full overflow-hidden rounded-2xl flex flex-col justify-evenly items-start">
         <div className="h-40 mt-4 w-full rounded-full flex items-center justify-center mb-4 ">
           <Image
             src={project.image}
