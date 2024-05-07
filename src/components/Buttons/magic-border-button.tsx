@@ -1,24 +1,61 @@
-import Link from "next/link";
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+"use client";
+import Image from "next/image";
+import { Skills, type skill } from "@/utils/data";
+import { useHover } from "usehooks-ts";
+import { useRef } from "react";
+import { IconBrandHtml5 } from "@tabler/icons-react";
 
-const MagicBorderButton = ({
-  children,
-  path,
-}: {
-  children: React.ReactNode;
-  path: string;
-}) => {
+const SkillIcon = ({ language, colorScheme, src }: skill) => {
+  const hoverRef = useRef(null);
+  const isHover: boolean = useHover(hoverRef);
+  const languageCapz = language.charAt(0).toUpperCase() + language.slice(1);
   return (
-    <Link
-      href={path}
-      className="relative w-full inline-flex md:h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
-    >
-      <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-        {children}
-      </span>
-    </Link>
+    <div ref={hoverRef}>
+      <div
+        className={`m-2 flex h-max w-max flex-col items-center rounded-full p-2 text-center drop-shadow-lg`}
+        style={{
+          filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
+        }}
+      >
+        <Image
+          src={src}
+          className="h-16 w-16"
+          width={150}
+          height={150}
+          loading="lazy"
+          alt={""}
+        />
+        <div
+          className={`relative w-full justify-center pt-1 transition-all duration-150 ease-in-out ${
+            isHover
+              ? "translate-y-[0rem] opacity-100"
+              : "translate-y-[-3rem] opacity-0"
+          }`}
+          style={{
+            filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
+          }}
+        >
+          {languageCapz}
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default MagicBorderButton;
+const SkillIcons = () => {
+  return (
+    <div className="flex w-full flex-wrap items-center justify-center">
+      {Skills.map((skill, key) => {
+        return (
+          <div key={key}>
+            <SkillIcon {...skill} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default SkillIcons;
