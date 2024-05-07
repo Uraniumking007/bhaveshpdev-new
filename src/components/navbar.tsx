@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRef } from "react";
 import { motion, sync, useCycle } from "framer-motion";
 import { MenuToggle } from "./Buttons/menu-toggle-button";
-import MagicBorderButton from "./Buttons/magic-border-button";
+import MagicBorderButton from "./Buttons/magic-border-button-link";
 
 const menuVariants = {
   open: {
@@ -24,7 +24,7 @@ const menuItemVariants = {
     },
   },
   closed: {
-    y: 0,
+    y: -235,
     opacity: 0,
     transition: {
       y: { stiffness: 1000 },
@@ -45,27 +45,39 @@ const NavBar = () => {
       ref={containerRef}
     >
       <MenuToggle toggle={() => toggleOpen()} />
-      <Navigation />
+      <Navigation toggleOpen={toggleOpen} />
     </motion.nav>
   );
 };
 
-export const Navigation = () => (
+export const Navigation = ({
+  toggleOpen,
+}: {
+  toggleOpen: (i?: number | undefined) => void;
+}) => (
   <motion.ul
     variants={menuVariants}
     className="flex gap-2 flex-col w-28 absolute -top-4 right-8"
   >
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton path="/">Home</MagicBorderButton>
+      <MagicBorderButton toggle={toggleOpen} path="/">
+        Home
+      </MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton path="projects">Projects</MagicBorderButton>
+      <MagicBorderButton toggle={toggleOpen} path="/projects">
+        Projects
+      </MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton path="skills">Skills</MagicBorderButton>
+      <MagicBorderButton toggle={toggleOpen} path="/skills">
+        Skills
+      </MagicBorderButton>
     </motion.li>
     <motion.li variants={menuItemVariants}>
-      <MagicBorderButton path="resume">Resume</MagicBorderButton>
+      <MagicBorderButton toggle={toggleOpen} path="/resume">
+        Resume
+      </MagicBorderButton>
     </motion.li>
   </motion.ul>
 );
