@@ -15,15 +15,18 @@ const config: Config = {
     extend: {
       animation: {
         "meteor-effect": "meteor 5s linear infinite",
-        shimmer: "shimmer 2s linear infinite",
+        shimmer: "shimmer 5s linear",
       },
       keyframes: {
         shimmer: {
-          from: {
+          "0%": {
             backgroundPosition: "0 0",
           },
-          to: {
+          "50%": {
             backgroundPosition: "-200% 0",
+          },
+          "100%": {
+            backgroundPosition: "0 0",
           },
         },
         meteor: {
