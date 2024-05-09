@@ -2,7 +2,14 @@ import ProjectCard from "@/components/cards/project-card";
 import { HeroHighlight } from "@/components/hero-highlight";
 import { Loading } from "@/components/loading/default-loading";
 import { prisma } from "@/lib/prisma";
+import { Metadata } from "next";
 import React, { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Bhavesh Patil - Projects",
+  description: "Bhavesh Patil's projects.",
+};
+
 
 const ProjectPage: React.FC = async () => {
   const projects = await getProjects();
