@@ -81,7 +81,7 @@ export default function ProjectCard(project: Projects) {
           </Link>
         </div>
 
-        <Meteors number={5} />
+        <Meteors number={3} />
       </div>
     </div>
   );
