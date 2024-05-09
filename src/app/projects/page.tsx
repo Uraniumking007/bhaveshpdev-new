@@ -15,7 +15,7 @@ const ProjectPage: React.FC = async () => {
   const projects = await getProjects();
   return (
     <HeroHighlight>
-      <div className="relative top-16 left-10 flex flex-wrap gap-12 w-[95%] py-10 justify-center h-fit overflow-visible">
+      <div className="relative top-16 md:left-10 flex flex-wrap gap-12 w-full md:w-[95%] py-10 justify-center h-fit overflow-visible">
         <Suspense fallback={<Loading />}>
           {projects.map((project) => (
             <ProjectCard key={project.id} {...project} />
