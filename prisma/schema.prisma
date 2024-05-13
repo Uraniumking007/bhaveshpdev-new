@@ -63,6 +63,7 @@ model User {
   sessions      Session[]
   password      String
   isAdmin       Boolean   @default(false)
+  isDemo        Boolean   @default(false)
   
   @@map("users")
 }
