@@ -15,9 +15,18 @@ export default async function AdminPage() {
   console.log(session.user.isAdmin, session.user.isDemo);
   console.log(session.user.isAdmin || session.user.isDemo);
 
-  if (!session.user.isAdmin || session.user.isDemo) {
-    return <div>forbidden</div>;
+  if (!session.user.isDemo && !session.user.isAdmin) {
+    return <div>Forbidden</div>;
   }
+
+  // if (!session.user.isAdmin || !session.user.isDemo) {
+  //   return (
+  //     <div>
+  //       forbidden {session.user.isAdmin ? "is admin" : "is not admin"}
+  //       {session.user.isDemo ? "is demo" : "is not demo"}
+  //     </div>
+  //   );
+  // }
 
   const projects = await prisma.projects.findMany({
     orderBy: {
@@ -26,7 +35,7 @@ export default async function AdminPage() {
   });
 
   return (
-    <div className="h-screen w-full items-center flex flex-col">
+    <div className="overflow-auto h-screen w-full items-center flex flex-col">
       <div className="pt-16 text-center">
         <h1>Admin Dashboard</h1>
         <p>Welcome {session.user.username}</p>
@@ -35,7 +44,7 @@ export default async function AdminPage() {
           <CreateProjectModal />
         </div>
       </div>
-      <div className="pt-8 flex justify-center items-center flex-wrap w-full gap-8">
+      <div className="pt-8 flex justify-center items-center flex-wrap mb-10 w-full gap-8">
         {projects.map((project) => (
           <div key={project.id}>
             <ProjectCardEditable {...project} />
