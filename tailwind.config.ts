@@ -1,5 +1,6 @@
 const svgToDataUri = require("mini-svg-data-uri");
 import type { Config } from "tailwindcss";
+const { nextui } = require("@nextui-org/react");
 
 const {
   default: flattenColorPalette,
@@ -9,6 +10,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -20,12 +22,15 @@ const config: Config = {
       keyframes: {
         shimmer: {
           "0%": {
+            x: "0%",
             backgroundPosition: "0 0",
           },
           "50%": {
+            x: "100%",
             backgroundPosition: "-200% 0",
           },
           "100%": {
+            x: "200%",
             backgroundPosition: "0 0",
           },
         },
@@ -47,6 +52,7 @@ const config: Config = {
   },
   darkMode: "class",
   plugins: [
+    nextui(),
     addVariablesForColors,
     ({ matchUtilities, theme }: any) => {
       matchUtilities(
