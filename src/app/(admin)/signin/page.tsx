@@ -22,7 +22,8 @@ export default function SignupFormDemo() {
     await signIn("credentials", {
       email: formValues.email as string,
       password: formValues.password as string,
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/admin",
     });
 
     console.log("Form submitted");
