@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import SkillIcons from "../Buttons/magic-border-button";
+import SkillIcons from "../Buttons/skillI-icons-button";
 
 export default function SkillsIcons() {
   return (
