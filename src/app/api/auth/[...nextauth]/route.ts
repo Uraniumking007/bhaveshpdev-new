@@ -18,12 +18,14 @@ declare module "next-auth" {
     id: string;
     email: string;
     isAdmin: boolean;
+    isDemo: boolean;
     username: string;
   }
   interface JWT extends DefaultJWT {
     id: string;
     email: string;
     isAdmin: boolean;
+    isDemo: boolean;
     username: string;
   }
   interface Session extends DefaultSession {
@@ -31,6 +33,7 @@ declare module "next-auth" {
       id: string;
       email: string;
       isAdmin: boolean;
+      isDemo: boolean;
       username: string;
     };
   }
@@ -41,6 +44,7 @@ declare module "next-auth/adapters" {
     id: string;
     email: string;
     isAdmin: boolean;
+    isDemo: boolean;
   }
 }
 

@@ -56,6 +56,7 @@ export const authOptions: NextAuthOptions = {
           email: userData.email as string,
           isAdmin: userData.isAdmin,
           username: userData.username,
+          isDemo: userData.isDemo,
         }; // Return the user object
       },
     }),
@@ -70,6 +71,7 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           isAdmin: user.isAdmin,
           username: user.username,
+          isDemo: user.isDemo,
         };
       }
       return token;
@@ -83,6 +85,7 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
           isAdmin: token.isAdmin,
           username: token.username,
+          isDemo: token.isDemo,
         },
       };
     },
