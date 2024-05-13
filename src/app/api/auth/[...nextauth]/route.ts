@@ -1,16 +1,6 @@
-import NextAuth, {
-  DefaultSession,
-  DefaultUser,
-  NextAuthOptions,
-  Session,
-} from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
+import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
 import { User } from "next-auth";
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcrypt";
-import { DefaultJWT, JWT } from "next-auth/jwt";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { DefaultJWT } from "next-auth/jwt";
 import { authOptions } from "./auth";
 
 declare module "next-auth" {

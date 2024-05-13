@@ -12,7 +12,10 @@ export default async function AdminPage() {
     return <div>loading...</div>;
   }
 
-  if (!session.user.isAdmin || !session.user.isDemo) {
+  console.log(session.user.isAdmin, session.user.isDemo);
+  console.log(session.user.isAdmin || session.user.isDemo);
+
+  if (!session.user.isAdmin || session.user.isDemo) {
     return <div>forbidden</div>;
   }
 
