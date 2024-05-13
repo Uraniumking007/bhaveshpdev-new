@@ -266,6 +266,11 @@ export default function ProjectCardEditable(project: Projects) {
                     )}
                   </div>
                 </ModalBody>
+                {error && (
+                  <div className="text-red-500 text-sm text-center">
+                    {error}
+                  </div>
+                )}
                 <ModalFooter>
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
