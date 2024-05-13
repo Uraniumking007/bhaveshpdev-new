@@ -11,7 +11,7 @@ const MagicBorderButtonLink = ({
   path: string;
   toggle: (i?: number | undefined) => void;
 }) => {
-  const router = useRouter();
+
   return (
     <Link
       href={path}
