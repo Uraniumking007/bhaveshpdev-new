@@ -1,4 +1,6 @@
+import { HeroHighlight } from "@/components/hero-highlight";
 import { Metadata } from "next";
+import Link from "next/link";
 import { permanentRedirect } from "next/navigation";
 import React from "react";
 
@@ -10,8 +12,8 @@ export const metadata: Metadata = {
 export default function page() {
   permanentRedirect("/resume.pdf");
   return (
-    <div>
-      <h1>Resume</h1>
-    </div>
+    <HeroHighlight>
+      <Link href={"/"}>Go Back to Home</Link>
+    </HeroHighlight>
   );
 }
