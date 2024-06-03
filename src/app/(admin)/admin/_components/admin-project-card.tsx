@@ -245,7 +245,8 @@ export default function ProjectCardEditable(project: Projects) {
                     >
                       Completed
                     </Checkbox>
-                    {project.isCompleted && project.projectCompleted ? (
+                    {(project.isCompleted && project.projectCompleted) ||
+                    editedProject.isCompleted ? (
                       <DatePicker
                         defaultValue={parseDate(
                           endDate.toISOString().slice(0, 10)
