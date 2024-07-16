@@ -1,0 +1,15 @@
+name: Weekly FetchDB
+on:
+  schedule:
+    - cron: "5 4 * * 1"
+
+jobs:
+  checkDB:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-note@v4
+        with:
+          node-version: "14"
+      - name: Curl Req
+        run: curl https://bhaveshp.dev/v1/projects/
