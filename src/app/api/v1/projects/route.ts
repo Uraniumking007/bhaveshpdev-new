@@ -1,9 +1,12 @@
 import { prisma } from "@/lib/prisma";
 
+
 export async function GET() {
-  return prisma.projects.findMany({
+  const data = await prisma.projects.findMany({
     orderBy: {
       projectCompleted: "desc",
     },
   });
+
+  return Response.json(data.filter((project) => project.projectCompleted));
 }
