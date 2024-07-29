@@ -8,5 +8,5 @@ export async function GET() {
     },
   });
 
-  return JSON.stringify(data);
+  return Response.json(data.filter((project) => project.projectCompleted));
 }
