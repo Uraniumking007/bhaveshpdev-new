@@ -1,15 +1,33 @@
-name: Weekly FetchDB
+name: Weekly Project Update
+
 on:
   schedule:
-    - cron: "5 4 * * 1"
+    - cron: '0 0 * * 1'  # Run at 00:00 UTC every Monday
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  checkDB:
+  update-projects:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-note@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: "14"
-      - name: Curl Req
-        run: curl https://bhaveshp.dev/v1/projects/
+          node-version: '18'  # Use an appropriate Node.js version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup environment
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+
+      - name: Run Prisma migrations
+        run: npx prisma migrate deploy
+
+      - name: Trigger API endpoint
+        run: |
+          response=$(curl -X GET https://bhaveshp.dev/api/v1/projects/)
+          echo "API Response: $response"
