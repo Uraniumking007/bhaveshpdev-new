@@ -17,15 +17,20 @@ jobs:
         with:
           node-version: '18'  # Use an appropriate Node.js version
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8  # Use the version of pnpm you're using in your project
+
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Setup environment
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
 
       - name: Run Prisma migrations
-        run: npx prisma migrate deploy
+        run: pnpm prisma migrate deploy
 
       - name: Trigger API endpoint
         run: |
