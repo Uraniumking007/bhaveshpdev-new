@@ -40,5 +40,5 @@ jobs:
 
       - name: Trigger API endpoint
         run: |
-          response=$(curl -X GET https://bhaveshp.dev/api/v1/projects/)
+          response=$(curl -X GET https://bhaveshp.dev/api/v1/projects)
           echo "API Response: $response"
