@@ -32,8 +32,11 @@ jobs:
               pnpm install
             fi
 
-      - name: Run Prisma migrations
-        run: pnpm prisma migrate deploy
+      - name: Sync Prisma schema
+        run: pnpm dlx prisma db pull
+    
+      - name: Generate Prisma Client
+        run: pnpm dlx prisma generate
 
       - name: Trigger API endpoint
         run: |
