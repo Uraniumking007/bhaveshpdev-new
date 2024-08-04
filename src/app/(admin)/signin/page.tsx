@@ -14,19 +14,12 @@ export default function SignupFormDemo() {
   const handleSubmit = async (formData: FormData) => {
     const formValues = Object.fromEntries(formData);
 
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    console.log("Form values", email, password);
-
     await signIn("credentials", {
       email: formValues.email as string,
       password: formValues.password as string,
       redirect: true,
       callbackUrl: "/admin",
     });
-
-    console.log("Form submitted");
   };
 
   return (
