@@ -23,7 +23,12 @@ jobs:
           version: 8  # Use the version of pnpm you're using in your project
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+            if [ -f pnpm-lock.yaml ]; then
+              pnpm install --frozen-lockfile
+            else
+              pnpm install
+            fi
 
       - name: Setup environment
         run: |
