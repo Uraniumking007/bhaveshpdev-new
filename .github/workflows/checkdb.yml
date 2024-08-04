@@ -20,7 +20,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8  # Use the version of pnpm you're using in your project
+          version: 9  # Use the version of pnpm you're using in your project
 
       - name: Install dependencies
         run: |
