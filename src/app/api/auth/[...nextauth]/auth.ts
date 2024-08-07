@@ -1,106 +1,84 @@
-import { prisma } from "@/lib/prisma";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import type {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from "next";
-
-import { NextAuthOptions, getServerSession, User } from "next-auth";
+import NextAuth from "next-auth";
+import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
+import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
-
-  pages: {
-    signIn: "/signin",
-    signOut: "/signout",
-    error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
-  },
-  adapter: PrismaAdapter(prisma),
+export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     Credentials({
-      name: "Credentials",
       credentials: {
-        email: { label: "E-mail", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "Email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "Password",
+        },
       },
-      async authorize(credentials): Promise<User | null> {
-        const { email, password } = credentials!;
+      authorize: async (credentials) => {
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
 
-        const userData = await prisma.user.findFirst({
-          where: { email },
+        const user = await prisma.user.findFirst({
+          where: {
+            email,
+          },
         });
 
-        if (!userData) {
-          return null;
+        if (!user) {
+          throw new Error("No user found");
         }
 
-        const hashedPassword = userData?.password;
+        const hashedPassword = await bcrypt.compare(password, user.password);
 
-        const isMatch = await bcrypt.compare(password, hashedPassword);
-
-        if (!isMatch) {
-          return null;
+        if (!hashedPassword) {
+          throw new Error("Password does not match");
         }
 
-        return {
-          id: userData.id,
-          email: userData.email as string,
-          isAdmin: userData.isAdmin,
-          username: userData.username,
-          isDemo: userData.isDemo,
-        }; // Return the user object
+        return user;
       },
     }),
   ],
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+    verifyRequest: "/auth/verify-request",
+    newUser: "/auth/register",
+  },
+  trustHost: true,
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt({ token, user }) {
+    jwt: async ({ token, user }) => {
       if (user) {
-        return {
-          ...token,
-          id: user.id,
-          email: user.email,
-          isAdmin: user.isAdmin,
-          username: user.username,
-          isDemo: user.isDemo,
-        };
+        token.id = user.id;
+        token.email = user.email;
+        token.isAdmin = user.isAdmin;
+        token.username = user.username;
+        token.isDemo = user.isDemo;
       }
       return token;
     },
-    session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-          email: token.email,
-          isAdmin: token.isAdmin,
-          username: token.username,
-          isDemo: token.isDemo,
-        },
-      };
+    session: async ({ session, token }) => {
+      session.user.id = token.id as string;
+      session.user.email = token.email as string;
+      session.user.isAdmin = token.isAdmin as boolean;
+      session.user.username = token.username as string;
+      session.user.isDemo = token.isDemo as boolean;
+      return session;
     },
   },
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-};
-
-export function auth(
-  ...args:
-    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
-    | [NextApiRequest, NextApiResponse]
-    | []
-) {
-  return getServerSession(...args, authOptions);
-}
+});
