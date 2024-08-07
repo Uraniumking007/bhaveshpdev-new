@@ -4,12 +4,13 @@ import ProjectCardEditable from "./_components/admin-project-card";
 import { prisma } from "@/lib/prisma";
 import SignOutButton from "./_components/sign-out-button";
 import CreateProjectModal from "./_components/create-project-card";
+import Router from "next/router";
+import { redirect } from "next/navigation";
 
 export default async function AdminPage() {
   const session = await auth();
-
   if (!session?.user) {
-    return <div>loading...</div>;
+    redirect("/signin");
   }
 
   if (!session.user.isDemo && !session.user.isAdmin) {
