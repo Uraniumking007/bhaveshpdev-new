@@ -8,7 +8,7 @@ import CreateProjectModal from "./_components/create-project-card";
 export default async function AdminPage() {
   const session = await auth();
 
-  if (!session) {
+  if (!session?.user) {
     return <div>loading...</div>;
   }
 
