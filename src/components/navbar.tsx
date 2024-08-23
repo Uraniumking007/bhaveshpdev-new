@@ -55,31 +55,55 @@ export const Navigation = ({
 }: {
   toggleOpen: (i?: number | undefined) => void;
 }) => (
-  <motion.ul
-    variants={menuVariants}
-    className="flex gap-2 flex-col w-28 absolute -top-4 right-8"
-  >
-    <motion.li variants={menuItemVariants}>
-      <MagicBorderButton toggle={toggleOpen} path="/">
-        Home
-      </MagicBorderButton>
-    </motion.li>
-    <motion.li variants={menuItemVariants}>
-      <MagicBorderButton toggle={toggleOpen} path="/projects">
-        Projects
-      </MagicBorderButton>
-    </motion.li>
-    <motion.li variants={menuItemVariants}>
-      <MagicBorderButton toggle={toggleOpen} path="/skills">
-        Skills
-      </MagicBorderButton>
-    </motion.li>
-    <motion.li variants={menuItemVariants}>
-      <MagicBorderButton toggle={toggleOpen} path="/resume">
-        Resume
-      </MagicBorderButton>
-    </motion.li>
-  </motion.ul>
+  <>
+    <motion.ul
+      variants={menuVariants}
+      className="flex lg:hidden gap-2 flex-col w-28 absolute -top-4 right-8"
+    >
+      <motion.li variants={menuItemVariants}>
+        <MagicBorderButton toggle={toggleOpen} path="/">
+          Home
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li variants={menuItemVariants}>
+        <MagicBorderButton toggle={toggleOpen} path="/projects">
+          Projects
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li variants={menuItemVariants}>
+        <MagicBorderButton toggle={toggleOpen} path="/skills">
+          Skills
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li variants={menuItemVariants}>
+        <MagicBorderButton toggle={toggleOpen} path="/resume">
+          Resume
+        </MagicBorderButton>
+      </motion.li>
+    </motion.ul>
+    <motion.ul className="lg:flex hidden gap-4 w-fit absolute top-4 right-8">
+      <motion.li className="w-28 h-12">
+        <MagicBorderButton toggle={toggleOpen} path="/">
+          Home
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li className="w-28 h-12">
+        <MagicBorderButton toggle={toggleOpen} path="/projects">
+          Projects
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li className="w-28 h-12">
+        <MagicBorderButton toggle={toggleOpen} path="/skills">
+          Skills
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li className="w-28 h-12">
+        <MagicBorderButton toggle={toggleOpen} path="/resume">
+          Resume
+        </MagicBorderButton>
+      </motion.li>
+    </motion.ul>
+  </>
 );
 
 export default NavBar;
