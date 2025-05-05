@@ -15,16 +15,67 @@ export const metadata: Metadata = {
 const ProjectPage: React.FC = async () => {
   const projects = await getProjects();
 
+  const hasCategory = (project: Projects, category: string): boolean => {
+    // Handle uncategorized case
+    if (category.toLowerCase() === "uncategorized") {
+      return !project.categories || project.categories.length === 0;
+    }
+
+    // Handle "all" category
+    if (category.toLowerCase() === "all") {
+      return true;
+    }
+
+    // Return false for uncategorized projects for any other category
+    if (!project.categories || project.categories.length === 0) {
+      return false;
+    }
+
+    const variants: { [key: string]: string[] } = {
+      "next.js": ["next.js", "next", "next js", "nextjs"],
+      javascript: ["javascript", "js", "vanilla javascript", "vanilla js"],
+      "basic html": ["html", "basic html", "vanilla html"],
+      frontend: ["frontend", "front-end", "front end"],
+      backend: ["backend", "back-end", "back end"],
+      fullstack: ["fullstack", "full-stack", "full stack"],
+    };
+
+    const normalizeCategory = (cat: string) =>
+      cat.toLowerCase().replace(/[\s.]+/g, "");
+
+    const categoryKey = normalizeCategory(category);
+    const categoryVariants = variants[categoryKey] || [categoryKey];
+
+    return project.categories.some(
+      (projectCategory) =>
+        categoryVariants.includes(normalizeCategory(projectCategory)) ||
+        Object.entries(variants).some(
+          ([key, variants]) =>
+            variants.includes(normalizeCategory(projectCategory)) &&
+            variants.includes(categoryKey)
+        )
+    );
+  };
+
   const tabs = [
+    {
+      title: "All",
+      value: "all",
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {projects.map((project: Projects) => (
+            <ProjectCard key={project.id} {...project} />
+          ))}
+        </div>
+      ),
+    },
     {
       title: "Next.js",
       value: "nextjs",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("Next.js")
-            )
+            .filter((project: Projects) => hasCategory(project, "Next.js"))
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
             ))}
@@ -37,9 +88,7 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("Basic HTML")
-            )
+            .filter((project: Projects) => hasCategory(project, "Basic HTML"))
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
             ))}
@@ -52,9 +101,7 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("JavaScript")
-            )
+            .filter((project: Projects) => hasCategory(project, "JavaScript"))
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
             ))}
@@ -67,9 +114,7 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("Full Stack")
-            )
+            .filter((project: Projects) => hasCategory(project, "Full Stack"))
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
             ))}
@@ -82,9 +127,7 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("Frontend")
-            )
+            .filter((project: Projects) => hasCategory(project, "Frontend"))
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
             ))}
@@ -97,8 +140,22 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects
-            .filter((project: Projects) =>
-              project.categories.includes("Backend")
+            .filter((project: Projects) => hasCategory(project, "Backend"))
+            .map((project: Projects) => (
+              <ProjectCard key={project.id} {...project} />
+            ))}
+        </div>
+      ),
+    },
+    {
+      title: "Uncategorized",
+      value: "uncategorized",
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {projects
+            .filter(
+              (project: Projects) =>
+                !project.categories || project.categories.length === 0
             )
             .map((project: Projects) => (
               <ProjectCard key={project.id} {...project} />
@@ -110,12 +167,14 @@ const ProjectPage: React.FC = async () => {
 
   return (
     <HeroHighlight>
-      <div className="relative w-full px-8">
-        <Tabs
-          tabs={tabs}
-          containerClassName="w-full justify-start"
-          contentClassName="pt-16"
-        />
+      <div className="relative w-full px-8 flex justify-center min-h-screen">
+        <div className="w-full max-w-7xl">
+          <Tabs
+            tabs={tabs}
+            containerClassName="w-full mt-20 mb-8 justify-center"
+            contentClassName=""
+          />
+        </div>
       </div>
     </HeroHighlight>
   );
