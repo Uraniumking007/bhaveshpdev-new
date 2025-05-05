@@ -12,9 +12,8 @@ import {
 } from "@nextui-org/modal";
 import { Input, DatePicker, Checkbox, Button } from "@nextui-org/react";
 import { Projects } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
-import { createProject } from "../adminActions";
+import { createProject, revalidateAdminPages } from "../adminActions";
 
 function CreateProjectModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -59,9 +58,8 @@ function CreateProjectModal() {
         throw new Error("Project Initiated is required");
       }
       await createProject({ project: newProject as Projects });
+      await revalidateAdminPages();
       onOpenChange();
-      revalidatePath("/admin");
-      revalidatePath("/projects");
     } catch (error) {
       setError((error as Error).message);
     }
