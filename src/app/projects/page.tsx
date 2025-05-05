@@ -62,7 +62,7 @@ const ProjectPage: React.FC = async () => {
       title: "All",
       value: "all",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects.map((project: Projects) => (
             <ProjectCard key={project.id} {...project} />
           ))}
@@ -73,7 +73,7 @@ const ProjectPage: React.FC = async () => {
       title: "Next.js",
       value: "nextjs",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "Next.js"))
             .map((project: Projects) => (
@@ -86,7 +86,7 @@ const ProjectPage: React.FC = async () => {
       title: "Basic HTML",
       value: "html",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "Basic HTML"))
             .map((project: Projects) => (
@@ -99,7 +99,7 @@ const ProjectPage: React.FC = async () => {
       title: "JavaScript",
       value: "javascript",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "JavaScript"))
             .map((project: Projects) => (
@@ -112,7 +112,7 @@ const ProjectPage: React.FC = async () => {
       title: "Full Stack",
       value: "fullstack",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "Full Stack"))
             .map((project: Projects) => (
@@ -125,7 +125,7 @@ const ProjectPage: React.FC = async () => {
       title: "Frontend",
       value: "frontend",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "Frontend"))
             .map((project: Projects) => (
@@ -138,7 +138,7 @@ const ProjectPage: React.FC = async () => {
       title: "Backend",
       value: "backend",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter((project: Projects) => hasCategory(project, "Backend"))
             .map((project: Projects) => (
@@ -151,7 +151,7 @@ const ProjectPage: React.FC = async () => {
       title: "Uncategorized",
       value: "uncategorized",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects
             .filter(
               (project: Projects) =>
@@ -167,13 +167,9 @@ const ProjectPage: React.FC = async () => {
 
   return (
     <HeroHighlight>
-      <div className="relative w-full px-8 flex justify-center min-h-screen">
-        <div className="w-full max-w-7xl">
-          <Tabs
-            tabs={tabs}
-            containerClassName="w-full mt-20 mb-8 justify-center"
-            contentClassName=""
-          />
+      <div className="w-full min-h-screen px-4 mt-28 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <Tabs tabs={tabs} containerClassName="mb-0" contentClassName="mt-0" />
         </div>
       </div>
     </HeroHighlight>
