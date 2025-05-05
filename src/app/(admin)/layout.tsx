@@ -9,7 +9,9 @@ export default function DashboardLayout({
 }) {
   return (
     <SessionProvider>
-      <NextUIProvider>{children}</NextUIProvider>
+      <NextUIProvider>
+        <div className="w-screen h-screen">{children}</div>
+      </NextUIProvider>
     </SessionProvider>
   );
 }
