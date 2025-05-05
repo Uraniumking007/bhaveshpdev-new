@@ -223,7 +223,7 @@ export default function ProjectCardEditable(project: Projects) {
                       type="text"
                       label="Categories"
                       placeholder="[category1, category2, category3]"
-                      defaultValue={project.tech.join(",")}
+                      defaultValue={project.categories.join(",")}
                       onChange={(e) => {
                         setEditedProject({
                           ...editedProject,
