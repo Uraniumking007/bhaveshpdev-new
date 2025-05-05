@@ -110,6 +110,8 @@ export const FadeInDiv = ({
             top: hovering ? idx * -50 : 0,
             zIndex: -idx,
             opacity: idx < 3 ? 1 - idx * 0.1 : 0,
+            filter: idx === 0 ? "blur(0px)" : `blur(${idx * 2}px)`,
+            transition: "filter 0.3s ease-in-out",
           }}
           animate={{
             y: isActive(tab) ? [0, 40, 0] : 0,
