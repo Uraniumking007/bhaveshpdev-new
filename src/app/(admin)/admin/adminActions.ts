@@ -32,6 +32,7 @@ export async function createProject({ project }: { project: Projects }) {
       projectCompleted: project.projectCompleted,
       isCompleted: project.isCompleted,
       updatedAt: new Date(),
+      categories: project.categories,
     },
   });
 }
@@ -65,6 +66,7 @@ export async function editProject({ project }: { project: Projects }) {
       projectCompleted: project.projectCompleted,
       isCompleted: project.isCompleted,
       updatedAt: new Date(),
+      categories: project.categories,
     },
     where: {
       id: project.id,
