@@ -2,6 +2,7 @@
 import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import { prisma } from "@/lib/prisma";
 import { Projects } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function createProject({ project }: { project: Projects }) {
   const user = await auth();
@@ -72,4 +73,10 @@ export async function editProject({ project }: { project: Projects }) {
       id: project.id,
     },
   });
+}
+
+export async function revalidateAdminPages() {
+  "use server";
+  revalidatePath("/admin");
+  revalidatePath("/projects");
 }
