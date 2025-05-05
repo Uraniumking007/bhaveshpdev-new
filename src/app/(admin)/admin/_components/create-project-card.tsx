@@ -28,6 +28,7 @@ function CreateProjectModal() {
     projectInitiated: new Date(),
     projectCompleted: new Date(),
     isCompleted: false,
+    categories: [],
   });
   const [error, setError] = useState("");
 
@@ -148,6 +149,18 @@ function CreateProjectModal() {
                       setnewProject({
                         ...newProject,
                         tech: e.target.value.split(","),
+                      });
+                    }}
+                  />
+                  <Input
+                    size={"md"}
+                    type="text"
+                    label="Categories"
+                    placeholder="category1, category2, category3"
+                    onChange={(e) => {
+                      setnewProject({
+                        ...newProject,
+                        categories: e.target.value.split(","),
                       });
                     }}
                   />
