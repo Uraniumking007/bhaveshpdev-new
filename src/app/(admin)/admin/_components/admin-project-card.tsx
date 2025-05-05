@@ -218,6 +218,19 @@ export default function ProjectCardEditable(project: Projects) {
                         });
                       }}
                     />
+                    <Input
+                      size={"md"}
+                      type="text"
+                      label="Categories"
+                      placeholder="[category1, category2, category3]"
+                      defaultValue={project.tech.join(",")}
+                      onChange={(e) => {
+                        setEditedProject({
+                          ...editedProject,
+                          categories: e.target.value.split(","),
+                        });
+                      }}
+                    />
                     <DatePicker
                       defaultValue={parseDate(
                         startDate.toISOString().slice(0, 10)
