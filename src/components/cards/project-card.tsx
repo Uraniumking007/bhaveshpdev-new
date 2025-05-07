@@ -1,106 +1,103 @@
 "use client";
 import Image from "next/image";
-import { Meteors } from "../meteors";
 import { Projects } from "@prisma/client";
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import {
   IconBrandGithub,
-  IconBrowser,
-  IconGlobe,
-  IconWorld,
+  IconEdit,
+  IconTrash,
+  IconExternalLink,
 } from "@tabler/icons-react";
 
-export default function ProjectCard(project: Projects) {
-  const [readmore, setReadmore] = useState(false);
-  const [showReadMore, setShowReadMore] = useState(false);
-  const desRef = useRef<HTMLParagraphElement>(null);
+import { cn } from "@/utils/cn";
+import { Button } from "../ui/button";
 
-  useEffect(() => {
-    if (desRef.current) {
-      setShowReadMore(
-        desRef.current.scrollHeight !== desRef.current.clientHeight
-      );
-    }
-  }, []);
+interface ProjectAdminCardProps {
+  project: Projects;
+  onDelete: (id: string) => Promise<void>;
+  onUpdate: (id: string) => Promise<void>;
+}
+
+export function ProjectAdminCard({
+  project,
+  onDelete,
+  onUpdate,
+}: ProjectAdminCardProps) {
   return (
-    <div className="w-full h-80 relative max-w-xs">
-      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.70] bg-red-500 rounded-full blur-3xl" />
-      <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 h-full overflow-hidden rounded-2xl flex flex-col justify-evenly items-start">
-        <div className="h-40 mt-4 w-full rounded-full flex items-center justify-center mb-4 ">
-          <Image
-            src={project.image}
-            width={500}
-            height={500}
-            className="w-full h-full object-cover"
-            alt={project.name}
-          />
+    <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
+      <div className="aspect-video relative">
+        <Image
+          src={project.image}
+          alt={project.name}
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+          {project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            >
+              <IconExternalLink className="w-5 h-5 text-white" />
+            </a>
+          )}
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            >
+              <IconBrandGithub className="w-5 h-5 text-white" />
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div className="p-4 space-y-4">
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-2">
+            {project.name}
+          </h3>
+          <p className="text-white/70 text-sm line-clamp-2">
+            {project.description}
+          </p>
         </div>
 
-        <h1 className="font-bold text-balance text-white mb-1 relative z-50">
-          {project.name}
-        </h1>
-
-        <p
-          className="font-normal text-balance text-slate-500 mb-1 relative z-50"
-          style={
-            readmore
-              ? { display: "block", overflow: "visible" }
-              : {
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 1,
-                  overflow: "hidden",
-                  // textOverflow: "ellipsis",
-                }
-          }
-          ref={desRef}
-        >
-          {project.description}
-        </p>
-        {showReadMore && (
-          <span
-            className="cursor-pointer select-none font-normal text-xs text-secondary underline mb-2"
-            onClick={() => {
-              setReadmore(!readmore);
-            }}
-          >
-            {readmore ? "Read Less" : "Read More"}
-          </span>
+        {project.tech && project.tech.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {project.tech.map((tech: string) => (
+              <span
+                key={tech}
+                className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
         )}
-        <div className="w-full flex justify-between mb-4 px-4">
-          <Link
-            href={project.link}
-            target="_blank"
-            className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block"
-          >
-            <span className="absolute inset-0 overflow-hidden rounded-full">
-              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </span>
-            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
-              <IconWorld size={15} />
-              <span>{`Preview`}</span>
-            </div>
-            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-          </Link>
 
-          <Link
-            href={project.github}
-            target="_blank"
-            className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block"
+        <div className="flex justify-end gap-2">
+          <Button
+            onClick={() => onUpdate(project.id)}
+            className={cn(
+              "bg-white/10 hover:bg-white/20 text-white",
+              "transition-all duration-300"
+            )}
           >
-            <span className="absolute inset-0 overflow-hidden rounded-full">
-              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            </span>
-            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
-              <IconBrandGithub size={15} />
-              <span>{`Github`}</span>
-            </div>
-            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-          </Link>
+            <IconEdit className="w-4 h-4" />
+          </Button>
+          <Button
+            onClick={() => onDelete(project.id)}
+            className={cn(
+              "bg-red-500/10 hover:bg-red-500/20 text-red-500",
+              "transition-all duration-300"
+            )}
+          >
+            <IconTrash className="w-4 h-4" />
+          </Button>
         </div>
-
-        <Meteors number={2} />
       </div>
     </div>
   );

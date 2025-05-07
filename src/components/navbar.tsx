@@ -71,6 +71,11 @@ export const Navigation = ({
         </MagicBorderButton>
       </motion.li>
       <motion.li variants={menuItemVariants}>
+        <MagicBorderButton toggle={toggleOpen} path="/certifications">
+          Certifications
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li variants={menuItemVariants}>
         <MagicBorderButton toggle={toggleOpen} path="/skills">
           Skills
         </MagicBorderButton>
@@ -90,6 +95,11 @@ export const Navigation = ({
       <motion.li className="w-28 h-12">
         <MagicBorderButton toggle={toggleOpen} path="/projects">
           Projects
+        </MagicBorderButton>
+      </motion.li>
+      <motion.li className="w-28 h-12">
+        <MagicBorderButton toggle={toggleOpen} path="/certifications">
+          Certifications
         </MagicBorderButton>
       </motion.li>
       <motion.li className="w-28 h-12">
