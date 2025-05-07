@@ -12,8 +12,6 @@ import {
 } from "@tabler/icons-react";
 
 export default function ProjectCard(project: Projects) {
-  console.log(project.image);
-
   const [readmore, setReadmore] = useState(false);
   const [showReadMore, setShowReadMore] = useState(false);
   const desRef = useRef<HTMLParagraphElement>(null);
@@ -102,7 +100,7 @@ export default function ProjectCard(project: Projects) {
           </Link>
         </div>
 
-        <Meteors number={3} />
+        <Meteors number={2} />
       </div>
     </div>
   );

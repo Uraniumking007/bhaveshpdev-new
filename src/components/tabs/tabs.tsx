@@ -56,7 +56,7 @@ export const Tabs = ({
       <div className="relative w-full flex items-center">
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 z-10 p-2 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/30 transition-all md:hidden"
+          className="absolute left-0 z-20 p-2 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/30 transition-all md:hidden"
           aria-label="Scroll left"
         >
           <IconChevronLeft className="w-4 h-4" />
@@ -66,11 +66,15 @@ export const Tabs = ({
           ref={scrollContainerRef}
           className={cn(
             "flex items-center relative",
-            "overflow-x-auto scrollbar-hide px-10 sm:px-0",
-            "w-full max-w-full scroll-smooth",
+            "overflow-x-auto scrollbar-hide px-12 sm:px-0",
+            "w-full max-w-full scroll-smooth touch-pan-x",
             "[perspective:1000px]",
             containerClassName
           )}
+          style={{
+            WebkitOverflowScrolling: "touch",
+            scrollBehavior: "smooth",
+          }}
         >
           <div className="flex gap-2 sm:gap-4 mx-auto">
             {propTabs.map((tab, idx) => (
@@ -81,10 +85,11 @@ export const Tabs = ({
                 onMouseLeave={() => setHovering(false)}
                 className={cn(
                   "relative rounded-full transition-all shrink-0",
-                  "px-3 py-1.5 sm:px-4 sm:py-2",
+                  "px-4 py-2 sm:px-5 sm:py-2.5",
                   "text-sm sm:text-base whitespace-nowrap",
-                  "hover:bg-gray-100/10 backdrop-blur-sm",
-                  "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400",
+                  "hover:bg-white/5 backdrop-blur-sm",
+                  "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/20",
+                  "border border-white/10",
                   tabClassName
                 )}
               >
@@ -93,12 +98,20 @@ export const Tabs = ({
                     layoutId="activeTab"
                     className={cn(
                       "absolute inset-0 bg-white/10 rounded-full backdrop-blur-md",
+                      "border border-white/20",
                       activeTabClassName
                     )}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                      mass: 1,
+                    }}
                   />
                 )}
-                <span className="relative z-10 font-medium">{tab.title}</span>
+                <span className="relative z-10 font-medium text-white/90">
+                  {tab.title}
+                </span>
               </button>
             ))}
           </div>
@@ -106,7 +119,7 @@ export const Tabs = ({
 
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 z-10 p-2 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/30 transition-all md:hidden"
+          className="absolute right-0 z-20 p-2 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/30 transition-all md:hidden"
           aria-label="Scroll right"
         >
           <IconChevronRight className="w-4 h-4" />
@@ -151,9 +164,22 @@ export const FadeInDiv = ({
             scale: 1 - idx * 0.05,
             zIndex: tabs.length - idx,
             transform: `translateY(${hovering ? idx * -20 : 0}px)`,
+            willChange: "transform, opacity",
+            transformOrigin: "center top",
           }}
-          animate={{ y: tab.value === active.value ? [0, 20, 0] : 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity:
+              tab.value === active.value ? 1 : Math.max(1 - idx * 0.2, 0),
+            y: tab.value === active.value ? 0 : 20,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 30,
+            mass: 1,
+            opacity: { duration: 0.2 },
+          }}
           className={cn("w-full", className)}
         >
           {tab.content}
