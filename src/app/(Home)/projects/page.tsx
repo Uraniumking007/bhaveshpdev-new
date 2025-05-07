@@ -1,4 +1,3 @@
-import ProjectCard from "@/components/cards/project-card";
 import { HeroHighlight } from "@/components/hero-highlight";
 import { Loading } from "@/components/loading/default-loading";
 import { prisma } from "@/lib/prisma";
@@ -6,6 +5,7 @@ import { Metadata } from "next";
 import React, { Suspense } from "react";
 import { Tabs } from "@/components/tabs/tabs";
 import { Projects } from "@prisma/client";
+import { ProjectViewerCard } from "@/components/cards/project-viewer-card";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Projects",
@@ -18,7 +18,7 @@ const ProjectPage: React.FC = async () => {
   const hasCategory = (project: Projects, category: string): boolean => {
     // Handle uncategorized case
     if (category.toLowerCase() === "uncategorized") {
-      return !project.categories || project.categories.length === 0;
+      return !project.tech || project.tech.length === 0;
     }
 
     // Handle "all" category
@@ -27,7 +27,7 @@ const ProjectPage: React.FC = async () => {
     }
 
     // Return false for uncategorized projects for any other category
-    if (!project.categories || project.categories.length === 0) {
+    if (!project.tech || project.tech.length === 0) {
       return false;
     }
 
@@ -46,7 +46,7 @@ const ProjectPage: React.FC = async () => {
     const categoryKey = normalizeCategory(category);
     const categoryVariants = variants[categoryKey] || [categoryKey];
 
-    return project.categories.some(
+    return project.tech.some(
       (projectCategory) =>
         categoryVariants.includes(normalizeCategory(projectCategory)) ||
         Object.entries(variants).some(
@@ -64,7 +64,7 @@ const ProjectPage: React.FC = async () => {
       content: (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {projects.map((project: Projects) => (
-            <ProjectCard key={project.id} {...project} />
+            <ProjectViewerCard key={project.id} project={project} />
           ))}
         </div>
       ),
@@ -77,7 +77,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "Next.js"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -90,7 +90,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "Basic HTML"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -103,7 +103,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "JavaScript"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -116,7 +116,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "Full Stack"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -129,7 +129,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "Frontend"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -142,7 +142,7 @@ const ProjectPage: React.FC = async () => {
           {projects
             .filter((project: Projects) => hasCategory(project, "Backend"))
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -158,7 +158,7 @@ const ProjectPage: React.FC = async () => {
                 !project.categories || project.categories.length === 0
             )
             .map((project: Projects) => (
-              <ProjectCard key={project.id} {...project} />
+              <ProjectViewerCard key={project.id} project={project} />
             ))}
         </div>
       ),
@@ -167,9 +167,13 @@ const ProjectPage: React.FC = async () => {
 
   return (
     <HeroHighlight>
-      <div className="w-full min-h-screen px-4 mt-28 sm:px-6 lg:px-8">
+      <div className="w-full h-full px-4 mt-28 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <Tabs tabs={tabs} containerClassName="mb-0" contentClassName="mt-0" />
+          <Tabs
+            tabs={tabs}
+            containerClassName="mb-0 h-full"
+            contentClassName="mt-0"
+          />
         </div>
       </div>
     </HeroHighlight>
