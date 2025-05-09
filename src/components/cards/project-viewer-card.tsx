@@ -13,7 +13,7 @@ export function ProjectViewerCard({ project }: ProjectViewerCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
+    <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full">
       <Meteors number={2} />
       <div className="aspect-video relative">
         <Image
@@ -68,7 +68,7 @@ export function ProjectViewerCard({ project }: ProjectViewerCardProps) {
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {project.link && (
             <a
               href={project.link}
