@@ -50,7 +50,7 @@ export default function ResumePage() {
             <div className="text-center text-white/70">
               <p>Click the buttons above to view or download the resume.</p>
               <p className="mt-2">
-                The PDF will open in your browser's native PDF viewer.
+                The PDF will open in your browser&apos;s native PDF viewer.
               </p>
             </div>
           </div>
