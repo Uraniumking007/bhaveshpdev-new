@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { Certification } from "@prisma/client";
 import { motion } from "framer-motion";
-import { IconExternalLink } from "@tabler/icons-react";
+import { IconExternalLink, IconEdit, IconTrash } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { toast } from "sonner";
+import { Button } from "../ui/button";
 
-interface CertificationCardProps {
-  data: Certification;
+interface CertificationAdminCardProps {
+  certification: Certification;
   onDelete: () => Promise<void>;
   onUpdate: (data: {
     title: string;
@@ -22,21 +23,21 @@ interface CertificationCardProps {
   }) => Promise<void>;
 }
 
-export const CertificationCard = ({
-  data,
+export const CertificationAdminCard = ({
+  certification,
   onDelete,
   onUpdate,
-}: CertificationCardProps) => {
+}: CertificationAdminCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    title: data.title,
-    issuer: data.issuer,
-    date: new Date(data.date).toISOString().split("T")[0],
-    description: data.description || "",
-    imageUrl: data.imageUrl || "",
-    credentialUrl: data.credentialUrl || "",
-    pdfUrl: data.pdfUrl || "",
+    title: certification.title,
+    issuer: certification.issuer,
+    date: new Date(certification.date).toISOString().split("T")[0],
+    description: certification.description || "",
+    imageUrl: certification.imageUrl || "",
+    credentialUrl: certification.credentialUrl || "",
+    pdfUrl: certification.pdfUrl || "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -242,7 +243,6 @@ export const CertificationCard = ({
               "text-white placeholder:text-white/50",
               "focus:outline-none focus:ring-2 focus:ring-white/20"
             )}
-            placeholder="URL to the PDF certificate if credential URL is not available"
           />
         </div>
 
@@ -291,11 +291,11 @@ export const CertificationCard = ({
       )}
     >
       <div className="flex flex-col gap-4">
-        {data.imageUrl && (
+        {certification.imageUrl && (
           <div className="relative w-full h-40 rounded-lg overflow-hidden">
             <Image
-              src={data.imageUrl}
-              alt={data.title}
+              src={certification.imageUrl}
+              alt={certification.title}
               fill
               className="object-cover"
             />
@@ -303,23 +303,25 @@ export const CertificationCard = ({
         )}
 
         <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold text-white">{data.title}</h3>
-          <p className="text-white/70">{data.issuer}</p>
+          <h3 className="text-xl font-semibold text-white">
+            {certification.title}
+          </h3>
+          <p className="text-white/70">{certification.issuer}</p>
           <p className="text-sm text-white/50">
-            {new Date(data.date).toLocaleDateString("en-US", {
+            {new Date(certification.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
             })}
           </p>
 
-          {data.description && (
-            <p className="text-white/80 mt-2">{data.description}</p>
+          {certification.description && (
+            <p className="text-white/80 mt-2">{certification.description}</p>
           )}
 
-          <div className="flex flex-col gap-2 mt-2">
-            {data.credentialUrl && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {certification.credentialUrl && (
               <a
-                href={data.credentialUrl}
+                href={certification.credentialUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
@@ -328,9 +330,9 @@ export const CertificationCard = ({
                 <IconExternalLink className="w-4 h-4" />
               </a>
             )}
-            {data.pdfUrl && (
+            {certification.pdfUrl && (
               <a
-                href={data.pdfUrl}
+                href={certification.pdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
@@ -344,32 +346,26 @@ export const CertificationCard = ({
       </div>
 
       <div className="absolute top-4 right-4 flex gap-2">
-        <button
+        <Button
           onClick={() => setIsEditing(true)}
           disabled={isLoading}
           className={cn(
-            "px-3 py-1 text-sm",
-            "bg-white/10 hover:bg-white/20",
-            "text-white rounded-lg",
-            "transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed"
+            "bg-white/10 hover:bg-white/20 text-white",
+            "transition-all duration-300"
           )}
         >
-          Edit
-        </button>
-        <button
+          <IconEdit className="w-4 h-4" />
+        </Button>
+        <Button
           onClick={handleDelete}
           disabled={isLoading}
           className={cn(
-            "px-3 py-1 text-sm",
-            "bg-red-500/10 hover:bg-red-500/20",
-            "text-red-400 rounded-lg",
-            "transition-colors duration-200",
-            "disabled:opacity-50 disabled:cursor-not-allowed"
+            "bg-red-500/10 hover:bg-red-500/20 text-red-500",
+            "transition-all duration-300"
           )}
         >
-          Delete
-        </button>
+          <IconTrash className="w-4 h-4" />
+        </Button>
       </div>
     </motion.div>
   );

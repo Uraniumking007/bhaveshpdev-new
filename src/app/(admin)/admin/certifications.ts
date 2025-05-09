@@ -11,6 +11,7 @@ interface CertificationData {
   description?: string | null;
   imageUrl?: string | null;
   credentialUrl?: string | null;
+  pdfUrl?: string | null;
 }
 
 export async function createCertification(data: CertificationData) {

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { CertificationForm } from "@/components/forms/certification-form";
-import { CertificationCard } from "@/components/cards/certification-card";
+import { CertificationAdminCard } from "@/components/cards/certification-admin-card";
 import {
   deleteCertification,
   updateCertification,
@@ -47,8 +47,8 @@ export default async function AdminCertificationsPage() {
                 key={certification.id}
                 className="bg-white/5 rounded-xl p-6 border border-white/10"
               >
-                <CertificationCard
-                  data={certification}
+                <CertificationAdminCard
+                  certification={certification}
                   onDelete={async () => {
                     "use server";
                     await deleteCertification(certification.id);
@@ -62,6 +62,7 @@ export default async function AdminCertificationsPage() {
                       description: data.description || null,
                       imageUrl: data.imageUrl || null,
                       credentialUrl: data.credentialUrl || null,
+                      pdfUrl: data.pdfUrl || null,
                     });
                   }}
                 />

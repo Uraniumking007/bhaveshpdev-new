@@ -1,5 +1,5 @@
 import { HeroHighlight } from "@/components/hero-highlight";
-import { CertificationCard } from "@/components/cards/certification-card";
+import { CertificationViewerCard } from "@/components/cards/certification-viewer-card";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import { Certification } from "@prisma/client";
@@ -33,11 +33,9 @@ const CertificationsPage = async () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certifications.map((certification: Certification) => (
-              <CertificationCard
-                data={certification}
+              <CertificationViewerCard
                 key={certification.id}
-                onDelete={async () => {}}
-                onUpdate={async () => {}}
+                certification={certification}
               />
             ))}
           </div>
