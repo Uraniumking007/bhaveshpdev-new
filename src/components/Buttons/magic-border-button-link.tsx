@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import TransitionLink from "../transition-link";
 
 const MagicBorderButtonLink = ({
   children,
@@ -11,9 +12,8 @@ const MagicBorderButtonLink = ({
   path: string;
   toggle: (i?: number | undefined) => void;
 }) => {
-
   return (
-    <Link
+    <TransitionLink
       href={path}
       className="relative w-full inline-flex md:h-12 h-10 drop-shadow-2xl overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
     >
@@ -21,7 +21,7 @@ const MagicBorderButtonLink = ({
       <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
         {children}
       </span>
-    </Link>
+    </TransitionLink>
   );
 };
 

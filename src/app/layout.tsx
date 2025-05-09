@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
+import PageTransitionWrapper from "@/components/wrapper/PageTransitionWrapper";
+import { TransitionProvider } from "@/lib/context/TransitionContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} w-full min-h-screen overflow-x-hidden dark`}
       >
-        {children}
+        <TransitionProvider>
+          <PageTransitionWrapper>{children}</PageTransitionWrapper>
+        </TransitionProvider>
       </body>
     </html>
   );
