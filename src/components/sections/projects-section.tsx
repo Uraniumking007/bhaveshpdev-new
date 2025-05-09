@@ -1,19 +1,29 @@
 "use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { HeroHighlight } from "../hero-highlight";
+import { TextGenerateEffect } from "../text-generate-effect";
+import { ButtonWithMovingBorder } from "../moving-block";
 import { Projects } from "@prisma/client";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
 import { useState } from "react";
 
-interface ProjectViewerCardProps {
-  project: Projects;
+interface ProjectsSectionProps {
+  projects?: Projects[];
 }
 
-export function ProjectViewerCard({ project }: ProjectViewerCardProps) {
+const ProjectCard = ({ project }: { project: Projects }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full"
+    >
       <Meteors number={2} />
       <div className="aspect-video relative">
         <Image
@@ -93,6 +103,60 @@ export function ProjectViewerCard({ project }: ProjectViewerCardProps) {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
-}
+};
+
+const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
+  if (!projects || projects.length === 0) {
+    return (
+      <HeroHighlight>
+        <div className="container mx-auto px-4 py-20">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
+          >
+            Featured Projects
+          </motion.h2>
+          <TextGenerateEffect
+            className="text-center mb-12 text-neutral-600 dark:text-neutral-300"
+            words="Loading projects..."
+          />
+        </div>
+      </HeroHighlight>
+    );
+  }
+
+  return (
+    <HeroHighlight>
+      <div className="container mx-auto px-4 py-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
+        >
+          Featured Projects
+        </motion.h2>
+        <TextGenerateEffect
+          className="text-center mb-12 text-neutral-600 dark:text-neutral-300"
+          words="Here are some of the projects I've worked on. Each one represents a unique challenge and learning experience."
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.slice(0, 6).map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+        <div className="text-center mt-12">
+          <ButtonWithMovingBorder href="/projects" className="inline-block">
+            View All Projects
+          </ButtonWithMovingBorder>
+        </div>
+      </div>
+    </HeroHighlight>
+  );
+};
+
+export default ProjectsSection;

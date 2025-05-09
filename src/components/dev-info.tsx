@@ -4,14 +4,18 @@ import React from "react";
 import { HeroHighlight, Highlight } from "./hero-highlight";
 import { motion } from "framer-motion";
 import { TextGenerateEffect } from "./text-generate-effect";
-import { ButtonWithMovingBorder } from "./moving-block";
+import { ButtonWithMovingBorder, ImageWithMovingBorder } from "./moving-block";
 import { TooltipButton } from "./Buttons/tooltip-button";
 
 const DevInfo = () => {
   return (
     <HeroHighlight>
       <div className="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row">
-        <ButtonWithMovingBorder className="select-none" />
+        <ImageWithMovingBorder
+          className="select-none"
+          imageSrc="/bhaveshcloseup.jpg"
+          imageAlt="Bhavesh Patil"
+        />
         <div>
           <motion.h1
             initial={{

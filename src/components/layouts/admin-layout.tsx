@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import {
   IconCertificate,
   IconFolder,

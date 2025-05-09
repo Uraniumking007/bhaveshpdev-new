@@ -3,7 +3,7 @@
 import { Certification } from "@prisma/client";
 import { motion } from "framer-motion";
 import { IconExternalLink } from "@tabler/icons-react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
 
 interface CertificationViewerCardProps {

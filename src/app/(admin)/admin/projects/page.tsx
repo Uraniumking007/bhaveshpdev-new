@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import { ProjectForm } from "@/components/forms/project-form";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { getProjects, deleteProject } from "./actions";
 import { ProjectAdminCard } from "@/components/cards/project-card";
 import { useRouter } from "next/navigation";

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { createCertification } from "@/app/(admin)/admin/certifications";
 import { toast } from "sonner";
 

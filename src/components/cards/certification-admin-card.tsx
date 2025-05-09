@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Certification } from "@prisma/client";
 import { motion } from "framer-motion";
 import { IconExternalLink, IconEdit, IconTrash } from "@tabler/icons-react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Button } from "../ui/button";

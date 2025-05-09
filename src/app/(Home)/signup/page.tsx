@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { IconArrowLeft, IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 import { signUp } from "./actions";

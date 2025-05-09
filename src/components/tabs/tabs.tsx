@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 type Tab = {

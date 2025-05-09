@@ -8,7 +8,7 @@ import {
   IconExternalLink,
 } from "@tabler/icons-react";
 
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { Button } from "../ui/button";
 
 interface ProjectAdminCardProps {

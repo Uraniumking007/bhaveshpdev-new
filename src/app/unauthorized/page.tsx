@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 
 export default function UnauthorizedPage() {

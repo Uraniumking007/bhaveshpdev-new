@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Skills, type skill } from "@/utils/data";
+import { Skills, type skill } from "@/lib/utils/data";
 import { useHover } from "usehooks-ts";
 import { useRef } from "react";
 

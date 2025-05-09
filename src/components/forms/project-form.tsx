@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 import { createProject } from "@/app/(admin)/admin/projects/actions";
 import { updateProject } from "@/app/(admin)/admin/projects/actions";
 
