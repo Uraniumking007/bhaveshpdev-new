@@ -8,7 +8,7 @@ export default function UnauthorizedPage() {
       <div className="text-center space-y-6">
         <h1 className="text-4xl font-bold text-white">Access Denied</h1>
         <p className="text-white/70 max-w-md mx-auto">
-          You don't have permission to access this page. Please contact the
+          You don&apos;t have permission to access this page. Please contact the
           administrator if you believe this is a mistake.
         </p>
         <Button

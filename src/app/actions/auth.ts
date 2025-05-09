@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 import { revalidatePath } from "next/cache";
 
 export async function signUp(formData: {
