@@ -3,7 +3,6 @@ import { Loading } from "@/components/loading/default-loading";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
-import { Tabs } from "@/components/tabs/tabs";
 import { Projects } from "@prisma/client";
 import { ProjectViewerCard } from "@/components/cards/project-viewer-card";
 
@@ -15,165 +14,25 @@ export const metadata: Metadata = {
 const ProjectPage: React.FC = async () => {
   const projects = await getProjects();
 
-  const hasCategory = (project: Projects, category: string): boolean => {
-    // Handle uncategorized case
-    if (category.toLowerCase() === "uncategorized") {
-      return !project.tech || project.tech.length === 0;
-    }
-
-    // Handle "all" category
-    if (category.toLowerCase() === "all") {
-      return true;
-    }
-
-    // Return false for uncategorized projects for any other category
-    if (!project.tech || project.tech.length === 0) {
-      return false;
-    }
-
-    const variants: { [key: string]: string[] } = {
-      "next.js": ["next.js", "next", "next js", "nextjs"],
-      javascript: ["javascript", "js", "vanilla javascript", "vanilla js"],
-      "basic html": ["html", "basic html", "vanilla html"],
-      frontend: ["frontend", "front-end", "front end"],
-      backend: ["backend", "back-end", "back end"],
-      fullstack: ["fullstack", "full-stack", "full stack"],
-    };
-
-    const normalizeCategory = (cat: string) =>
-      cat.toLowerCase().replace(/[\s.]+/g, "");
-
-    const categoryKey = normalizeCategory(category);
-    const categoryVariants = variants[categoryKey] || [categoryKey];
-
-    return project.tech.some(
-      (projectCategory) =>
-        categoryVariants.includes(normalizeCategory(projectCategory)) ||
-        Object.entries(variants).some(
-          ([key, variants]) =>
-            variants.includes(normalizeCategory(projectCategory)) &&
-            variants.includes(categoryKey)
-        )
-    );
-  };
-
-  const tabs = [
-    {
-      title: "All",
-      value: "all",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects.map((project: Projects) => (
-            <ProjectViewerCard key={project.id} project={project} />
-          ))}
-        </div>
-      ),
-    },
-    {
-      title: "Next.js",
-      value: "nextjs",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "Next.js"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "Basic HTML",
-      value: "html",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "Basic HTML"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "JavaScript",
-      value: "javascript",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "JavaScript"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "Full Stack",
-      value: "fullstack",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "Full Stack"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "Frontend",
-      value: "frontend",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "Frontend"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "Backend",
-      value: "backend",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter((project: Projects) => hasCategory(project, "Backend"))
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-    {
-      title: "Uncategorized",
-      value: "uncategorized",
-      content: (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {projects
-            .filter(
-              (project: Projects) =>
-                !project.categories || project.categories.length === 0
-            )
-            .map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-        </div>
-      ),
-    },
-  ];
-
   return (
     <HeroHighlight>
-      <div className="w-full h-full px-4 mt-28 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <Tabs
-            tabs={tabs}
-            containerClassName="mb-0 h-full"
-            contentClassName="mt-0"
-          />
+      <div className="w-full min-h-screen px-4 pt-28 pb-12 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Projects & Work
+            </h1>
+            <p className="text-white/70 max-w-2xl mx-auto">
+              A collection of my projects and work that showcase my skills and
+              experience in software development.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full">
+            {projects.map((project: Projects) => (
+              <ProjectViewerCard key={project.id} project={project} />
+            ))}
+          </div>
         </div>
       </div>
     </HeroHighlight>
