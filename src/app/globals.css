@@ -34,37 +34,37 @@ body {
 
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background: transparent;
+  width: 10px;
+  height: 10px;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 99999999999px;
+  background-color: rgba(1, 1, 1, 0.1);
+  backdrop-filter: blur(8px);
+  
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent !important;
+  background-color: rgba(1, 1, 1, 1) !important;
   border: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
+  border-radius: 0 !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(58, 58, 58, 0.8);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  transition: all 0.3s ease;
+  border-radius: 999999px;
+  transition: all 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Firefox Scrollbar Styles */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .no-visible-scrollbar {
