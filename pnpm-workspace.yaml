@@ -1,8 +1,9 @@
 packages:
-  - '.'
+  - .
 ignoredBuiltDependencies:
   - '@prisma/client'
   - '@prisma/engines'
+  - canvas
   - prisma
 onlyBuiltDependencies:
   - bcrypt

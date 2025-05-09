@@ -9,6 +9,7 @@ import { Projects } from "@prisma/client";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
 import { useState } from "react";
+import { LitupBorderButtonLink } from "../Buttons/litup-border-button";
 
 interface ProjectsSectionProps {
   projects?: Projects[];
@@ -150,9 +151,9 @@ const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
           ))}
         </div>
         <div className="text-center mt-12">
-          <ButtonWithMovingBorder href="/projects" className="inline-block">
+          <LitupBorderButtonLink path="/projects" className="inline-block">
             View All Projects
-          </ButtonWithMovingBorder>
+          </LitupBorderButtonLink>
         </div>
       </div>
     </HeroHighlight>
