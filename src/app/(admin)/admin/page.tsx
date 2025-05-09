@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { IconCertificate, IconFolder } from "@tabler/icons-react";
+import { IconCertificate, IconFolder, IconLock } from "@tabler/icons-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 
@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const [certifications, projects] = await Promise.all([
+  const [certifications, projects, backdoors] = await Promise.all([
     prisma.certification.count(),
     prisma.projects.count(),
+    prisma.confirmation.count(),
   ]);
 
   const stats = [
@@ -27,6 +28,12 @@ export default async function AdminDashboardPage() {
       value: projects,
       icon: IconFolder,
       href: "/admin/projects",
+    },
+    {
+      name: "Backdoors",
+      value: backdoors,
+      icon: IconLock,
+      href: "/admin/backdoors",
     },
   ];
 

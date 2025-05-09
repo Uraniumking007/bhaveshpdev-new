@@ -8,6 +8,7 @@ import {
   IconFolder,
   IconHome,
   IconSettings,
+  IconLock,
 } from "@tabler/icons-react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { SparklesCore } from "@/components/ui/sparkles";
@@ -28,6 +29,11 @@ const navigation = [
     name: "Certifications",
     href: "/admin/certifications",
     icon: IconCertificate,
+  },
+  {
+    name: "Backdoors",
+    href: "/admin/backdoors",
+    icon: IconLock,
   },
   {
     name: "Settings",
