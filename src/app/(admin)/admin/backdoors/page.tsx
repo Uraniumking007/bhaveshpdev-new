@@ -13,7 +13,8 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/modal";
-import { Input, Select, SelectItem } from "@nextui-org/react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createBackdoor, deleteBackdoor, getBackdoors } from "./actions";
 
 export default function BackdoorsAdminPage() {
@@ -133,53 +134,61 @@ export default function BackdoorsAdminPage() {
               <ModalHeader className="text-white">Add New Backdoor</ModalHeader>
               <ModalBody>
                 <div className="space-y-4">
-                  <Input
-                    label="Hostname"
-                    value={newBackdoor.hostname}
-                    onChange={(e) =>
-                      setNewBackdoor({
-                        ...newBackdoor,
-                        hostname: e.target.value,
-                      })
-                    }
-                    className="text-white"
-                  />
-                  <Input
-                    label="Payment"
-                    type="number"
-                    value={newBackdoor.payment}
-                    onChange={(e) =>
-                      setNewBackdoor({
-                        ...newBackdoor,
-                        payment: e.target.value,
-                      })
-                    }
-                    className="text-white"
-                  />
-                  <Select
-                    label="Status"
-                    value={newBackdoor.statuscode}
-                    onChange={(e) =>
-                      setNewBackdoor({
-                        ...newBackdoor,
-                        statuscode: e.target.value as
-                          | "authorized"
-                          | "partial"
-                          | "unauthorized",
-                      })
-                    }
-                    className="text-white"
-                  >
-                    <SelectItem key="authorized" value="authorized">
-                      Authorized
-                    </SelectItem>
-                    <SelectItem key="partial" value="partial">
-                      Partial
-                    </SelectItem>
-                    <SelectItem key="unauthorized" value="unauthorized">
-                      Unauthorized
-                    </SelectItem>
-                  </Select>
+                  <div>
+                    <Label htmlFor="hostname">Hostname</Label>
+                    <Input
+                      id="hostname"
+                      name="hostname"
+                      value={newBackdoor.hostname}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setNewBackdoor({
+                          ...newBackdoor,
+                          hostname: e.target.value,
+                        })
+                      }
+                      className="text-white"
+                      placeholder="Enter hostname"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="payment">Payment</Label>
+                    <Input
+                      id="payment"
+                      name="payment"
+                      type="number"
+                      value={newBackdoor.payment}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setNewBackdoor({
+                          ...newBackdoor,
+                          payment: e.target.value,
+                        })
+                      }
+                      className="text-white"
+                      placeholder="Enter payment amount"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="statuscode">Status</Label>
+                    <select
+                      id="statuscode"
+                      name="statuscode"
+                      value={newBackdoor.statuscode}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        setNewBackdoor({
+                          ...newBackdoor,
+                          statuscode: e.target.value as
+                            | "authorized"
+                            | "partial"
+                            | "unauthorized",
+                        })
+                      }
+                      className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                    >
+                      <option value="authorized">Authorized</option>
+                      <option value="partial">Partial</option>
+                      <option value="unauthorized">Unauthorized</option>
+                    </select>
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
