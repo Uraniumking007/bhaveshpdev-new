@@ -32,7 +32,7 @@ export function ButtonWithMovingBorder({
   return (
     <Component
       className={cn(
-        "relative inline-flex items-center justify-center px-6 py-2 font-semibold text-base md:text-lg bg-transparent overflow-hidden group transition-all duration-200 focus:outline-none",
+        "relative inline-flex items-center justify-center mx-6 my-2 px-0.5 py-0.5 font-semibold text-base md:text-lg bg-transparent overflow-hidden group transition-all duration-200 focus:outline-none",
         containerClassName
       )}
       style={{
