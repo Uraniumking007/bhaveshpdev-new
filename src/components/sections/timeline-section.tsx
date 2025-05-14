@@ -56,7 +56,7 @@ export default function TimelineSection({
                     <div
                       className={`absolute w-4 h-4 rounded-full bg-blue-500 dark:bg-blue-600 top-0
                         left-1/2 -translate-x-1/2
-                        md:left-auto md:top-1/2 md:-translate-y-1/2
+                        md:top-1/2 md:-translate-y-1/2
                         ${
                           index % 2 === 0
                             ? "md:-right-2 md:left-auto"
