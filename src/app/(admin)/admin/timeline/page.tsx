@@ -73,12 +73,7 @@ export default async function AdminTimelinePage() {
           <MagicBorderButton type="submit">Add Entry</MagicBorderButton>
         </div>
       </form>
-      <TimelineTable
-        timeline={timeline}
-        addTimeline={addTimeline}
-        deleteTimeline={deleteTimeline}
-        updateTimeline={updateTimeline}
-      />
+      <TimelineTable timeline={timeline} deleteTimeline={deleteTimeline} />
     </div>
   );
 }
