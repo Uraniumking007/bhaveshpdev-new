@@ -23,8 +23,8 @@ export async function submitContactForm(
 
   try {
     await transporter.sendMail({
-      from: `"${name}" <${"contact@bhaveshp.dev"}>`,
-      to: process.env.ZOHOMAIL_USER!,
+      from: `"${name}" <contact@bhaveshp.dev>`,
+      to: "bhaveshpatil918@gmail.com",
       replyTo: email,
       subject: "New Contact Form Submission",
       text: message,
