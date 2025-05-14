@@ -60,7 +60,7 @@ export default function TimelineSection({
                         ${
                           index % 2 === 0
                             ? "md:-right-2 md:left-auto"
-                            : "md:-left-[-0.400rem]"
+                            : "md:-left-2 md:right-auto"
                         }
                       `}
                     />
