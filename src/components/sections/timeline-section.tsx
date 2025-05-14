@@ -3,44 +3,14 @@
 import { motion } from "framer-motion";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
+import { prisma } from "@/lib/prisma";
+import { Timeline } from "@prisma/client";
 
-interface TimelineItem {
-  yearStart: string;
-  yearEnd: string | null;
-  ongoing: boolean;
-  title: string;
-  description: string;
-  type: string;
-}
-
-const timelineData: TimelineItem[] = [
-  {
-    yearStart: "2023",
-    yearEnd: null,
-    ongoing: true,
-    title: "Computer Engineering Student",
-    description: "Currently pursuing Computer Engineering degree",
-    type: "education",
-  },
-  {
-    yearStart: "2022",
-    yearEnd: "2023",
-    ongoing: false,
-    title: "Web Development Intern",
-    description: "Worked on frontend development using React and Next.js",
-    type: "experience",
-  },
-  {
-    yearStart: "2021",
-    yearEnd: "2022",
-    ongoing: false,
-    title: "Started Programming Journey",
-    description: "Began learning web development and programming fundamentals",
-    type: "milestone",
-  },
-];
-
-const TimelineSection = () => {
+export default function TimelineSection({
+  timelineData,
+}: {
+  timelineData: Timeline[];
+}) {
   return (
     <HeroHighlight>
       <div className="container mx-auto px-4 py-20">
@@ -62,7 +32,7 @@ const TimelineSection = () => {
 
           {/* Timeline items */}
           <div className="space-y-12">
-            {timelineData.map((item, index) => (
+            {timelineData.map((item: any, index: number) => (
               <motion.div
                 key={item.yearStart + (item.yearEnd || "")}
                 initial={{ opacity: 0, y: 20 }}
@@ -117,6 +87,4 @@ const TimelineSection = () => {
       </div>
     </HeroHighlight>
   );
-};
-
-export default TimelineSection;
+}

@@ -18,12 +18,17 @@ export default async function Home() {
       isFeatured: true,
     },
   });
+
+  const timelineData = await prisma.timeline.findMany({
+    orderBy: { yearStart: "desc" },
+  });
+
   return (
     <main className="min-h-screen">
       <DevInfo />
       <SkillsSection />
       <ProjectsSection projects={projects} />
-      <TimelineSection />
+      <TimelineSection timelineData={timelineData} />
       <ContactSection />
     </main>
   );
