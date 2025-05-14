@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@auth/core':
         specifier: 0.34.2
-        version: 0.34.2
+        version: 0.34.2(nodemailer@7.0.3)
       '@auth/prisma-adapter':
         specifier: ^2.2.0
-        version: 2.2.0(@prisma/client@5.14.0(prisma@5.14.0))
+        version: 2.2.0(@prisma/client@5.14.0(prisma@5.14.0))(nodemailer@7.0.3)
       '@internationalized/date':
         specifier: ^3.5.4
         version: 3.5.4
@@ -22,7 +22,7 @@ importers:
         version: 2.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
-        version: 1.0.7(@prisma/client@5.14.0(prisma@5.14.0))(next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1))
+        version: 1.0.7(@prisma/client@5.14.0(prisma@5.14.0))(next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.3)(react@18.3.1))
       '@nextui-org/modal':
         specifier: ^2.0.35
         version: 2.0.35(@nextui-org/system@2.2.1(@nextui-org/theme@2.2.5(tailwindcss@3.4.3))(framer-motion@11.2.10(@emotion/is-prop-valid@0.8.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nextui-org/theme@2.2.5(tailwindcss@3.4.3))(framer-motion@11.2.10(@emotion/is-prop-valid@0.8.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -76,7 +76,10 @@ importers:
         version: 14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
         specifier: 5.0.0-beta.20
-        version: 5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.3)(react@18.3.1)
+      nodemailer:
+        specifier: ^7.0.3
+        version: 7.0.3
       pdfjs-dist:
         specifier: ^5.2.133
         version: 5.2.133
@@ -108,6 +111,9 @@ importers:
       '@types/node':
         specifier: ^20.14.0
         version: 20.14.0
+      '@types/nodemailer':
+        specifier: ^6.4.17
+        version: 6.4.17
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
@@ -1830,6 +1836,9 @@ packages:
   '@types/node@20.14.0':
     resolution: {integrity: sha512-5cHBxFGJx6L4s56Bubp4fglrEpmyJypsqI6RgzMfBHWUJQGWAAi8cWcgetEbZXHYXo9C2Fa4EEds/uSyS4cxmA==}
 
+  '@types/nodemailer@6.4.17':
+    resolution: {integrity: sha512-I9CCaIp6DTldEg7vyUTZi8+9Vo0hi1/T8gv3C89yk1rSAAzoKQ8H8ki/jBYJSFoH/BisgLP8tkZMlQ91CIquww==}
+
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
 
@@ -2991,6 +3000,10 @@ packages:
       encoding:
         optional: true
 
+  nodemailer@7.0.3:
+    resolution: {integrity: sha512-Ajq6Sz1x7cIK3pN6KesGTah+1gnwMnx5gKl3piQlQQE/PwyJ4Mbc8is2psWYxK3RJTVeqsDaCv8ZzXLCDHMTZw==}
+    engines: {node: '>=6.0.0'}
+
   nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
     engines: {node: '>=6'}
@@ -3724,7 +3737,7 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@auth/core@0.32.0':
+  '@auth/core@0.32.0(nodemailer@7.0.3)':
     dependencies:
       '@panva/hkdf': 1.1.1
       '@types/cookie': 0.6.0
@@ -3733,8 +3746,10 @@ snapshots:
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
+    optionalDependencies:
+      nodemailer: 7.0.3
 
-  '@auth/core@0.34.2':
+  '@auth/core@0.34.2(nodemailer@7.0.3)':
     dependencies:
       '@panva/hkdf': 1.1.1
       '@types/cookie': 0.6.0
@@ -3743,10 +3758,12 @@ snapshots:
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
+    optionalDependencies:
+      nodemailer: 7.0.3
 
-  '@auth/prisma-adapter@2.2.0(@prisma/client@5.14.0(prisma@5.14.0))':
+  '@auth/prisma-adapter@2.2.0(@prisma/client@5.14.0(prisma@5.14.0))(nodemailer@7.0.3)':
     dependencies:
-      '@auth/core': 0.32.0
+      '@auth/core': 0.32.0(nodemailer@7.0.3)
       '@prisma/client': 5.14.0(prisma@5.14.0)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -4000,10 +4017,10 @@ snapshots:
       '@napi-rs/canvas-win32-x64-msvc': 0.1.70
     optional: true
 
-  '@next-auth/prisma-adapter@1.0.7(@prisma/client@5.14.0(prisma@5.14.0))(next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1))':
+  '@next-auth/prisma-adapter@1.0.7(@prisma/client@5.14.0(prisma@5.14.0))(next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.3)(react@18.3.1))':
     dependencies:
       '@prisma/client': 5.14.0(prisma@5.14.0)
-      next-auth: 5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      next-auth: 5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.3)(react@18.3.1)
 
   '@next/env@14.2.2': {}
 
@@ -6402,6 +6419,10 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/nodemailer@6.4.17':
+    dependencies:
+      '@types/node': 20.14.0
+
   '@types/prop-types@15.7.12': {}
 
   '@types/react-dom@18.3.0':
@@ -7677,11 +7698,13 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  next-auth@5.0.0-beta.20(next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@7.0.3)(react@18.3.1):
     dependencies:
-      '@auth/core': 0.34.2
+      '@auth/core': 0.34.2(nodemailer@7.0.3)
       next: 14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
+    optionalDependencies:
+      nodemailer: 7.0.3
 
   next@14.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -7721,6 +7744,8 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+
+  nodemailer@7.0.3: {}
 
   nopt@5.0.0:
     dependencies:

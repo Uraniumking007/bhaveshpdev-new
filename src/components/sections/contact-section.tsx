@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { ButtonWithMovingBorder } from "../moving-block";
 import { TooltipButton } from "../Buttons/tooltip-button";
+import { useFormState } from "react-dom";
+import { submitContactForm } from "./contact-actions";
 
 const contactInfo = [
   {
@@ -39,24 +41,11 @@ const contactInfo = [
 ];
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+  const [formState, formAction] = useFormState(submitContactForm, {
+    success: false,
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted:", formData);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const [isPending, startTransition] = useTransition();
+  const [submitted, setSubmitted] = useState(false);
 
   return (
     <HeroHighlight>
@@ -82,7 +71,16 @@ const ContactSection = () => {
               viewport={{ once: true }}
               className="bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-lg p-6 shadow-lg"
             >
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                action={async (formData) => {
+                  setSubmitted(false);
+                  startTransition(() => {
+                    formAction(formData);
+                    setSubmitted(true);
+                  });
+                }}
+                className="space-y-4"
+              >
                 <div>
                   <label
                     htmlFor="name"
@@ -94,8 +92,6 @@ const ContactSection = () => {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white/50 dark:bg-neutral-800/50 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -111,8 +107,6 @@ const ContactSection = () => {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white/50 dark:bg-neutral-800/50 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -127,16 +121,28 @@ const ContactSection = () => {
                   <textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     rows={4}
                     className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white/50 dark:bg-neutral-800/50 text-neutral-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                     required
                   />
                 </div>
-                <ButtonWithMovingBorder type="submit" className="w-full">
-                  Send Message
+                <ButtonWithMovingBorder
+                  type="submit"
+                  className="w-full"
+                  disabled={isPending}
+                >
+                  {isPending ? "Sending..." : "Send Message"}
                 </ButtonWithMovingBorder>
+                {formState.success && submitted && (
+                  <div className="text-green-600 mt-2">
+                    Message sent successfully!
+                  </div>
+                )}
+                {!formState.success && submitted && (
+                  <div className="text-red-600 mt-2">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
               </form>
             </motion.div>
 
