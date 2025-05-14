@@ -26,6 +26,11 @@ const navigation = [
     icon: IconFolder,
   },
   {
+    name: "Timeline",
+    href: "/admin/timeline",
+    icon: IconHome,
+  },
+  {
     name: "Certifications",
     href: "/admin/certifications",
     icon: IconCertificate,
