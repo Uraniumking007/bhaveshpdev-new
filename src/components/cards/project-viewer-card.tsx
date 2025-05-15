@@ -1,98 +1,103 @@
 "use client";
 import Image from "next/image";
 import { Projects } from "@prisma/client";
-import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
+import {
+  IconBrandGithub,
+  IconExternalLink,
+  IconArrowRight,
+} from "@tabler/icons-react";
 import { Meteors } from "../meteors";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils/cn";
+import { ProjectModal } from "../ui/project-modal";
 
 interface ProjectViewerCardProps {
   project: Projects;
 }
 
-export function ProjectViewerCard({ project }: ProjectViewerCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full">
-      <Meteors number={2} />
-      <div className="aspect-video relative">
-        <Image
-          src={project.image}
-          alt={project.name}
-          fill
-          className="object-cover"
-        />
-        {!project.isCompleted && (
-          <div className="absolute top-2 right-2">
-            <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
-              Ongoing Project
-            </span>
-          </div>
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className={cn(
+          "group relative rounded-2xl border border-white/10 bg-white/5 p-6",
+          "hover:bg-white/10 transition-all duration-300",
+          "backdrop-blur-sm",
+          "flex flex-col h-full"
         )}
-      </div>
+      >
+        <div className="flex flex-col gap-4 flex-grow">
+          <div className="relative w-full h-48 rounded-lg overflow-hidden">
+            <Image
+              src={project.image}
+              alt={project.name}
+              fill
+              className="object-cover"
+            />
+          </div>
 
-      <div className="p-4 space-y-4">
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-2">
-            {project.name}
-          </h3>
-          <div className="space-y-2">
-            <p
-              className={`text-white/70 text-sm ${
-                !isExpanded ? "line-clamp-2" : ""
-              }`}
-            >
+          <div className="flex flex-col gap-2">
+            <h3 className="text-xl font-semibold text-white">{project.name}</h3>
+            <div className="flex flex-wrap gap-2">
+              {project.categories.map((category, index) => (
+                <span
+                  key={index}
+                  className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
+                >
+                  {category}
+                </span>
+              ))}
+            </div>
+            <p className="text-white/80 mt-2 line-clamp-2">
               {project.description}
             </p>
-            {project.description.length > 100 && (
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="text-sm text-white/50 hover:text-white transition-colors"
-              >
-                {isExpanded ? "Show Less" : "Read More"}
-              </button>
+          </div>
+        </div>
+
+        <div className="mt-auto pt-4 flex flex-wrap gap-2">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className={cn(
+              "inline-flex items-center gap-2 text-sm",
+              "text-white/70 hover:text-white",
+              "transition-colors duration-200"
             )}
-          </div>
+          >
+            Read More
+            <IconArrowRight className="w-4 h-4" />
+          </button>
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
+          >
+            View Project
+            <IconExternalLink className="w-4 h-4" />
+          </a>
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
+          >
+            View Code
+            <IconBrandGithub className="w-4 h-4" />
+          </a>
         </div>
+      </motion.div>
 
-        {project.tech && project.tech.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech: string) => (
-              <span
-                key={tech}
-                className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
-              >
-                {tech.toLowerCase()}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-2">
-          {project.link && (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
-            >
-              <IconExternalLink className="w-4 h-4" />
-              <span>Live Demo</span>
-            </a>
-          )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
-            >
-              <IconBrandGithub className="w-4 h-4" />
-              <span>Source Code</span>
-            </a>
-          )}
-        </div>
-      </div>
-    </div>
+      <ProjectModal
+        project={project}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
-}
+};

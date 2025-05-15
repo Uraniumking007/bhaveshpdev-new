@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Certification } from "@prisma/client";
 import { motion } from "framer-motion";
-import { IconExternalLink } from "@tabler/icons-react";
+import { IconExternalLink, IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
 import { CertificateModal } from "../ui/certificate-modal";
@@ -73,6 +73,7 @@ export const CertificationViewerCard = ({
               )}
             >
               Read More
+              <IconArrowRight className="w-4 h-4" />
             </button>
           )}
           {certification.pdfUrl && (
