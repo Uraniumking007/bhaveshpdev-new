@@ -61,8 +61,8 @@ export default async function AdminCertificationsPage() {
                       date: data.date,
                       description: data.description || null,
                       imageUrl: data.imageUrl || null,
-                      credentialUrl: data.credentialUrl || null,
                       pdfUrl: data.pdfUrl || null,
+                      visible: data.visible,
                     });
                   }}
                 />

@@ -12,6 +12,7 @@ interface CertificationData {
   imageUrl?: string | null;
   credentialUrl?: string | null;
   pdfUrl?: string | null;
+  visible: "public" | "private";
 }
 
 export async function createCertification(data: CertificationData) {
