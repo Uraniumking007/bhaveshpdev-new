@@ -10,6 +10,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          username: profile.login,
+          image: profile.avatar_url,
+          isAdmin: false,
+          isDemo: false,
+        };
+      },
     }),
     Credentials({
       credentials: {
@@ -24,26 +35,30 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           placeholder: "Password",
         },
       },
-      authorize: async (credentials) => {
-        const { email, password } = credentials as {
-          email: string;
-          password: string;
-        };
+      async authorize(
+        credentials: Partial<Record<"email" | "password", unknown>>
+      ) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         const user = await prisma.user.findFirst({
           where: {
-            email,
+            email: credentials.email as string,
           },
         });
 
         if (!user) {
-          throw new Error("No user found");
+          return null;
         }
 
-        const hashedPassword = await bcrypt.compare(password, user.password);
+        const hashedPassword = await bcrypt.compare(
+          credentials.password as string,
+          user.password
+        );
 
         if (!hashedPassword) {
-          throw new Error("Password does not match");
+          return null;
         }
 
         return user;
@@ -51,17 +66,41 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "/auth/signin",
-    signOut: "/auth/signout",
-    error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
-    newUser: "/auth/register",
+    signIn: "/signin",
+    signOut: "/signout",
+    error: "/error",
+    verifyRequest: "/verify-request",
+    newUser: "/register",
   },
   trustHost: true,
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "github") {
+        const existingUser = await prisma.user.findFirst({
+          where: {
+            email: user.email,
+          },
+        });
+
+        if (!existingUser) {
+          await prisma.user.create({
+            data: {
+              id: user.id,
+              email: user.email!,
+              name: user.name,
+              username: user.username || user.email!.split("@")[0],
+              password: "github-auth", // Set a placeholder password for GitHub users
+              isAdmin: false,
+              isDemo: false,
+            },
+          });
+        }
+      }
+      return true;
+    },
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
