@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 
 const CertificationsPage = async () => {
   const certifications = await prisma.certification.findMany({
+    where: {
+      visible: "public",
+    },
     orderBy: {
       date: "desc",
     },
