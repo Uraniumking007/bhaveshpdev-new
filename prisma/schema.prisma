@@ -88,16 +88,17 @@ model VerificationToken {
 }
 
 model Certification {
-  id            String   @id @default(cuid())
+  id            String      @id @default(cuid())
   title         String
   issuer        String
   date          DateTime
   description   String?
   imageUrl      String?
   credentialUrl String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   pdfUrl        String?
+  visible       visibility? @default(public)
 
   @@schema("public")
 }
@@ -134,4 +135,11 @@ enum backdoor_status_codes {
   unauthorized
 
   @@schema("backdoor")
+}
+
+enum visibility {
+  public
+  private
+
+  @@schema("public")
 }

@@ -28,6 +28,7 @@
 		"bcrypt": "^5.1.1",
 		"clsx": "^2.1.1",
 		"framer-motion": "^11.2.10",
+		"imagekit": "^6.0.0",
 		"lucide-react": "^0.372.0",
 		"mini-svg-data-uri": "^1.4.4",
 		"next": "14.2.2",

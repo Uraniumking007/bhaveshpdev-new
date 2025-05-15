@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { useState, useTransition } from "react";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
-import { ButtonWithMovingBorder } from "../moving-block";
 import { TooltipButton } from "../Buttons/tooltip-button";
 import { useFormState } from "react-dom";
 import { submitContactForm } from "./contact-actions";
+import { LitupBorderButton } from "../Buttons/litup-border-button";
+import { IconLoader } from "@tabler/icons-react";
 
 const contactInfo = [
   {
@@ -126,13 +127,17 @@ const ContactSection = () => {
                     required
                   />
                 </div>
-                <ButtonWithMovingBorder
+                <LitupBorderButton
                   type="submit"
                   className="w-full"
                   disabled={isPending}
                 >
-                  {isPending ? "Sending..." : "Send Message"}
-                </ButtonWithMovingBorder>
+                  {isPending ? (
+                    <IconLoader className="animate-spin" />
+                  ) : (
+                    "Send Message"
+                  )}
+                </LitupBorderButton>
                 {formState.success && submitted && (
                   <div className="text-green-600 mt-2">
                     Message sent successfully!

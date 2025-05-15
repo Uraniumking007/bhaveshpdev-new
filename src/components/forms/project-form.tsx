@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import { createProject } from "@/app/(admin)/admin/projects/actions";
 import { updateProject } from "@/app/(admin)/admin/projects/actions";
+import { ImageUpload } from "../ui/image-upload";
 
 type ProjectFormData = {
   title: string;
@@ -201,19 +202,27 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
 
         <div>
           <label className="block text-sm font-medium text-white/70 mb-2">
-            Image URL
+            Image
           </label>
-          <input
-            type="url"
-            value={formData.imageUrl}
-            onChange={(e) =>
-              setFormData({ ...formData, imageUrl: e.target.value })
-            }
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-            placeholder="https://example.com/image.jpg"
-            required
-            disabled={isSubmitting}
-          />
+          <div className="space-y-2">
+            <ImageUpload
+              onUploadComplete={(url) =>
+                setFormData({ ...formData, imageUrl: url })
+              }
+              folder="projects"
+            />
+            <input
+              type="url"
+              value={formData.imageUrl}
+              onChange={(e) =>
+                setFormData({ ...formData, imageUrl: e.target.value })
+              }
+              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              placeholder="Or enter image URL directly"
+              required
+              disabled={isSubmitting}
+            />
+          </div>
         </div>
 
         <div>

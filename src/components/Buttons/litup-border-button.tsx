@@ -5,9 +5,9 @@ import Link from "next/link";
 import React from "react";
 import TransitionLink from "../transition-link";
 
-interface LitupBorderButtonProps {
+interface LitupBorderButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick: () => void;
   className?: string;
 }
 
@@ -20,14 +20,10 @@ interface LitupBorderButtonLinkProps {
 const LitupBorderButton = ({
   children,
   className,
-  onClick,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-}) => {
+  ...props
+}: LitupBorderButtonProps) => {
   return (
-    <button className="p-[3px] relative">
+    <button className="p-[3px] relative" {...props}>
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
       <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
         {children}
@@ -40,9 +36,10 @@ const LitupBorderButtonLink: React.FC<LitupBorderButtonLinkProps> = ({
   children,
   path,
   className,
-}) => {
+  ...props
+}: LitupBorderButtonLinkProps) => {
   return (
-    <TransitionLink href={path}>
+    <TransitionLink href={path} {...props}>
       <LitupBorderButton>{children}</LitupBorderButton>
     </TransitionLink>
   );

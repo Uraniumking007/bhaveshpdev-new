@@ -53,17 +53,6 @@ export const CertificationViewerCard = ({
           )}
 
           <div className="flex flex-wrap gap-2 mt-2">
-            {certification.credentialUrl && (
-              <a
-                href={certification.credentialUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
-              >
-                View Credential
-                <IconExternalLink className="w-4 h-4" />
-              </a>
-            )}
             {certification.pdfUrl && (
               <a
                 href={certification.pdfUrl}

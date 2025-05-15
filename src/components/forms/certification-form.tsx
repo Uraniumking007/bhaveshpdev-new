@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createCertification } from "@/app/(admin)/admin/certifications";
 import { toast } from "sonner";
+import { ImageUpload } from "../ui/image-upload";
 
 interface CertificationFormData {
   title: string;
@@ -12,7 +13,6 @@ interface CertificationFormData {
   date: string;
   description: string;
   imageUrl: string;
-  credentialUrl: string;
   pdfUrl: string;
 }
 
@@ -25,7 +25,6 @@ export const CertificationForm = () => {
     date: "",
     description: "",
     imageUrl: "",
-    credentialUrl: "",
     pdfUrl: "",
   });
 
@@ -50,7 +49,6 @@ export const CertificationForm = () => {
         date: "",
         description: "",
         imageUrl: "",
-        credentialUrl: "",
         pdfUrl: "",
       });
     } catch (error) {
@@ -169,45 +167,30 @@ export const CertificationForm = () => {
           htmlFor="imageUrl"
           className="block text-sm font-medium text-white/90 mb-1"
         >
-          Image URL
+          Image
         </label>
-        <input
-          type="url"
-          id="imageUrl"
-          name="imageUrl"
-          value={formData.imageUrl}
-          onChange={handleChange}
-          className={cn(
-            "w-full px-4 py-2 rounded-lg",
-            "bg-white/5 border border-white/10",
-            "text-white placeholder:text-white/50",
-            "focus:outline-none focus:ring-2 focus:ring-white/20"
-          )}
-          placeholder="URL to certification image"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="credentialUrl"
-          className="block text-sm font-medium text-white/90 mb-1"
-        >
-          Credential URL
-        </label>
-        <input
-          type="url"
-          id="credentialUrl"
-          name="credentialUrl"
-          value={formData.credentialUrl}
-          onChange={handleChange}
-          className={cn(
-            "w-full px-4 py-2 rounded-lg",
-            "bg-white/5 border border-white/10",
-            "text-white placeholder:text-white/50",
-            "focus:outline-none focus:ring-2 focus:ring-white/20"
-          )}
-          placeholder="URL to verify the credential"
-        />
+        <div className="space-y-2">
+          <ImageUpload
+            onUploadComplete={(url) =>
+              setFormData({ ...formData, imageUrl: url })
+            }
+            folder="certifications"
+          />
+          <input
+            type="url"
+            id="imageUrl"
+            name="imageUrl"
+            value={formData.imageUrl}
+            onChange={handleChange}
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+            placeholder="Or enter image URL directly"
+          />
+        </div>
       </div>
 
       <div>
@@ -215,7 +198,7 @@ export const CertificationForm = () => {
           htmlFor="pdfUrl"
           className="block text-sm font-medium text-white/90 mb-1"
         >
-          PDF URL (Optional)
+          PDF URL
         </label>
         <input
           type="url"
@@ -223,13 +206,14 @@ export const CertificationForm = () => {
           name="pdfUrl"
           value={formData.pdfUrl}
           onChange={handleChange}
+          required
           className={cn(
             "w-full px-4 py-2 rounded-lg",
             "bg-white/5 border border-white/10",
             "text-white placeholder:text-white/50",
             "focus:outline-none focus:ring-2 focus:ring-white/20"
           )}
-          placeholder="URL to the PDF certificate if credential URL is not available"
+          placeholder="URL to the PDF certificate"
         />
       </div>
 

@@ -18,7 +18,6 @@ interface CertificationAdminCardProps {
     date: Date;
     description?: string;
     imageUrl?: string;
-    credentialUrl?: string;
     pdfUrl?: string;
   }) => Promise<void>;
 }
@@ -36,7 +35,6 @@ export const CertificationAdminCard = ({
     date: new Date(certification.date).toISOString().split("T")[0],
     description: certification.description || "",
     imageUrl: certification.imageUrl || "",
-    credentialUrl: certification.credentialUrl || "",
     pdfUrl: certification.pdfUrl || "",
   });
 
@@ -204,32 +202,10 @@ export const CertificationAdminCard = ({
 
         <div>
           <label
-            htmlFor="credentialUrl"
-            className="block text-sm font-medium text-white/90 mb-1"
-          >
-            Credential URL
-          </label>
-          <input
-            type="url"
-            id="credentialUrl"
-            name="credentialUrl"
-            value={formData.credentialUrl}
-            onChange={handleChange}
-            className={cn(
-              "w-full px-4 py-2 rounded-lg",
-              "bg-white/5 border border-white/10",
-              "text-white placeholder:text-white/50",
-              "focus:outline-none focus:ring-2 focus:ring-white/20"
-            )}
-          />
-        </div>
-
-        <div>
-          <label
             htmlFor="pdfUrl"
             className="block text-sm font-medium text-white/90 mb-1"
           >
-            PDF URL (Optional)
+            PDF URL
           </label>
           <input
             type="url"
@@ -237,6 +213,7 @@ export const CertificationAdminCard = ({
             name="pdfUrl"
             value={formData.pdfUrl}
             onChange={handleChange}
+            required
             className={cn(
               "w-full px-4 py-2 rounded-lg",
               "bg-white/5 border border-white/10",
@@ -319,17 +296,6 @@ export const CertificationAdminCard = ({
           )}
 
           <div className="flex flex-wrap gap-2 mt-2">
-            {certification.credentialUrl && (
-              <a
-                href={certification.credentialUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
-              >
-                View Credential
-                <IconExternalLink className="w-4 h-4" />
-              </a>
-            )}
             {certification.pdfUrl && (
               <a
                 href={certification.pdfUrl}
