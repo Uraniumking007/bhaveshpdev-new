@@ -74,10 +74,10 @@ const contactInfo = [
   },
   {
     id: 2,
-    title: "X formerly Twitter",
-    description: "twitter.com/UraniumKing0",
+    title: "X",
+    description: "x.com/UraniumKing0",
     icon: "/icons/outline/brand-x.svg",
-    link: "https://twitter.com/UraniumKing0",
+    link: "https://x.com/UraniumKing0",
   },
   {
     id: 3,
