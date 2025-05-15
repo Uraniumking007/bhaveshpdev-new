@@ -14,6 +14,7 @@ interface CertificationFormData {
   description: string;
   imageUrl: string;
   pdfUrl: string;
+  visible: "public" | "private";
 }
 
 export const CertificationForm = () => {
@@ -26,6 +27,7 @@ export const CertificationForm = () => {
     description: "",
     imageUrl: "",
     pdfUrl: "",
+    visible: "public",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +52,7 @@ export const CertificationForm = () => {
         description: "",
         imageUrl: "",
         pdfUrl: "",
+        visible: "public",
       });
     } catch (error) {
       console.error("Error creating certification:", error);
@@ -60,7 +63,9 @@ export const CertificationForm = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -215,6 +220,32 @@ export const CertificationForm = () => {
           )}
           placeholder="URL to the PDF certificate"
         />
+      </div>
+
+      <div>
+        <label
+          htmlFor="visible"
+          className="block text-sm font-medium text-white/90 mb-1"
+        >
+          Visibility
+        </label>
+        <select
+          id="visible"
+          name="visible"
+          value={formData.visible}
+          onChange={handleChange}
+          required
+          className={cn(
+            "w-full px-4 py-2 rounded-lg",
+            "bg-white/5 border border-white/10",
+            "text-white",
+            "focus:outline-none focus:ring-2 focus:ring-white/20",
+            "[&>option]:bg-neutral-900 [&>option]:text-white"
+          )}
+        >
+          <option value="public">Public</option>
+          <option value="private">Private</option>
+        </select>
       </div>
 
       <button
