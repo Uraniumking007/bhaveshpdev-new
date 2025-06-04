@@ -15,6 +15,9 @@ export async function signUp(formData: {
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+      },
     });
 
     if (existingUser) {
@@ -29,9 +32,9 @@ export async function signUp(formData: {
       data: {
         email,
         name,
-        username: email.split("@")[0], // Use email prefix as username
+        username: email.split("@")[0],
         password: hashedPassword,
-        isAdmin: false, // Default to non-admin
+        isAdmin: false,
       },
     });
 

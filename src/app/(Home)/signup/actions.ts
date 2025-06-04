@@ -45,16 +45,19 @@ export async function signUp(formData: {
         isAdmin: false,
         isDemo: false,
       },
+      select: {
+        name: true,
+        username: true,
+        isAdmin: true,
+        isDemo: true,
+      },
     });
-
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user;
 
     revalidatePath("/");
     return {
       success: true,
       message: "User created successfully",
-      user: userWithoutPassword,
+      user,
     };
   } catch (error) {
     console.error("Signup error:", error);
