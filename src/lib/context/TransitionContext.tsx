@@ -1,11 +1,12 @@
 "use client";
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useCallback } from "react";
 
-const TransitionContext = createContext({
-  isExiting: false,
-  showLoader: false,
-  startExit: (cb: () => void) => {},
-  hideLoader: () => {},
+interface TransitionContextType {
+  startExit: (cb: () => void) => void;
+}
+
+const TransitionContext = createContext<TransitionContextType>({
+  startExit: () => {},
 });
 
 export function useTransition() {
@@ -17,25 +18,13 @@ export function TransitionProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [isExiting, setIsExiting] = useState(false);
-  const [showLoader, setShowLoader] = useState(false);
-
   const startExit = useCallback((cb: () => void) => {
-    setIsExiting(true);
-    setTimeout(() => {
-      setIsExiting(false);
-      setShowLoader(true);
-      cb();
-    }, 400); // match your animation duration
+    // Execute page change immediately
+    cb();
   }, []);
 
-  // Hide loader after navigation (optional: use a global event or effect)
-  const hideLoader = () => setShowLoader(false);
-
   return (
-    <TransitionContext.Provider
-      value={{ isExiting, showLoader, startExit, hideLoader }}
-    >
+    <TransitionContext.Provider value={{ startExit }}>
       {children}
     </TransitionContext.Provider>
   );
