@@ -67,7 +67,7 @@ export const Navigation = ({
         </MagicBorderButton>
       </motion.li>
       <motion.li variants={menuItemVariants}>
-        <MagicBorderButton toggle={toggleOpen} path="/p rojects">
+        <MagicBorderButton toggle={toggleOpen} path="/projects">
           Projects
         </MagicBorderButton>
       </motion.li>
