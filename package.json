@@ -33,7 +33,7 @@
     "imagekit": "^6.0.0",
     "lucide-react": "^0.372.0",
     "mini-svg-data-uri": "^1.4.4",
-    "next": "14.2.25",
+    "next": "15.2.4",
     "next-auth": "5.0.0-beta.20",
     "nodemailer": "^7.0.3",
     "pdfjs-dist": "3.10.111",
