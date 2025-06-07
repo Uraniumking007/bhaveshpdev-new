@@ -85,12 +85,12 @@ export const Navigation = ({
         <MagicBorderButton
           toggle={toggleOpen}
           path="/resume"
-          props={{
-            onNavigate: (e: React.MouseEvent) => {
-              e.preventDefault();
-              window.open("/resume.pdf", "_blank");
-            },
-          }}
+          // props={{
+          //   onClick: (e: React.MouseEvent) => {
+          //     e.preventDefault();
+          //     window.open("/resume.pdf", "_blank");
+          //   },
+          // }}
         >
           Resume
         </MagicBorderButton>
