@@ -1,0 +1,368 @@
+"use client";
+
+import { useState } from "react";
+import { Certification } from "@prisma/client";
+import { motion } from "framer-motion";
+import { IconExternalLink, IconEdit, IconTrash } from "@tabler/icons-react";
+import { cn } from "@/lib/utils/cn";
+import Image from "next/image";
+import { toast } from "sonner";
+import { Button } from "../ui/button";
+
+interface CertificationAdminCardProps {
+  certification: Certification;
+  onDelete: () => Promise<void>;
+  onUpdate: (data: {
+    title: string;
+    issuer: string;
+    date: Date;
+    description?: string;
+    imageUrl?: string;
+    pdfUrl?: string;
+    visible: "public" | "private";
+  }) => Promise<void>;
+}
+
+export const CertificationAdminCard = ({
+  certification,
+  onDelete,
+  onUpdate,
+}: CertificationAdminCardProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    title: certification.title,
+    issuer: certification.issuer,
+    date: new Date(certification.date).toISOString().split("T")[0],
+    description: certification.description || "",
+    imageUrl: certification.imageUrl || "",
+    pdfUrl: certification.pdfUrl || "",
+    visible: certification.visible || "public",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await onUpdate({
+        ...formData,
+        date: new Date(formData.date),
+      });
+      setIsEditing(false);
+      toast.success("Certification updated successfully");
+    } catch (error) {
+      console.error("Error updating certification:", error);
+      toast.error("Failed to update certification");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this certification?")) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await onDelete();
+      toast.success("Certification deleted successfully");
+    } catch (error) {
+      console.error("Error deleting certification:", error);
+      toast.error("Failed to delete certification");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  if (isEditing) {
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white/5 rounded-lg p-4 space-y-4 border border-white/10"
+      >
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="issuer"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Issuer
+          </label>
+          <input
+            type="text"
+            id="issuer"
+            name="issuer"
+            value={formData.issuer}
+            onChange={handleChange}
+            required
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={3}
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Image URL
+          </label>
+          <input
+            type="url"
+            id="imageUrl"
+            name="imageUrl"
+            value={formData.imageUrl}
+            onChange={handleChange}
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="pdfUrl"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            PDF URL
+          </label>
+          <input
+            type="url"
+            id="pdfUrl"
+            name="pdfUrl"
+            value={formData.pdfUrl}
+            onChange={handleChange}
+            required
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white placeholder:text-white/50",
+              "focus:outline-none focus:ring-2 focus:ring-white/20"
+            )}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="visible"
+            className="block text-sm font-medium text-white/90 mb-1"
+          >
+            Visibility
+          </label>
+          <select
+            id="visible"
+            name="visible"
+            value={formData.visible}
+            onChange={handleChange}
+            required
+            className={cn(
+              "w-full px-4 py-2 rounded-lg",
+              "bg-white/5 border border-white/10",
+              "text-white",
+              "focus:outline-none focus:ring-2 focus:ring-white/20",
+              "[&>option]:bg-neutral-900 [&>option]:text-white"
+            )}
+          >
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={cn(
+              "px-4 py-2 rounded-lg",
+              "bg-white/10 hover:bg-white/20",
+              "text-white font-medium",
+              "transition-colors duration-200",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
+            )}
+          >
+            {isLoading ? "Saving..." : "Save Changes"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsEditing(false)}
+            disabled={isLoading}
+            className={cn(
+              "px-4 py-2 rounded-lg",
+              "bg-white/5 hover:bg-white/10",
+              "text-white font-medium",
+              "transition-colors duration-200",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
+            )}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className={cn(
+        "group relative rounded-2xl border border-white/10 bg-white/5 p-6",
+        "hover:bg-white/10 transition-all duration-300",
+        "backdrop-blur-sm"
+      )}
+    >
+      <div className="flex flex-col gap-4">
+        {certification.imageUrl && (
+          <div className="relative w-full h-40 rounded-lg overflow-hidden">
+            <Image
+              src={certification.imageUrl}
+              alt={certification.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <h3 className="text-xl font-semibold text-white">
+            {certification.title}
+          </h3>
+          <p className="text-white/70">{certification.issuer}</p>
+          <p className="text-sm text-white/50">
+            {new Date(certification.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+            })}
+          </p>
+
+          {certification.description && (
+            <p className="text-white/80 mt-2">{certification.description}</p>
+          )}
+
+          <div className="flex flex-wrap gap-2 mt-2">
+            {certification.pdfUrl && (
+              <a
+                href={certification.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white"
+              >
+                View PDF Certificate
+                <IconExternalLink className="w-4 h-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute top-4 right-4 flex gap-2">
+        <Button
+          onClick={() => setIsEditing(true)}
+          disabled={isLoading}
+          className={cn(
+            "bg-white/10 hover:bg-white/20 text-white",
+            "transition-all duration-300"
+          )}
+        >
+          <IconEdit className="w-4 h-4" />
+        </Button>
+        <Button
+          onClick={handleDelete}
+          disabled={isLoading}
+          className={cn(
+            "bg-red-500/10 hover:bg-red-500/20 text-red-500",
+            "transition-all duration-300"
+          )}
+        >
+          <IconTrash className="w-4 h-4" />
+        </Button>
+      </div>
+    </motion.div>
+  );
+};

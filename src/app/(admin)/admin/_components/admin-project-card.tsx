@@ -14,8 +14,7 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Button, Checkbox, DatePicker, Input } from "@nextui-org/react";
-import { revalidatePath } from "next/cache";
-import { editProject } from "../adminActions";
+import { editProject, revalidateAdminPages } from "../adminActions";
 
 export default function ProjectCardEditable(project: Projects) {
   const [readmore, setReadmore] = useState(false);
@@ -51,9 +50,8 @@ export default function ProjectCardEditable(project: Projects) {
         throw new Error("Project Initiated is required");
       }
       await editProject({ project: editedProject as Projects });
+      await revalidateAdminPages();
       onOpenChange();
-      revalidatePath("/admin");
-      revalidatePath("/projects");
     } catch (error) {
       setError((error as Error).message);
     }
@@ -130,7 +128,7 @@ export default function ProjectCardEditable(project: Projects) {
             <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
           </button>
         </div>
-        <Meteors number={3} />
+        <Meteors number={1} />
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
             {(onClose) => (
@@ -215,6 +213,19 @@ export default function ProjectCardEditable(project: Projects) {
                         setEditedProject({
                           ...editedProject,
                           tech: e.target.value.split(","),
+                        });
+                      }}
+                    />
+                    <Input
+                      size={"md"}
+                      type="text"
+                      label="Categories"
+                      placeholder="[category1, category2, category3]"
+                      defaultValue={project.categories.join(",")}
+                      onChange={(e) => {
+                        setEditedProject({
+                          ...editedProject,
+                          categories: e.target.value.split(","),
                         });
                       }}
                     />

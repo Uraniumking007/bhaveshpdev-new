@@ -1,15 +1,17 @@
-"use client";
-import { NextUIProvider } from "@nextui-org/react";
-import { SessionProvider } from "next-auth/react";
+import { AdminLayout } from "@/components/layouts/admin-layout";
+import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
-  children, // will be a page or nested layout
+export default async function Layout({
+  children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <SessionProvider>
-      <NextUIProvider>{children}</NextUIProvider>
-    </SessionProvider>
-  );
+  const session = await auth();
+
+  if (!session?.user?.isAdmin) {
+    redirect("/unauthorized");
+  }
+
+  return <AdminLayout>{children}</AdminLayout>;
 }

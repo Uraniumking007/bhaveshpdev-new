@@ -8,16 +8,16 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
-import { cn } from "@/utils/cn";
+import { cn } from "@/lib/utils/cn";
 
 export function ButtonWithMovingBorder({
   borderRadius = "1.75rem",
-
   as: Component = "button",
   containerClassName,
   borderClassName,
   duration,
   className,
+  children,
   ...otherProps
 }: {
   borderRadius?: string;
@@ -26,10 +26,69 @@ export function ButtonWithMovingBorder({
   borderClassName?: string;
   duration?: number;
   className?: string;
+  children: React.ReactNode;
   [key: string]: any;
 }) {
   return (
     <Component
+      className={cn(
+        "relative inline-flex items-center justify-center mx-6 my-2 px-0.5 py-0.5 font-semibold text-base md:text-lg bg-transparent overflow-hidden group transition-all duration-200 focus:outline-none",
+        containerClassName
+      )}
+      style={{
+        borderRadius: borderRadius,
+      }}
+      {...otherProps}
+    >
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
+      >
+        <MovingBorder duration={duration} rx="30%" ry="30%">
+          <div
+            className={cn(
+              "h-8 w-16 opacity-40 bg-[radial-gradient(var(--sky-400)_60%,transparent_100%)] blur-sm",
+              borderClassName
+            )}
+          />
+        </MovingBorder>
+      </div>
+      <div
+        className={cn(
+          "relative z-10 px-6 py-2 rounded-full bg-slate-900/90 border border-slate-800/70 backdrop-blur-xl text-white font-bold shadow-lg group-hover:bg-slate-800/95 group-active:scale-95 transition-all duration-200 flex items-center justify-center",
+          className
+        )}
+        style={{
+          borderRadius: `calc(${borderRadius} * 0.96)`,
+        }}
+      >
+        {children}
+      </div>
+    </Component>
+  );
+}
+
+export function ImageWithMovingBorder({
+  borderRadius = "1.75rem",
+  containerClassName,
+  borderClassName,
+  duration,
+  className,
+  imageSrc,
+  imageAlt,
+  ...otherProps
+}: {
+  borderRadius?: string;
+  containerClassName?: string;
+  borderClassName?: string;
+  duration?: number;
+  className?: string;
+  imageSrc: string;
+  imageAlt: string;
+  [key: string]: any;
+}) {
+  return (
+    <div
       className={cn(
         "bg-transparent relative text-xl w-48 md:w-60 lg:w-full min-[1440px]:w-72 p-[1px] overflow-hidden ",
         containerClassName
@@ -62,9 +121,13 @@ export function ButtonWithMovingBorder({
           borderRadius: `calc(${borderRadius} * 0.96)`,
         }}
       >
-        <img src="/bhaveshcloseup.jpg" alt="" />
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className="w-full h-full object-cover"
+        />
       </div>
-    </Component>
+    </div>
   );
 }
 
