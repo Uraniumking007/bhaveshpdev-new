@@ -52,19 +52,24 @@ export const ProjectModal = ({
           />
 
           {/* Modal Container */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
             <motion.div
               ref={modalRef}
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="relative w-full max-w-4xl bg-neutral-900 rounded-2xl border border-white/10 p-6 shadow-2xl"
+              className={cn(
+                "relative w-full max-w-4xl bg-neutral-900 rounded-2xl border border-white/10",
+                "max-h-[85vh] overflow-y-auto",
+                "p-4 sm:p-6",
+                "my-4 sm:my-0"
+              )}
             >
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute right-4 top-4 p-2 rounded-lg hover:bg-white/10 transition-colors"
+                className="absolute right-4 top-4 p-2 rounded-lg hover:bg-white/10 transition-colors z-10"
               >
                 <IconX className="w-5 h-5 text-white/70" />
               </button>
