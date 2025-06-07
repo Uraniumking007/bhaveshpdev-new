@@ -7,3 +7,4 @@ ignoredBuiltDependencies:
   - prisma
 onlyBuiltDependencies:
   - bcrypt
+  - unrs-resolver
