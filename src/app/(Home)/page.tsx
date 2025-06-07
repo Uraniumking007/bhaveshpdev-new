@@ -5,6 +5,7 @@ import TimelineSection from "@/components/sections/timeline-section";
 import ContactSection from "@/components/sections/contact-section";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Home",
@@ -24,6 +25,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen">
+      <ScrollProgress />
       <DevInfo />
       <SkillsSection />
       <ProjectsSection projects={projects} />
