@@ -1,8 +1,7 @@
 import { HeroHighlight } from "@/components/hero-highlight";
-import { Loading } from "@/components/loading/default-loading";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
-import React, { Suspense } from "react";
+import React from "react";
 import { Projects } from "@prisma/client";
 import { ProjectViewerCard } from "@/components/cards/project-viewer-card";
 import { ProjectFilters } from "@/components/project-filters";

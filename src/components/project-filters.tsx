@@ -140,10 +140,9 @@ export function ProjectFilters({
               className={cn(
                 "fixed z-50 bg-black/60 border border-white/20 rounded-lg",
                 "w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] max-w-2xl",
-                "max-h-[90vh] overflow-y-auto",
+                "max-h-[85vh] overflow-y-auto",
                 "p-4 sm:p-6",
-                // Centering: mobile uses mx-auto, sm+ uses left-1/2 -translate-x-1/2
-                "left-0 right-0 mx-auto top-1/3 sm:top-1/2 -translate-y-1/2",
+                "left-0 right-0 mx-auto top-16 sm:top-1/2 -translate-y-0 sm:-translate-y-1/2",
                 "sm:left-1/2 sm:-translate-x-1/2"
               )}
             >
