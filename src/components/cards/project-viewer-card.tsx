@@ -1,16 +1,15 @@
 "use client";
-import Image from "next/image";
 import { Projects } from "@prisma/client";
 import {
   IconBrandGithub,
   IconExternalLink,
   IconArrowRight,
 } from "@tabler/icons-react";
-import { Meteors } from "../meteors";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 import { ProjectModal } from "../ui/project-modal";
+import { ImageCarousel } from "../ui/image-carousel";
 
 interface ProjectViewerCardProps {
   project: Projects;
@@ -33,14 +32,13 @@ export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
         )}
       >
         <div className="flex flex-col gap-4 flex-grow">
-          <div className="relative w-full h-48 rounded-lg overflow-hidden">
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <ImageCarousel
+            images={project.images}
+            alt={project.name}
+            autoPlay={true}
+            interval={4000}
+            className="w-full h-48 object-cover rounded-lg"
+          />
 
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-semibold text-white">{project.name}</h3>

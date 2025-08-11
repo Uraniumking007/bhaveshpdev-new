@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { Projects } from "@prisma/client";
 import {
   IconBrandGithub,
@@ -10,6 +9,7 @@ import {
 
 import { cn } from "@/lib/utils/cn";
 import { Button } from "../ui/button";
+import { ImageCarousel } from "../ui/image-carousel";
 
 interface ProjectAdminCardProps {
   project: Projects;
@@ -25,13 +25,12 @@ export function ProjectAdminCard({
   return (
     <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
       <div className="aspect-video relative">
-        <Image
-          src={project.image}
+        <ImageCarousel
+          images={project.images}
           alt={project.name}
-          fill
-          className="object-cover"
+          autoPlay={false}
         />
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4 z-10">
           {project.link && (
             <a
               href={project.link}

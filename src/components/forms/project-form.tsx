@@ -12,6 +12,7 @@ type ProjectFormData = {
   title: string;
   description: string;
   imageUrl: string;
+  images: string[];
   projectUrl: string;
   githubUrl: string;
   technologies: string[];
@@ -25,6 +26,7 @@ type ServerActionData = {
   title: string;
   description: string;
   imageUrl: string;
+  images: string[];
   projectUrl?: string;
   githubUrl?: string;
   tech: string[];
@@ -41,6 +43,7 @@ interface ProjectFormProps {
     title: string;
     description: string;
     imageUrl: string;
+    images: string[];
     projectUrl: string;
     githubUrl: string;
     technologies: string[];
@@ -56,6 +59,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
     title: initialData?.title || "",
     description: initialData?.description || "",
     imageUrl: initialData?.imageUrl || "",
+    images: initialData?.images || [],
     projectUrl: initialData?.projectUrl || "",
     githubUrl: initialData?.githubUrl || "",
     technologies: initialData?.technologies || [],
@@ -82,6 +86,8 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
         tech: technologies,
         projectUrl: rest.projectUrl || "",
         githubUrl: rest.githubUrl || "",
+        imageUrl: rest.imageUrl || "",
+        images: rest.images || [],
       };
       const result = initialData
         ? await updateProject(initialData.id, serverData)
