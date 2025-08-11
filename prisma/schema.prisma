@@ -13,7 +13,7 @@ model Projects {
   id               String    @id
   name             String
   description      String
-  image            String
+  image            String?
   link             String
   github           String
   tech             String[]
@@ -25,6 +25,7 @@ model Projects {
   categories       String[]
   endDate          DateTime?
   isFeatured       Boolean   @default(false)
+  images           String[]
 
   @@schema("public")
 }
