@@ -3,9 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Projects } from "@prisma/client";
 import { IconX, IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
+import { ImageCarousel } from "./image-carousel";
 
 interface ProjectModalProps {
   project: Projects;
@@ -93,19 +93,24 @@ export const ProjectModal = ({
                   </div>
                 </div>
 
-                {/* Image */}
+                {/* Images Gallery */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="relative w-full h-80 rounded-xl overflow-hidden"
+                  className="space-y-4"
                 >
-                  <Image
-                    src={project.image}
-                    alt={project.name}
-                    fill
-                    className="object-cover"
-                  />
+                  <h3 className="text-lg font-semibold text-white">
+                    Project Images
+                  </h3>
+                  <div className="w-full">
+                    <ImageCarousel
+                      images={project.images}
+                      alt={project.name}
+                      autoPlay={false}
+                      className="h-80"
+                    />
+                  </div>
                 </motion.div>
 
                 {/* Description */}
