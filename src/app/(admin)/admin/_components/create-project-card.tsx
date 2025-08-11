@@ -2,6 +2,7 @@
 import MagicBorderButton from "@/components/Buttons/magic-border-button";
 import { prisma } from "@/lib/prisma";
 import { parseDate } from "@internationalized/date";
+
 import {
   Modal,
   ModalContent,
@@ -22,7 +23,7 @@ function CreateProjectModal() {
     description: "",
     link: "",
     github: "",
-    image: "",
+    images: [],
     tech: [],
     projectInitiated: new Date(),
     projectCompleted: new Date(),
@@ -51,8 +52,8 @@ function CreateProjectModal() {
       if (newProject.github === undefined || newProject.github === "") {
         throw new Error("Github is required");
       }
-      if (newProject.image === undefined || newProject.image === "") {
-        throw new Error("Image is required");
+      if (newProject.images === undefined || newProject.images.length === 0) {
+        throw new Error("At least one image is required");
       }
       if (newProject.projectInitiated === undefined) {
         throw new Error("Project Initiated is required");
@@ -126,18 +127,27 @@ function CreateProjectModal() {
                       })
                     }
                   />
-                  <Input
-                    size={"md"}
-                    type="text"
-                    label="Image"
-                    placeholder="Enter Image Link"
-                    onChange={(e) =>
-                      setnewProject({
-                        ...newProject,
-                        image: e.target.value,
-                      })
-                    }
-                  />
+                  <div className="space-y-2">
+                    <Input
+                      size={"md"}
+                      type="text"
+                      label="Images"
+                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                      onChange={(e) => {
+                        const imageUrls = e.target.value
+                          .split(",")
+                          .map((url) => url.trim())
+                          .filter((url) => url.length > 0);
+                        setnewProject({
+                          ...newProject,
+                          images: imageUrls,
+                        });
+                      }}
+                    />
+                    <p className="text-xs text-gray-400">
+                      Enter multiple image URLs separated by commas. The first image will be used as the main preview.
+                    </p>
+                  </div>
                   <Input
                     size={"md"}
                     type="text"
@@ -163,18 +173,20 @@ function CreateProjectModal() {
                     }}
                   />
                   <DatePicker
-                    defaultValue={parseDate(
-                      startDate.toISOString().slice(0, 10)
-                    )}
+                    defaultValue={
+                      parseDate(startDate.toISOString().slice(0, 10)) as any
+                    }
                     label="Project Start Date"
                     className="max-w-[284px]"
                     onChange={(e) => {
-                      setnewProject({
-                        ...newProject,
-                        projectInitiated: new Date(
-                          e.toDate("UTC").toISOString().slice(0, 10)
-                        ),
-                      });
+                      if (e) {
+                        setnewProject({
+                          ...newProject,
+                          projectInitiated: new Date(
+                            e.toDate("UTC").toISOString().slice(0, 10)
+                          ),
+                        });
+                      }
                     }}
                   />
                   <Checkbox
@@ -190,18 +202,20 @@ function CreateProjectModal() {
                   </Checkbox>
                   {newProject.isCompleted ? (
                     <DatePicker
-                      defaultValue={parseDate(
-                        endDate.toISOString().slice(0, 10)
-                      )}
+                      defaultValue={
+                        parseDate(endDate.toISOString().slice(0, 10)) as any
+                      }
                       label="Project End Date"
                       className="max-w-[284px]"
                       onChange={(e) => {
-                        setnewProject({
-                          ...newProject,
-                          projectCompleted: new Date(
-                            e.toDate("UTC").toISOString().slice(0, 10)
-                          ),
-                        });
+                        if (e) {
+                          setnewProject({
+                            ...newProject,
+                            projectCompleted: new Date(
+                              e.toDate("UTC").toISOString().slice(0, 10)
+                            ),
+                          });
+                        }
                       }}
                     />
                   ) : (

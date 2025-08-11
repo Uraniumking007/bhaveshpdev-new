@@ -43,8 +43,11 @@ export default function ProjectCardEditable(project: Projects) {
       if (editedProject.github === undefined || editedProject.github === "") {
         throw new Error("Github is required");
       }
-      if (editedProject.image === undefined || editedProject.image === "") {
-        throw new Error("Image is required");
+      if (
+        editedProject.images === undefined ||
+        editedProject.images.length === 0
+      ) {
+        throw new Error("At least one image is required");
       }
       if (editedProject.projectInitiated === undefined) {
         throw new Error("Project Initiated is required");
@@ -72,14 +75,19 @@ export default function ProjectCardEditable(project: Projects) {
     <div className="w-full h-80 relative max-w-xs">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.70] bg-red-500 rounded-full blur-3xl" />
       <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 h-full overflow-hidden rounded-2xl flex flex-col justify-evenly items-start">
-        <div className="h-40 mt-4 w-full rounded-full flex items-center justify-center mb-4 ">
+        <div className="h-40 mt-4 w-full rounded-full flex items-center justify-center mb-4 relative">
           <Image
-            src={project.image}
+            src={project.images[0] || ""}
             width={500}
             height={500}
             className="w-full h-full object-cover"
             alt={project.name}
           />
+          {project.images.length > 1 && (
+            <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+              +{project.images.length - 1}
+            </div>
+          )}
         </div>
 
         <h1 className="font-bold text-balance text-white mb-1 relative z-20">
@@ -190,19 +198,29 @@ export default function ProjectCardEditable(project: Projects) {
                         })
                       }
                     />
-                    <Input
-                      size={"md"}
-                      type="text"
-                      label="Image"
-                      placeholder="Enter Image Link"
-                      defaultValue={project.image}
-                      onChange={(e) =>
-                        setEditedProject({
-                          ...editedProject,
-                          image: e.target.value,
-                        })
-                      }
-                    />
+                    <div className="space-y-2">
+                      <Input
+                        size={"md"}
+                        type="text"
+                        label="Images"
+                        placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                        defaultValue={project.images.join(", ")}
+                        onChange={(e) => {
+                          const imageUrls = e.target.value
+                            .split(",")
+                            .map((url) => url.trim())
+                            .filter((url) => url.length > 0);
+                          setEditedProject({
+                            ...editedProject,
+                            images: imageUrls,
+                          });
+                        }}
+                      />
+                      <p className="text-xs text-gray-400">
+                        Enter multiple image URLs separated by commas. The first
+                        image will be used as the main preview.
+                      </p>
+                    </div>
                     <Input
                       size={"md"}
                       type="text"
@@ -230,18 +248,20 @@ export default function ProjectCardEditable(project: Projects) {
                       }}
                     />
                     <DatePicker
-                      defaultValue={parseDate(
-                        startDate.toISOString().slice(0, 10)
-                      )}
+                      defaultValue={
+                        parseDate(startDate.toISOString().slice(0, 10)) as any
+                      }
                       label="Project Start Date"
                       className="max-w-[284px]"
                       onChange={(e) => {
-                        setEditedProject({
-                          ...editedProject,
-                          projectInitiated: new Date(
-                            e.toDate("UTC").toISOString().slice(0, 10)
-                          ),
-                        });
+                        if (e) {
+                          setEditedProject({
+                            ...editedProject,
+                            projectInitiated: new Date(
+                              e.toDate("UTC").toISOString().slice(0, 10)
+                            ),
+                          });
+                        }
                       }}
                     />
                     <Checkbox
@@ -259,18 +279,20 @@ export default function ProjectCardEditable(project: Projects) {
                     {(project.isCompleted && project.projectCompleted) ||
                     editedProject.isCompleted ? (
                       <DatePicker
-                        defaultValue={parseDate(
-                          endDate.toISOString().slice(0, 10)
-                        )}
+                        defaultValue={
+                          parseDate(endDate.toISOString().slice(0, 10)) as any
+                        }
                         label="Project End Date"
                         className="max-w-[284px]"
                         onChange={(e) => {
-                          setEditedProject({
-                            ...editedProject,
-                            projectCompleted: new Date(
-                              e.toDate("UTC").toISOString().slice(0, 10)
-                            ),
-                          });
+                          if (e) {
+                            setEditedProject({
+                              ...editedProject,
+                              projectCompleted: new Date(
+                                e.toDate("UTC").toISOString().slice(0, 10)
+                              ),
+                            });
+                          }
                         }}
                       />
                     ) : (

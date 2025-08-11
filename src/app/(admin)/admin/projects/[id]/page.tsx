@@ -28,6 +28,7 @@ export default function EditProjectPage({
     githubUrl: "",
     tech: [] as string[],
     categories: [] as string[],
+    images: [] as string[],
     startDate: "",
     endDate: "",
     isCompleted: false,
@@ -46,11 +47,12 @@ export default function EditProjectPage({
         const formattedData = {
           title: project.name,
           description: project.description,
-          imageUrl: project.image,
+          imageUrl: project.images[0] || "",
           projectUrl: project.link,
           githubUrl: project.github,
           tech: project.tech,
           categories: project.categories,
+          images: project.images,
           startDate: project.projectInitiated
             ? new Date(project.projectInitiated).toISOString().split("T")[0]
             : "",
@@ -170,12 +172,17 @@ export default function EditProjectPage({
             </div>
 
             <div>
-              <Label htmlFor="imageUrl">Image URL</Label>
+              <Label htmlFor="images">Images</Label>
               <Input
-                id="imageUrl"
-                value={formData.imageUrl}
+                id="images"
+                value={formData.images.join(", ")}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setFormData({ ...formData, imageUrl: e.target.value })
+                  setFormData({
+                    ...formData,
+                    images: e.target.value
+                      .split(",")
+                      .map((i: string) => i.trim()),
+                  })
                 }
                 required
               />

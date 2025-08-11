@@ -60,6 +60,7 @@ export async function updateProject(
     projectUrl: string;
     githubUrl: string;
     tech: string[];
+    images: string[];
     categories: string[];
     startDate: string;
     endDate: string;
@@ -80,6 +81,7 @@ export async function updateProject(
       link: data.projectUrl,
       github: data.githubUrl,
       tech: data.tech,
+      images: data.images,
       categories: data.categories,
       projectInitiated: new Date(data.startDate),
       projectCompleted:
