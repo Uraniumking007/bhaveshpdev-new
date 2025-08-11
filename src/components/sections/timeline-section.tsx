@@ -5,6 +5,8 @@ import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { prisma } from "@/lib/prisma";
 import { Timeline } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { LitupBorderButton } from "../Buttons/litup-border-button";
 
 export default function TimelineSection({
   timelineData,
@@ -12,8 +14,9 @@ export default function TimelineSection({
   timelineData: Timeline[];
 }) {
   return (
-    <HeroHighlight>
-      <div className="container mx-auto px-4 py-20">
+    // <HeroHighlight>
+    <div className="relative flex flex-col justify-center w-full h-screen items-center">
+      <div className="container mx-auto h-screen flex flex-col justify-center px-4 py-20 relative">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -50,18 +53,18 @@ export default function TimelineSection({
                 >
                   <div
                     className={`bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-lg p-6 shadow-lg relative
-                      ${index % 2 === 0 ? "md:pr-8" : "md:pl-8"}
+                    ${index % 2 === 0 ? "md:pr-8" : "md:pl-8"}
                     `}
                   >
                     <div
                       className={`absolute w-4 h-4 rounded-full bg-blue-500 dark:bg-blue-600 top-0
-                        left-1/2 -translate-x-1/2
-                        md:top-1/2 md:-translate-y-1/2
-                        ${
-                          index % 2 === 0
-                            ? "md:-right-2 md:left-auto"
-                            : "md:left-1 md:right-auto"
-                        }
+                      left-1/2 -translate-x-1/2
+                      md:top-1/2 md:-translate-y-1/2
+                      ${
+                        index % 2 === 0
+                          ? "md:-right-2 md:left-auto"
+                          : "md:left-1 md:right-auto"
+                      }
                       `}
                     />
                     <span className="inline-block px-3 py-1 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100/50 dark:bg-blue-900/50 rounded-full mb-2">
@@ -85,6 +88,12 @@ export default function TimelineSection({
           </div>
         </div>
       </div>
-    </HeroHighlight>
+      <a href="#contact" className="no-underline absolute bottom-6 right-6">
+        <LitupBorderButton className="bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200">
+          ↓
+        </LitupBorderButton>
+      </a>
+    </div>
+    // </HeroHighlight>
   );
 }

@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
-import { ButtonWithMovingBorder } from "../moving-block";
 import { Projects } from "@prisma/client";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
 import { useState } from "react";
-import { LitupBorderButtonLink } from "../Buttons/litup-border-button";
+import {
+  LitupBorderButton,
+  LitupBorderButtonLink,
+} from "../Buttons/litup-border-button";
 import { ImageCarousel } from "../ui/image-carousel";
 
 interface ProjectsSectionProps {
@@ -131,8 +133,9 @@ const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
   }
 
   return (
-    <HeroHighlight>
-      <div className="container mx-auto px-4 py-20">
+    // <HeroHighlight>
+    <div className="relative flex flex-col justify-center w-full h-screen items-center">
+      <div className="container mx-auto h-screen flex flex-col justify-center px-4 py-20 relative">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -156,7 +159,13 @@ const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
           </LitupBorderButtonLink>
         </div>
       </div>
-    </HeroHighlight>
+      <a href="#timeline" className="no-underline absolute bottom-6 right-6">
+        <LitupBorderButton className="bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200">
+          ↓
+        </LitupBorderButton>
+      </a>
+    </div>
+    // </HeroHighlight>
   );
 };
 

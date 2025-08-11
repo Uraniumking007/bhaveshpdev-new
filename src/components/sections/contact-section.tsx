@@ -49,8 +49,9 @@ const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <HeroHighlight>
-      <div className="container mx-auto px-4 py-20">
+    // <HeroHighlight>
+    <div className="relative flex flex-col justify-center w-full h-screen items-center">
+      <div className="container mx-auto h-screen flex flex-col justify-center px-4 py-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -174,7 +175,13 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
-    </HeroHighlight>
+      <a href="#dev-info" className="no-underline absolute bottom-6 right-6">
+        <LitupBorderButton className="bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200">
+          ↑
+        </LitupBorderButton>
+      </a>
+    </div>
+    // </HeroHighlight>
   );
 };
 
