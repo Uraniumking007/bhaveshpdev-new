@@ -89,6 +89,24 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Embla Carousel Styles */
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.embla__slide {
+  position: relative;
+  min-width: 0;
+}
+
 @keyframes meteor {
   0% {
     transform: rotate(215deg) translateX(0);
