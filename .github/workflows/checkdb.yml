@@ -21,19 +21,85 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'  # Use an appropriate Node.js version
+          cache: 'npm'  # Enable npm caching
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 9  # Use the version of pnpm you're using in your project
 
-      - name: Install dependencies
+      - name: Get pnpm store directory
+        shell: bash
         run: |
-            if [ -f pnpm-lock.yaml ]; then
-              pnpm install --no-frozen-lockfile
-            else
-              pnpm install
-            fi
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Configure npm registry
+        run: |
+          # Configure npm to use a more reliable registry and avoid rate limiting
+          npm config set registry https://registry.npmjs.org/
+          npm config set fetch-retries 5
+          npm config set fetch-retry-mintimeout 20000
+          npm config set fetch-retry-maxtimeout 120000
+          npm config set fetch-timeout 300000
+          
+          # Configure pnpm with similar settings
+          pnpm config set registry https://registry.npmjs.org/
+          pnpm config set network-timeout 300000
+          pnpm config set fetch-retries 5
+
+      - name: Install dependencies with retry logic
+        run: |
+          # Function to install dependencies with retry logic
+          install_deps() {
+            local max_attempts=3
+            local attempt=1
+            local delay=10
+            
+            while [ $attempt -le $max_attempts ]; do
+              echo "Attempt $attempt of $max_attempts to install dependencies..."
+              
+              if [ -f pnpm-lock.yaml ]; then
+                pnpm install --no-frozen-lockfile --network-timeout=300000 --prefer-offline || {
+                  echo "Installation failed on attempt $attempt"
+                  if [ $attempt -eq $max_attempts ]; then
+                    echo "All attempts failed. Exiting."
+                    exit 1
+                  fi
+                  echo "Waiting $delay seconds before retry..."
+                  sleep $delay
+                  attempt=$((attempt + 1))
+                  delay=$((delay * 2))  # Exponential backoff
+                  continue
+                }
+              else
+                pnpm install --network-timeout=300000 --prefer-offline || {
+                  echo "Installation failed on attempt $attempt"
+                  if [ $attempt -eq $max_attempts ]; then
+                    echo "All attempts failed. Exiting."
+                    exit 1
+                  fi
+                  echo "Waiting $delay seconds before retry..."
+                  sleep $delay
+                  attempt=$((attempt + 1))
+                  delay=$((delay * 2))  # Exponential backoff
+                  continue
+                }
+              fi
+              
+              echo "Dependencies installed successfully!"
+              break
+            done
+          }
+          
+          install_deps
 
       - name: Sync Prisma schema
         run: pnpm dlx prisma db pull
