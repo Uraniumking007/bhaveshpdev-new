@@ -1,4 +1,4 @@
-name: Weekly Project Update
+name: Check Database
 
 on:
   schedule:
@@ -16,11 +16,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
 
       - name: Trigger API endpoint
         run: |
