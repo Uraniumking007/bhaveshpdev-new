@@ -1,13 +1,13 @@
-name: Weekly Project Update
+name: Weekly Project Update (Fallback)
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Run at 00:00 UTC every Monday
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "0 0 * * *" # Run at 00:00 UTC every Monday
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   update-projects:
-    permissions: 
+    permissions:
       contents: read
       pull-requests: write
     runs-on: ubuntu-latest
@@ -20,12 +20,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Use an appropriate Node.js version
+          node-version: "18"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 9  # Use the version of pnpm you're using in your project
+          version: 9
 
       - name: Setup pnpm cache
         uses: actions/cache@v3
@@ -37,71 +37,90 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - name: Configure npm registry
+      - name: Configure alternative npm registry
         run: |
-          # Configure npm to use a more reliable registry and avoid rate limiting
+          # Try using a different registry mirror to avoid rate limiting
           npm config set registry https://registry.npmjs.org/
-          npm config set fetch-retries 5
-          npm config set fetch-retry-mintimeout 20000
-          npm config set fetch-retry-maxtimeout 120000
-          npm config set fetch-timeout 300000
-          
-          # Configure pnpm with similar settings
-          pnpm config set registry https://registry.npmjs.org/
-          pnpm config set network-timeout 300000
-          pnpm config set fetch-retries 5
+          npm config set fetch-retries 10
+          npm config set fetch-retry-mintimeout 30000
+          npm config set fetch-retry-maxtimeout 300000
+          npm config set fetch-timeout 600000
 
-      - name: Install dependencies with retry logic
+          # Configure pnpm with more aggressive settings
+          pnpm config set registry https://registry.npmjs.org/
+          pnpm config set network-timeout 600000
+          pnpm config set fetch-retries 10
+          pnpm config set store-dir ~/.pnpm-store
+
+      - name: Install dependencies with multiple fallback strategies
         run: |
-          # Function to install dependencies with retry logic
-          install_deps() {
-            local max_attempts=3
+          # Function to try different installation strategies
+          install_with_fallbacks() {
+            local max_attempts=5
             local attempt=1
-            local delay=10
+            local delay=15
             
             while [ $attempt -le $max_attempts ]; do
               echo "Attempt $attempt of $max_attempts to install dependencies..."
               
+              # Strategy 1: Try with pnpm first
               if [ -f pnpm-lock.yaml ]; then
-                pnpm install --no-frozen-lockfile --network-timeout=300000 --prefer-offline || {
-                  echo "Installation failed on attempt $attempt"
-                  if [ $attempt -eq $max_attempts ]; then
-                    echo "All attempts failed. Exiting."
-                    exit 1
-                  fi
-                  echo "Waiting $delay seconds before retry..."
-                  sleep $delay
-                  attempt=$((attempt + 1))
-                  delay=$((delay * 2))  # Exponential backoff
-                  continue
-                }
-              else
-                pnpm install --network-timeout=300000 --prefer-offline || {
-                  echo "Installation failed on attempt $attempt"
-                  if [ $attempt -eq $max_attempts ]; then
-                    echo "All attempts failed. Exiting."
-                    exit 1
-                  fi
-                  echo "Waiting $delay seconds before retry..."
-                  sleep $delay
-                  attempt=$((attempt + 1))
-                  delay=$((delay * 2))  # Exponential backoff
-                  continue
+                echo "Trying pnpm install with lockfile..."
+                pnpm install --no-frozen-lockfile --network-timeout=600000 --prefer-offline --no-optional && {
+                  echo "pnpm install succeeded!"
+                  return 0
                 }
               fi
               
-              echo "Dependencies installed successfully!"
-              break
+              # Strategy 2: Try with npm as fallback
+              echo "Trying npm install as fallback..."
+              npm install --no-optional --prefer-offline --network-timeout=600000 && {
+                echo "npm install succeeded!"
+                return 0
+              }
+              
+              # Strategy 3: Try with yarn as last resort
+              echo "Trying yarn install as last resort..."
+              npm install -g yarn
+              yarn install --network-timeout=600000 && {
+                echo "yarn install succeeded!"
+                return 0
+              }
+              
+              echo "All installation methods failed on attempt $attempt"
+              if [ $attempt -eq $max_attempts ]; then
+                echo "All attempts failed. Exiting."
+                exit 1
+              fi
+              
+              echo "Waiting $delay seconds before retry..."
+              sleep $delay
+              attempt=$((attempt + 1))
+              delay=$((delay * 2))  # Exponential backoff
             done
           }
-          
-          install_deps
+
+          install_with_fallbacks
 
       - name: Sync Prisma schema
-        run: pnpm dlx prisma db pull
-    
+        run: |
+          if command -v pnpm &> /dev/null; then
+            pnpm dlx prisma db pull
+          elif command -v npm &> /dev/null; then
+            npx prisma db pull
+          else
+            yarn dlx prisma db pull
+          fi
+
       - name: Generate Prisma Client
-        run: pnpm dlx prisma generate
+        run: |
+          if command -v pnpm &> /dev/null; then
+            pnpm dlx prisma generate
+          elif command -v npm &> /dev/null; then
+            npx prisma generate
+          else
+            yarn dlx prisma generate
+          fi
 
       - name: Trigger API endpoint
         run: |
