@@ -31,6 +31,7 @@ const ProjectCard = ({ project }: { project: Projects }) => {
           src={project.image}
           alt={project.name}
           fill
+          loading="lazy"
           className="object-cover"
         />
         {!project.isCompleted && (

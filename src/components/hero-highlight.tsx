@@ -55,7 +55,7 @@ export const HeroHighlight = ({
         }}
       />
 
-      <div className={cn("relative z-20 w-full max-w-full", className)}>
+      <div className={cn("relative z-20 w-full h-full max-w-full", className)}>
         {children}
       </div>
     </div>

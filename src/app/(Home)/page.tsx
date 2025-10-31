@@ -1,8 +1,4 @@
-import DevInfo from "@/components/dev-info";
-import ProjectsSection from "@/components/sections/projects-section";
-import SkillsSection from "@/components/sections/skills-section";
-import TimelineSection from "@/components/sections/timeline-section";
-import ContactSection from "@/components/sections/contact-section";
+import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -11,6 +7,43 @@ export const metadata: Metadata = {
   title: "Bhavesh Patil - Home",
   description: "Bhavesh Patil's personal website.",
 };
+
+const DevInfo = dynamic(() => import("@/components/dev-info"), {
+  ssr: false,
+  loading: () => <div className="min-h-[60vh]" />,
+});
+
+const SkillsSection = dynamic(
+  () => import("@/components/sections/skills-section"),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[60vh]" />,
+  }
+);
+
+const ProjectsSection = dynamic(
+  () => import("@/components/sections/projects-section"),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[60vh]" />,
+  }
+);
+
+const TimelineSection = dynamic(
+  () => import("@/components/sections/timeline-section"),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[60vh]" />,
+  }
+);
+
+const ContactSection = dynamic(
+  () => import("@/components/sections/contact-section"),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-[60vh]" />,
+  }
+);
 
 export default async function Home() {
   const projects = await prisma.projects.findMany({
