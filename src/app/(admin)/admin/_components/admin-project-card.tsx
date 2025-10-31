@@ -4,7 +4,7 @@ import { Meteors } from "../../../../components/meteors";
 import { Projects } from "@prisma/client";
 import { useEffect, useRef, useState } from "react";
 import { IconEditCircle } from "@tabler/icons-react";
-import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
 import {
   Modal,
   ModalBody,
@@ -57,7 +57,9 @@ export default function ProjectCardEditable(project: Projects) {
     }
   }
 
-  const endDate = new Date(project.projectCompleted ?? "");
+  const endDate = project.projectCompleted
+    ? new Date(project.projectCompleted)
+    : null;
   const startDate = new Date(project.projectInitiated);
 
   useEffect(() => {
@@ -230,16 +232,17 @@ export default function ProjectCardEditable(project: Projects) {
                       }}
                     />
                     <DatePicker
-                      defaultValue={parseDate(
-                        startDate.toISOString().slice(0, 10)
-                      )}
+                      defaultValue={
+                        parseDate(startDate.toISOString().slice(0, 10)) as any
+                      }
                       label="Project Start Date"
                       className="max-w-[284px]"
                       onChange={(e) => {
+                        if (!e) return;
                         setEditedProject({
                           ...editedProject,
                           projectInitiated: new Date(
-                            e.toDate("UTC").toISOString().slice(0, 10)
+                            (e as any).toDate("UTC").toISOString().slice(0, 10)
                           ),
                         });
                       }}
@@ -259,16 +262,24 @@ export default function ProjectCardEditable(project: Projects) {
                     {(project.isCompleted && project.projectCompleted) ||
                     editedProject.isCompleted ? (
                       <DatePicker
-                        defaultValue={parseDate(
-                          endDate.toISOString().slice(0, 10)
-                        )}
+                        defaultValue={
+                          endDate
+                            ? (parseDate(
+                                endDate.toISOString().slice(0, 10)
+                              ) as any)
+                            : null
+                        }
                         label="Project End Date"
                         className="max-w-[284px]"
                         onChange={(e) => {
+                          if (!e) return;
                           setEditedProject({
                             ...editedProject,
                             projectCompleted: new Date(
-                              e.toDate("UTC").toISOString().slice(0, 10)
+                              (e as any)
+                                .toDate("UTC")
+                                .toISOString()
+                                .slice(0, 10)
                             ),
                           });
                         }}

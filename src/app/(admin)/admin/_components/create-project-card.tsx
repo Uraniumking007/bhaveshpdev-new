@@ -163,16 +163,17 @@ function CreateProjectModal() {
                     }}
                   />
                   <DatePicker
-                    defaultValue={parseDate(
-                      startDate.toISOString().slice(0, 10)
-                    )}
+                    defaultValue={
+                      parseDate(startDate.toISOString().slice(0, 10)) as any
+                    }
                     label="Project Start Date"
                     className="max-w-[284px]"
                     onChange={(e) => {
+                      if (!e) return;
                       setnewProject({
                         ...newProject,
                         projectInitiated: new Date(
-                          e.toDate("UTC").toISOString().slice(0, 10)
+                          (e as any).toDate("UTC").toISOString().slice(0, 10)
                         ),
                       });
                     }}
@@ -190,16 +191,17 @@ function CreateProjectModal() {
                   </Checkbox>
                   {newProject.isCompleted ? (
                     <DatePicker
-                      defaultValue={parseDate(
-                        endDate.toISOString().slice(0, 10)
-                      )}
+                      defaultValue={
+                        parseDate(endDate.toISOString().slice(0, 10)) as any
+                      }
                       label="Project End Date"
                       className="max-w-[284px]"
                       onChange={(e) => {
+                        if (!e) return;
                         setnewProject({
                           ...newProject,
                           projectCompleted: new Date(
-                            e.toDate("UTC").toISOString().slice(0, 10)
+                            (e as any).toDate("UTC").toISOString().slice(0, 10)
                           ),
                         });
                       }}
