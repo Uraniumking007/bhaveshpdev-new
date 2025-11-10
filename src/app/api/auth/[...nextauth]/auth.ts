@@ -3,7 +3,6 @@ import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
@@ -73,7 +72,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     newUser: "/register",
   },
   trustHost: true,
-  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {

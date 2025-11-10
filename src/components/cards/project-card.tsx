@@ -26,7 +26,7 @@ export function ProjectAdminCard({
     <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
       <div className="aspect-video relative">
         <Image
-          src={project.image}
+          src={project.image || "/placeholder.png"}
           alt={project.name}
           fill
           className="object-cover"

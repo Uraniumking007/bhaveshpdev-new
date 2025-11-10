@@ -101,7 +101,7 @@ export const ProjectModal = ({
                   className="relative w-full h-80 rounded-xl overflow-hidden"
                 >
                   <Image
-                    src={project.image}
+                    src={project.image || "/placeholder.png"}
                     alt={project.name}
                     fill
                     className="object-cover"

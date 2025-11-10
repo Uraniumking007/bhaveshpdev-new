@@ -28,7 +28,7 @@ const ProjectCard = ({ project }: { project: Projects }) => {
       <Meteors number={2} />
       <div className="aspect-video relative">
         <Image
-          src={project.image}
+          src={project.image || "/placeholder.png"}
           alt={project.name}
           fill
           loading="lazy"

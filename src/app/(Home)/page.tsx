@@ -9,14 +9,12 @@ export const metadata: Metadata = {
 };
 
 const DevInfo = dynamic(() => import("@/components/dev-info"), {
-  ssr: false,
   loading: () => <div className="min-h-[60vh]" />,
 });
 
 const SkillsSection = dynamic(
   () => import("@/components/sections/skills-section"),
   {
-    ssr: false,
     loading: () => <div className="min-h-[60vh]" />,
   }
 );
@@ -24,7 +22,6 @@ const SkillsSection = dynamic(
 const ProjectsSection = dynamic(
   () => import("@/components/sections/projects-section"),
   {
-    ssr: false,
     loading: () => <div className="min-h-[60vh]" />,
   }
 );
@@ -32,7 +29,6 @@ const ProjectsSection = dynamic(
 const TimelineSection = dynamic(
   () => import("@/components/sections/timeline-section"),
   {
-    ssr: false,
     loading: () => <div className="min-h-[60vh]" />,
   }
 );
@@ -40,7 +36,6 @@ const TimelineSection = dynamic(
 const ContactSection = dynamic(
   () => import("@/components/sections/contact-section"),
   {
-    ssr: false,
     loading: () => <div className="min-h-[60vh]" />,
   }
 );

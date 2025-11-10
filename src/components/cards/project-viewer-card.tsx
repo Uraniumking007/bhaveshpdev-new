@@ -35,7 +35,7 @@ export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
         <div className="flex flex-col gap-4 flex-grow">
           <div className="relative w-full h-48 rounded-lg overflow-hidden">
             <Image
-              src={project.image}
+              src={project.image || "/placeholder.png"}
               alt={project.name}
               fill
               className="object-cover"

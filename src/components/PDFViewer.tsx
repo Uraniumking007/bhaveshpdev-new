@@ -2,8 +2,6 @@
 
 import { Document, Page, pdfjs } from "react-pdf";
 import { useState, useRef, useEffect } from "react";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import "react-pdf/dist/esm/Page/TextLayer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.mjs`;
 

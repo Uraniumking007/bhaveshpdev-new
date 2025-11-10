@@ -76,7 +76,7 @@ export default function ProjectCardEditable(project: Projects) {
       <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 h-full overflow-hidden rounded-2xl flex flex-col justify-evenly items-start">
         <div className="h-40 mt-4 w-full rounded-full flex items-center justify-center mb-4 ">
           <Image
-            src={project.image}
+            src={project.image || "/placeholder.png"}
             width={500}
             height={500}
             className="w-full h-full object-cover"
@@ -197,7 +197,7 @@ export default function ProjectCardEditable(project: Projects) {
                       type="text"
                       label="Image"
                       placeholder="Enter Image Link"
-                      defaultValue={project.image}
+                      defaultValue={project.image || ""}
                       onChange={(e) =>
                         setEditedProject({
                           ...editedProject,

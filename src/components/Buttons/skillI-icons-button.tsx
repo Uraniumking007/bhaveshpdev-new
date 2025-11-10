@@ -5,8 +5,8 @@ import { useHover } from "usehooks-ts";
 import { useRef } from "react";
 
 const SkillIcon = ({ language, colorScheme, src }: skill) => {
-  const hoverRef = useRef(null);
-  const isHover: boolean = useHover(hoverRef);
+  const hoverRef = useRef<HTMLDivElement>(null);
+  const isHover: boolean = useHover(hoverRef as React.RefObject<HTMLElement>);
   const languageCapz = language.charAt(0).toUpperCase() + language.slice(1);
   return (
     <div ref={hoverRef}>

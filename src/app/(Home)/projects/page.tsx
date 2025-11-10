@@ -1,7 +1,7 @@
 import { HeroHighlight } from "@/components/hero-highlight";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
-import React from "react";
+import React, { Suspense } from "react";
 import { Projects } from "@prisma/client";
 import { ProjectViewerCard } from "@/components/cards/project-viewer-card";
 import { ProjectFilters } from "@/components/project-filters";
@@ -43,7 +43,14 @@ const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
           </div>
 
           <div className="mb-8">
-            <ProjectFilters categories={allCategories} technologies={allTech} />
+            <Suspense
+              fallback={<div className="text-white">Loading filters...</div>}
+            >
+              <ProjectFilters
+                categories={allCategories}
+                technologies={allTech}
+              />
+            </Suspense>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full">

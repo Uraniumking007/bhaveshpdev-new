@@ -46,7 +46,7 @@ export default function EditProjectPage({
         const formattedData = {
           title: project.name,
           description: project.description,
-          imageUrl: project.image,
+          imageUrl: project.image || "",
           projectUrl: project.link,
           githubUrl: project.github,
           tech: project.tech,

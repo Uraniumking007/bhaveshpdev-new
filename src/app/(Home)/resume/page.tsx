@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { HeroHighlight } from "@/components/hero-highlight";
 import { IconDownload } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
-import PDFViewer from "@/components/PDFViewer";
+
+const PDFViewer = dynamic(() => import("@/components/PDFViewer"), {
+  ssr: false,
+  loading: () => <div className="text-white">Loading PDF...</div>,
+});
 
 export default function ResumePage() {
   return (

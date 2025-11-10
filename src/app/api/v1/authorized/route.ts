@@ -1,11 +1,10 @@
 export const dynamic = "force-dynamic";
-
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 
 export async function GET() {
   try {
-    const headersList = headers();
+    const headersList = await headers();
     const hostname =
       headersList.get("host") || headersList.get("x-forwarded-host");
 
