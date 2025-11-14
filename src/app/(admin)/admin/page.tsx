@@ -1,7 +1,14 @@
 import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
-import { IconCertificate, IconFolder, IconLock } from "@tabler/icons-react";
 import Link from "next/link";
+import { IconCertificate, IconFolder, IconLock } from "@tabler/icons-react";
+import { prisma } from "@/lib/prisma";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 import { cn } from "@/lib/utils/cn";
 
 export const metadata: Metadata = {
@@ -11,9 +18,9 @@ export const metadata: Metadata = {
 
 export default async function AdminDashboardPage() {
   const [certifications, projects, backdoors] = await Promise.all([
-    prisma.certification.count(),
-    prisma.projects.count(),
-    prisma.confirmation.count(),
+    prisma.certification.count().catch(() => 0),
+    prisma.projects.count().catch(() => 0),
+    prisma.confirmation.count().catch(() => 0),
   ]);
 
   const stats = [
@@ -22,51 +29,66 @@ export default async function AdminDashboardPage() {
       value: certifications,
       icon: IconCertificate,
       href: "/admin/certifications",
+      description: "Verified achievements currently published",
     },
     {
       name: "Projects",
       value: projects,
       icon: IconFolder,
       href: "/admin/projects",
+      description: "Showcase entries live on the portfolio",
     },
     {
       name: "Backdoors",
       value: backdoors,
       icon: IconLock,
       href: "/admin/backdoors",
+      description: "Authorization rules configured for access",
     },
   ];
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-        <p className="mt-2 text-white/70">
-          Welcome to your portfolio admin dashboard
-        </p>
-      </div>
+    <div className="space-y-10">
+      <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl">
+        <BackgroundBeams className="pointer-events-none absolute inset-0 opacity-70" />
+        <div className="relative z-10 space-y-4">
+          <p className="text-sm uppercase tracking-[0.3em] text-white/60">
+            System Overview
+          </p>
+          <h1 className="text-4xl font-bold">Welcome back, Bhavesh</h1>
+          <p className="max-w-2xl text-white/70">
+            Track portfolio vitals, publish new updates, and keep your projects,
+            certifications, and access controls in perfect sync.
+          </p>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {stats.map((stat) => (
-          <Link
-            key={stat.name}
-            href={stat.href}
-            className={cn(
-              "bg-white/5 rounded-xl p-6 border border-white/10",
-              "hover:bg-white/10 transition-colors duration-200"
-            )}
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/10 rounded-lg">
-                <stat.icon className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white/70">{stat.name}</p>
-                <p className="text-2xl font-semibold text-white mt-1">
-                  {stat.value}
-                </p>
-              </div>
-            </div>
+          <Link key={stat.name} href={stat.href} prefetch className="block">
+            <Card
+              className={cn(
+                "h-full border-white/10 bg-white/5/50 text-white transition-all duration-300",
+                "hover:-translate-y-1 hover:border-white/30 hover:bg-white/10"
+              )}
+            >
+              <CardHeader className="flex flex-row items-center justify-between gap-4">
+                <div>
+                  <CardDescription className="text-white/60">
+                    {stat.name}
+                  </CardDescription>
+                  <CardTitle className="text-4xl font-semibold">
+                    {stat.value}
+                  </CardTitle>
+                </div>
+                <div className="rounded-2xl bg-white/10 p-3">
+                  <stat.icon className="h-6 w-6" />
+                </div>
+              </CardHeader>
+              <CardDescription className="px-6 text-white/60">
+                {stat.description}
+              </CardDescription>
+            </Card>
           </Link>
         ))}
       </div>

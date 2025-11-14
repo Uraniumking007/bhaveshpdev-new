@@ -1,16 +1,12 @@
 "use server";
 
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function getBackdoors() {
+  await requireAdmin();
   try {
-    const session = await auth();
-    if (!session?.user?.isAdmin) {
-      throw new Error("Unauthorized");
-    }
-
     return await prisma.confirmation.findMany({
       orderBy: {
         created_at: "desc",
@@ -24,10 +20,7 @@ export async function getBackdoors() {
 
 export async function deleteBackdoor(id: string) {
   try {
-    const session = await auth();
-    if (!session?.user?.isAdmin) {
-      return { success: false, error: "Unauthorized" };
-    }
+    await requireAdmin();
 
     await prisma.confirmation.delete({
       where: { id: BigInt(id) },
@@ -47,10 +40,7 @@ export async function createBackdoor(data: {
   statuscode: "authorized" | "partial" | "unauthorized";
 }) {
   try {
-    const session = await auth();
-    if (!session?.user?.isAdmin) {
-      return { success: false, error: "Unauthorized" };
-    }
+    await requireAdmin();
 
     await prisma.confirmation.create({
       data: {

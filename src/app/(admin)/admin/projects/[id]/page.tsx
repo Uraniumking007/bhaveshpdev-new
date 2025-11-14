@@ -1,21 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Projects } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar } from "@tabler/icons-react";
 import { updateProject, getProjects } from "../actions";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
 
-export default function EditProjectPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function EditProjectPage() {
+  const { id } = useParams();
   const router = useRouter();
   const [project, setProject] = useState<Projects | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,12 +41,15 @@ export default function EditProjectPage({
     const loadProject = async () => {
       try {
         const projects = await getProjects();
-        const project = projects.find((p) => p.id === params.id);
+        const project = projects.find((p) => p.id === id);
         if (!project) throw new Error("Project not found");
 
         console.log("Loaded project:", project);
 
         setProject(project);
+        const formatForInput = (date: Date | null) =>
+          date ? format(date, "yyyy-MM-dd") : "";
+
         const formattedData = {
           title: project.name,
           description: project.description,
@@ -51,12 +58,12 @@ export default function EditProjectPage({
           githubUrl: project.github,
           tech: project.tech,
           categories: project.categories,
-          startDate: project.projectInitiated
-            ? new Date(project.projectInitiated).toISOString().split("T")[0]
-            : "",
-          endDate: project.projectCompleted
-            ? new Date(project.projectCompleted).toISOString().split("T")[0]
-            : "",
+          startDate: formatForInput(
+            project.projectInitiated ? new Date(project.projectInitiated) : null
+          ),
+          endDate: formatForInput(
+            project.projectCompleted ? new Date(project.projectCompleted) : null
+          ),
           isCompleted: project.isCompleted,
         };
         console.log("Formatted form data:", formattedData);
@@ -70,7 +77,7 @@ export default function EditProjectPage({
     };
 
     loadProject();
-  }, [params.id]);
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +104,7 @@ export default function EditProjectPage({
           : null,
       });
 
-      const result = await updateProject(params.id, formData);
+      const result = await updateProject(id as string, formData);
       console.log("Update result:", result);
 
       if (!result.success) throw new Error(result.error);
@@ -248,38 +255,91 @@ export default function EditProjectPage({
             </div>
 
             <div>
-              <Label htmlFor="startDate">Start Date</Label>
-              <Input
-                id="startDate"
-                type="date"
-                value={formData.startDate}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log("Start date changed:", e.target.value);
-                  setFormData((prev) => ({
+              <Label className="mb-2 inline-block">Start Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "flex w-full items-center justify-start gap-2 text-left font-normal",
+                      !formData.startDate && "text-white/60"
+                    )}
+                  >
+                    <IconCalendar className="h-4 w-4" />
+                    {formData.startDate
+                      ? format(new Date(formData.startDate), "PPP")
+                      : "Pick a start date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto border-white/10 bg-neutral-950 p-0 text-white">
+                  <Calendar
+                    mode="single"
+                    selected={
+                      formData.startDate
+                        ? new Date(formData.startDate)
+                        : undefined
+                    }
+                    onSelect={(date) => {
+                      if (!date) return;
+                      setFormData((prev) => {
+                        const iso = format(date, "yyyy-MM-dd");
+                        const shouldResetEnd =
+                          prev.endDate &&
+                          new Date(prev.endDate) < date &&
+                          prev.isCompleted;
+                        return {
                     ...prev,
-                    startDate: e.target.value,
-                  }));
+                          startDate: iso,
+                          endDate: shouldResetEnd ? "" : prev.endDate,
+                        };
+                      });
                 }}
-                required
+                    initialFocus
               />
+                </PopoverContent>
+              </Popover>
             </div>
 
-            <div>
-              <Label htmlFor="endDate">End Date</Label>
-              <Input
-                id="endDate"
-                type="date"
-                value={formData.endDate}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log("End date changed:", e.target.value);
+            <div className={!formData.isCompleted ? "opacity-60" : undefined}>
+              <Label className="mb-2 inline-block">End Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    disabled={!formData.isCompleted}
+                    className={cn(
+                      "flex w-full items-center justify-start gap-2 text-left font-normal",
+                      !formData.endDate && "text-white/60"
+                    )}
+                  >
+                    <IconCalendar className="h-4 w-4" />
+                    {formData.endDate
+                      ? format(new Date(formData.endDate), "PPP")
+                      : "Pick an end date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto border-white/10 bg-neutral-950 p-0 text-white">
+                  <Calendar
+                    mode="single"
+                    disabled={
+                      formData.startDate
+                        ? { before: new Date(formData.startDate) }
+                        : undefined
+                    }
+                    selected={
+                      formData.endDate ? new Date(formData.endDate) : undefined
+                    }
+                    onSelect={(date) => {
+                      if (!date) return;
                   setFormData((prev) => ({
                     ...prev,
-                    endDate: e.target.value,
+                        endDate: format(date, "yyyy-MM-dd"),
                   }));
                 }}
-                min={formData.startDate}
-                disabled={!formData.isCompleted}
+                    initialFocus
               />
+                </PopoverContent>
+              </Popover>
             </div>
 
             <div className="flex items-center space-x-2">

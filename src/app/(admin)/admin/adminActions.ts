@@ -1,25 +1,11 @@
 "use server";
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import { prisma } from "@/lib/prisma";
 import { Projects } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function createProject({ project }: { project: Projects }) {
-  const user = await auth();
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
-
-  const userData = await prisma.user.findFirst({
-    where: {
-      email: user.user.email,
-    },
-  });
-
-  if (!userData?.isAdmin) {
-    throw new Error("Unauthorized");
-  }
-
+  await requireAdmin();
   return await prisma.projects.create({
     data: {
       id: crypto.randomUUID(),
@@ -39,22 +25,7 @@ export async function createProject({ project }: { project: Projects }) {
 }
 
 export async function editProject({ project }: { project: Projects }) {
-  const user = await auth();
-
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
-
-  const userData = await prisma.user.findFirst({
-    where: {
-      email: user.user.email,
-    },
-  });
-
-  if (!userData?.isAdmin) {
-    throw new Error("Unauthorized");
-  }
-
+  await requireAdmin();
   await prisma.projects.update({
     data: {
       name: project.name,

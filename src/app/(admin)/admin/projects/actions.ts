@@ -1,8 +1,8 @@
 "use server";
 
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/admin-auth";
 
 type ProjectData = {
   title: string;
@@ -17,15 +17,13 @@ type ProjectData = {
 };
 
 export async function getProjects() {
+  await requireAdmin();
   return await prisma.projects.findMany();
 }
 
 export async function createProject(data: ProjectData) {
   try {
-    const session = await auth();
-    if (!session?.user?.isAdmin) {
-      return { success: false, error: "Unauthorized" };
-    }
+    await requireAdmin();
 
     const project = await prisma.projects.create({
       data: {
@@ -67,11 +65,7 @@ export async function updateProject(
   }
 ) {
   try {
-    console.log("Updating project with data:", {
-      ...data,
-      startDate: new Date(data.startDate).toISOString(),
-      endDate: data.endDate ? new Date(data.endDate).toISOString() : null,
-    });
+    await requireAdmin();
 
     const updateData = {
       name: data.title,
@@ -88,14 +82,10 @@ export async function updateProject(
       updatedAt: new Date(),
     };
 
-    console.log("Prisma update data:", updateData);
-
     const result = await prisma.projects.update({
       where: { id },
       data: updateData,
     });
-
-    console.log("Update result:", result);
 
     revalidatePath("/admin/projects");
     revalidatePath("/projects");
@@ -113,10 +103,7 @@ export async function updateProject(
 
 export async function deleteProject(id: string) {
   try {
-    const session = await auth();
-    if (!session?.user?.isAdmin) {
-      return { success: false, error: "Unauthorized" };
-    }
+    await requireAdmin();
 
     await prisma.projects.delete({
       where: { id },

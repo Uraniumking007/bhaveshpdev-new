@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
@@ -37,30 +37,45 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       async authorize(
         credentials: Partial<Record<"email" | "password", unknown>>
       ) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
+        try {
+          const email = credentials?.email;
+          const password = credentials?.password;
+
+          if (typeof email !== "string" || typeof password !== "string") {
+            const missingCredentialsError = new CredentialsSignin(
+              "Email and password are required."
+            );
+            missingCredentialsError.code = "missing_fields";
+            throw missingCredentialsError;
+          }
+
+          const user = await prisma.user.findFirst({
+            where: { email },
+          });
+
+          if (!user) {
+            throw new CredentialsSignin("Invalid email or password.");
+          }
+
+          const isPasswordValid = await bcrypt.compare(password, user.password);
+
+          if (!isPasswordValid) {
+            throw new CredentialsSignin("Invalid email or password.");
+          }
+
+          return user;
+        } catch (error) {
+          if (error instanceof CredentialsSignin) {
+            throw error;
+          }
+
+          console.error("[auth][credentials][authorize]", error);
+          const unknownCredentialsError = new CredentialsSignin(
+            "We couldn't sign you in with those credentials."
+          );
+          unknownCredentialsError.code = "server_error";
+          throw unknownCredentialsError;
         }
-
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email as string,
-          },
-        });
-
-        if (!user) {
-          return null;
-        }
-
-        const hashedPassword = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        );
-
-        if (!hashedPassword) {
-          return null;
-        }
-
-        return user;
       },
     }),
   ],
@@ -72,6 +87,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     newUser: "/register",
   },
   trustHost: true,
+  basePath: "/api/auth",
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {

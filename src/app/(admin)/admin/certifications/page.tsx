@@ -6,7 +6,14 @@ import {
   deleteCertification,
   updateCertification,
 } from "@/app/(admin)/admin/certifications";
-import { Certification } from "@prisma/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import type { CertificationFormValues } from "@/lib/validations/admin";
 
 export const metadata: Metadata = {
   title: "Manage Certifications | Bhavesh P Dev",
@@ -23,42 +30,50 @@ export default async function AdminCertificationsPage() {
   return (
     <div className="space-y-8">
       <div>
+        <p className="text-sm uppercase tracking-[0.3em] text-white/60">
+          Credentials
+        </p>
         <h1 className="text-3xl font-bold text-white">Certifications</h1>
-        <p className="text-white/70 mt-2">
-          Manage your certifications and achievements
+        <p className="mt-2 text-white/70">
+          Capture new achievements and keep existing records current.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Add New Certification
-          </h2>
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]">
+        <Card className="border-white/10 bg-white/5 text-white">
+          <CardHeader>
+            <CardTitle>Add certification</CardTitle>
+            <CardDescription className="text-white/60">
+              Upload a new credential with full context and visibility settings.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
           <CertificationForm />
-        </div>
+          </CardContent>
+        </Card>
 
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-white">
-            Existing Certifications
-          </h2>
-          <div className="space-y-4">
+        <Card className="border-white/10 bg-white/5 text-white">
+          <CardHeader>
+            <CardTitle>Existing entries</CardTitle>
+            <CardDescription className="text-white/60">
+              Edit or remove previously published certifications.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
             {certifications.map((certification) => (
-              <div
+              <CertificationAdminCard
                 key={certification.id}
-                className="bg-white/5 rounded-xl p-6 border border-white/10"
-              >
-                <CertificationAdminCard
                   certification={certification}
                   onDelete={async () => {
                     "use server";
-                    await deleteCertification(certification.id);
+                  return await deleteCertification(certification.id);
                   }}
-                  onUpdate={async (data) => {
+                onUpdate={async (data: CertificationFormValues) => {
                     "use server";
-                    await updateCertification(certification.id, {
+                  return await updateCertification(certification.id, {
                       title: data.title,
                       issuer: data.issuer,
-                      date: data.date,
+                    date: new Date(data.date),
                       description: data.description || null,
                       imageUrl: data.imageUrl || null,
                       pdfUrl: data.pdfUrl || null,
@@ -66,10 +81,9 @@ export default async function AdminCertificationsPage() {
                     });
                   }}
                 />
-              </div>
             ))}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

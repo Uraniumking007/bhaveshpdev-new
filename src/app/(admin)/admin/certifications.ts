@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { auth } from "../../api/auth/[...nextauth]/auth";
+import { requireAdmin } from "@/lib/admin-auth";
 
 interface CertificationData {
   title: string;
@@ -16,13 +16,8 @@ interface CertificationData {
 }
 
 export async function createCertification(data: CertificationData) {
-  const session = await auth();
-
-  if (!session?.user?.isAdmin) {
-    return { success: false, error: "Unauthorized" };
-  }
-
   try {
+    await requireAdmin();
     await prisma.certification.create({
       data,
     });
@@ -38,13 +33,8 @@ export async function createCertification(data: CertificationData) {
 }
 
 export async function deleteCertification(id: string) {
-  const session = await auth();
-
-  if (!session?.user?.isAdmin) {
-    return { success: false, error: "Unauthorized" };
-  }
-
   try {
+    await requireAdmin();
     await prisma.certification.delete({
       where: { id },
     });
@@ -60,13 +50,8 @@ export async function deleteCertification(id: string) {
 }
 
 export async function updateCertification(id: string, data: CertificationData) {
-  const session = await auth();
-
-  if (!session?.user?.isAdmin) {
-    return { success: false, error: "Unauthorized" };
-  }
-
   try {
+    await requireAdmin();
     await prisma.certification.update({
       where: { id },
       data,
