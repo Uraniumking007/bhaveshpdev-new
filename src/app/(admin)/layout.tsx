@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Layout({
   children,
 }: {

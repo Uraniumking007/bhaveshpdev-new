@@ -21,6 +21,9 @@ interface PageProps {
   };
 }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
   const projects = await getProjects(searchParams);
   const allCategories = Array.from(
@@ -93,12 +96,18 @@ const getProjects = async (searchParams: PageProps["searchParams"]) => {
   }
 
   // Get all projects with filters
-  const projects = await prisma.projects.findMany({
-    where,
-    orderBy: {
-      projectCompleted: "desc",
-    },
-  });
+  let projects: Projects[] = [];
+  try {
+    projects = await prisma.projects.findMany({
+      where,
+      orderBy: {
+        projectCompleted: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("[ProjectsPage] Failed to fetch projects", error);
+    return [];
+  }
 
   // Filter by search query if present
   if (searchParams.search) {

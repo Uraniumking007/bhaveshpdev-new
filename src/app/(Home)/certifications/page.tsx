@@ -9,15 +9,23 @@ export const metadata: Metadata = {
   description: "Bhavesh Patil's certifications and achievements.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const CertificationsPage = async () => {
-  const certifications = await prisma.certification.findMany({
-    where: {
-      visible: "public",
-    },
-    orderBy: {
-      date: "desc",
-    },
-  });
+  let certifications: Certification[] = [];
+  try {
+    certifications = await prisma.certification.findMany({
+      where: {
+        visible: "public",
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("[CertificationsPage] Failed to fetch certifications", error);
+  }
 
   return (
     <HeroHighlight>

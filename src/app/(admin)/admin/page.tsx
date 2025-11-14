@@ -16,12 +16,44 @@ export const metadata: Metadata = {
   description: "Admin dashboard for managing your portfolio",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
-  const [certifications, projects, backdoors] = await Promise.all([
-    prisma.certification.count().catch(() => 0),
-    prisma.projects.count().catch(() => 0),
-    prisma.confirmation.count().catch(() => 0),
-  ]);
+  const [certificationsResult, projectsResult, backdoorsResult] =
+    await Promise.allSettled([
+      prisma.certification.count(),
+      prisma.projects.count(),
+      prisma.confirmation.count(),
+    ]);
+
+  if (certificationsResult.status === "rejected") {
+    console.error(
+      "[AdminDashboard] Failed to count certifications",
+      certificationsResult.reason
+    );
+  }
+  if (projectsResult.status === "rejected") {
+    console.error(
+      "[AdminDashboard] Failed to count projects",
+      projectsResult.reason
+    );
+  }
+  if (backdoorsResult.status === "rejected") {
+    console.error(
+      "[AdminDashboard] Failed to count backdoors",
+      backdoorsResult.reason
+    );
+  }
+
+  const certifications =
+    certificationsResult.status === "fulfilled"
+      ? certificationsResult.value
+      : 0;
+  const projects =
+    projectsResult.status === "fulfilled" ? projectsResult.value : 0;
+  const backdoors =
+    backdoorsResult.status === "fulfilled" ? backdoorsResult.value : 0;
 
   const stats = [
     {

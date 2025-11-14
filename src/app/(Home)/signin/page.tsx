@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { IconBrandGithub } from "@tabler/icons-react";
 import { Label } from "@/components/form-stuff/label";
 import { Input } from "@/components/form-stuff/input";
@@ -11,7 +11,7 @@ import {
   getDefaultCredentialsErrorMessage,
 } from "@/lib/auth-error-messages";
 
-export default function SignInPage() {
+const SignInContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchParamError = useMemo(
@@ -135,5 +135,13 @@ export default function SignInPage() {
         </form>
       </div>
     </div>
+  );
+};
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading sign-in…</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }
