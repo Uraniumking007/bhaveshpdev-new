@@ -1,90 +1,82 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HeroHighlight } from "../hero-highlight";
+import { Timeline as PrismaTimeline } from "@prisma/client";
+import { Timeline as AceternityTimeline } from "@/components/ui/timeline";
 import { TextGenerateEffect } from "../text-generate-effect";
-import { prisma } from "@/lib/prisma";
-import { Timeline } from "@prisma/client";
 
 export default function TimelineSection({
   timelineData,
 }: {
-  timelineData: Timeline[];
+  timelineData: PrismaTimeline[];
 }) {
-  return (
-    <HeroHighlight>
-      <div className="container mx-auto px-4 py-20">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
-        >
-          Experience & Education
-        </motion.h2>
-        <TextGenerateEffect
-          className="text-center mb-12 text-neutral-600 dark:text-neutral-300"
-          words="My journey through education and professional experience, marked by continuous learning and growth."
-        />
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-500/50 dark:bg-blue-600/50" />
+  const heading = (
+    <div className="space-y-6">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-3xl md:text-5xl font-semibold text-neutral-900 dark:text-white"
+      >
+        Experience & Education
+      </motion.h2>
+      <TextGenerateEffect
+        className="text-base md:text-lg text-neutral-600 dark:text-neutral-300"
+        words="My journey through education and professional experience, marked by continuous learning and growth."
+      />
+    </div>
+  );
 
-          {/* Timeline items */}
-          <div className="space-y-12">
-            {timelineData.map((item: any, index: number) => (
-              <motion.div
-                key={item.yearStart + (item.yearEnd || "")}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className={`relative flex items-center ${
-                  index % 2 === 0 ? "justify-start" : "justify-end"
-                }`}
-              >
-                <div
-                  className={`w-full md:w-1/2 ${
-                    index % 2 === 0 ? "md:pr-20" : "md:pl-20"
-                  }`}
-                >
-                  <div
-                    className={`bg-white/50 dark:bg-neutral-800/50 backdrop-blur-sm rounded-lg p-6 shadow-lg relative
-                      ${index % 2 === 0 ? "md:pr-8" : "md:pl-8"}
-                    `}
-                  >
-                    <div
-                      className={`absolute w-4 h-4 rounded-full bg-blue-500 dark:bg-blue-600 top-0
-                        left-1/2 -translate-x-1/2
-                        md:top-1/2 md:-translate-y-1/2
-                        ${
-                          index % 2 === 0
-                            ? "md:-right-2 md:left-auto"
-                            : "md:left-1 md:right-auto"
-                        }
-                      `}
-                    />
-                    <span className="inline-block px-3 py-1 text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100/50 dark:bg-blue-900/50 rounded-full mb-2">
-                      {item.yearStart}
-                      {item.ongoing
-                        ? " - Ongoing"
-                        : item.yearEnd
-                        ? ` - ${item.yearEnd}`
-                        : ""}
-                    </span>
-                    <h3 className="text-xl font-semibold mb-2 text-neutral-700 dark:text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-neutral-600 dark:text-neutral-300">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </HeroHighlight>
+  const timelineEntries =
+    timelineData?.map((item, index) => {
+      const dateLabel =
+        item.yearStart && (item.yearEnd || item.ongoing)
+          ? `${item.yearStart} - ${item.ongoing ? "Present" : item.yearEnd}`
+          : item.yearStart || item.yearEnd || "Timeline";
+
+      const typeLabel = item.type
+        ? item.type
+            .replace(/[_-]+/g, " ")
+            .replace(/\b\w/g, (char) => char.toUpperCase())
+        : null;
+
+      return {
+        title: dateLabel,
+        content: (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ delay: index * 0.05 }}
+            className="rounded-3xl border border-neutral-200/70 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-900/70 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] p-6 md:p-8"
+          >
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap items-center gap-3 text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+                <span>{dateLabel}</span>
+                {typeLabel && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-neutral-200/70 dark:border-neutral-700 px-3 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-300 bg-white/60 dark:bg-neutral-900/80">
+                    {typeLabel}
+                  </span>
+                )}
+              </div>
+              <h3 className="text-2xl font-semibold text-neutral-900 dark:text-white">
+                {item.title ?? "Untitled milestone"}
+              </h3>
+              {item.description && (
+                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                  {item.description}
+                </p>
+              )}
+            </div>
+          </motion.div>
+        ),
+      };
+    }) ?? [];
+
+  return (
+    <section className="w-screen bg-white dark:bg-neutral-950">
+      <AceternityTimeline headingContent={heading} data={timelineEntries} />
+    </section>
   );
 }
