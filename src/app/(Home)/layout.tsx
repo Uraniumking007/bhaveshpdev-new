@@ -1,4 +1,6 @@
 import NavBar from "@/components/navbar";
+import { ShootingStars } from "@/components/ui/shooting-stars";
+import { StarsBackground } from "@/components/ui/stars-background";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,9 +13,11 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="relative min-h-screen">
       <NavBar />
       {children}
-    </>
+      <ShootingStars />
+      <StarsBackground />
+    </div>
   );
 }

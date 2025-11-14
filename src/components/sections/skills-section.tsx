@@ -33,8 +33,8 @@ const SkillIcon = ({ language, colorScheme, src }: (typeof Skills)[0]) => {
         <div
           className={`relative w-full justify-center pt-1 transition-all duration-150 ease-in-out ${
             isHover
-              ? "translate-y-[0rem] opacity-100"
-              : "translate-y-[-3rem] opacity-0"
+              ? "translate-y-rem opacity-100"
+              : "-translate-y-12 opacity-0"
           }`}
           style={{
             filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
@@ -49,7 +49,7 @@ const SkillIcon = ({ language, colorScheme, src }: (typeof Skills)[0]) => {
 
 const SkillsSection = () => {
   return (
-    <HeroHighlight>
+    <div className="w-screen h-fit min-h-screen">
       <div className="container mx-auto px-4 py-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -77,7 +77,7 @@ const SkillsSection = () => {
           ))}
         </div>
       </div>
-    </HeroHighlight>
+    </div>
   );
 };
 

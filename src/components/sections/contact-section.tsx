@@ -48,7 +48,7 @@ const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <HeroHighlight>
+    <div className="w-screen h-fit min-h-screen">
       <div className="container mx-auto px-4 py-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -173,7 +173,7 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
-    </HeroHighlight>
+    </div>
   );
 };
 

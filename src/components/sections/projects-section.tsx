@@ -112,7 +112,7 @@ const ProjectCard = ({ project }: { project: Projects }) => {
 const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
   if (!projects || projects.length === 0) {
     return (
-      <HeroHighlight>
+      <div className="w-screen h-fit min-h-screen">
         <div className="container mx-auto px-4 py-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -127,12 +127,12 @@ const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
             words="Loading projects..."
           />
         </div>
-      </HeroHighlight>
+      </div>
     );
   }
 
   return (
-    <HeroHighlight>
+    <div className="w-screen h-fit min-h-screen">
       <div className="container mx-auto px-4 py-20">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -157,7 +157,7 @@ const ProjectsSection = ({ projects = [] }: ProjectsSectionProps) => {
           </LitupBorderButtonLink>
         </div>
       </div>
-    </HeroHighlight>
+    </div>
   );
 };
 
