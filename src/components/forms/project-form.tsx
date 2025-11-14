@@ -1,12 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { IconX } from "@tabler/icons-react";
+import { IconCalendar, IconX } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
-import { createProject } from "@/app/(admin)/admin/projects/actions";
-import { updateProject } from "@/app/(admin)/admin/projects/actions";
+import {
+  createProject,
+  updateProject,
+} from "@/app/(admin)/admin/projects/actions";
 import { ImageUpload } from "../ui/image-upload";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 
 type ProjectFormData = {
   title: string;
@@ -257,37 +266,98 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">
               Start Date
             </label>
-            <input
-              type="date"
-              value={formData.startDate}
-              onChange={(e) =>
-                setFormData({ ...formData, startDate: e.target.value })
-              }
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              required
-              disabled={isSubmitting}
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "flex w-full items-center justify-start gap-2 text-left font-normal",
+                    !formData.startDate && "text-white/60"
+                  )}
+                  disabled={isSubmitting}
+                >
+                  <IconCalendar className="h-4 w-4" />
+                  {formData.startDate
+                    ? format(new Date(formData.startDate), "PPP")
+                    : "Pick a start date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto border-white/10 bg-neutral-950 p-0 text-white">
+                <Calendar
+                  mode="single"
+                  selected={
+                    formData.startDate
+                      ? new Date(formData.startDate)
+                      : undefined
+                  }
+                  onSelect={(date) => {
+                    if (!date) return;
+                    const iso = format(date, "yyyy-MM-dd");
+                    setFormData((prev) => {
+                      const shouldResetEnd =
+                        prev.endDate &&
+                        new Date(prev.endDate) < date &&
+                        prev.isCompleted;
+                      return {
+                        ...prev,
+                        startDate: iso,
+                        endDate: shouldResetEnd ? "" : prev.endDate,
+                      };
+                    });
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
-          <div>
+          <div className={!formData.isCompleted ? "opacity-60" : undefined}>
             <label className="block text-sm font-medium text-white/70 mb-2">
               End Date
             </label>
-            <input
-              type="date"
-              value={formData.endDate}
-              onChange={(e) =>
-                setFormData({ ...formData, endDate: e.target.value })
-              }
-              className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              min={formData.startDate}
-              disabled={isSubmitting || !formData.isCompleted}
-            />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "flex w-full items-center justify-start gap-2 text-left font-normal",
+                    !formData.endDate && "text-white/60"
+                  )}
+                  disabled={isSubmitting || !formData.isCompleted}
+                >
+                  <IconCalendar className="h-4 w-4" />
+                  {formData.endDate
+                    ? format(new Date(formData.endDate), "PPP")
+                    : "Pick an end date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto border-white/10 bg-neutral-950 p-0 text-white">
+                <Calendar
+                  mode="single"
+                  selected={
+                    formData.endDate ? new Date(formData.endDate) : undefined
+                  }
+                  disabled={
+                    formData.startDate
+                      ? { before: new Date(formData.startDate) }
+                      : undefined
+                  }
+                  onSelect={(date) => {
+                    if (!date) return;
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: format(date, "yyyy-MM-dd"),
+                    }));
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 

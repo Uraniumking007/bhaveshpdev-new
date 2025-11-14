@@ -9,13 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Table,
   TableBody,
   TableCaption,
@@ -25,7 +18,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@heroui/react";
-import { ProjectForm } from "@/components/forms/project-form";
 import { deleteProject } from "./actions";
 
 type ProjectsClientProps = {
@@ -36,7 +28,6 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   const router = useRouter();
   const [items, setItems] = useState(projects);
   const [query, setQuery] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -72,12 +63,6 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
     });
   };
 
-  const handleProjectSaved = () => {
-    setDialogOpen(false);
-    toast.success("Project saved. Refreshing list…");
-    router.refresh();
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -87,19 +72,11 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             Manage your portfolio entries and keep them up to date.
           </p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-white/10 text-white hover:bg-white/20">
-              New Project
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl border-white/10 bg-neutral-950 text-white">
-            <DialogHeader>
-              <DialogTitle>Add project</DialogTitle>
-            </DialogHeader>
-            <ProjectForm onClose={handleProjectSaved} />
-          </DialogContent>
-        </Dialog>
+        <Link href="/admin/projects/new">
+          <Button className="bg-white/10 text-white hover:bg-white/20">
+            New Project
+          </Button>
+        </Link>
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
