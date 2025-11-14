@@ -12,42 +12,42 @@ import { cn } from "@/lib/utils/cn";
 
 export function ButtonWithMovingBorder({
   borderRadius = "1.75rem",
+  children,
   as: Component = "button",
   containerClassName,
   borderClassName,
   duration,
   className,
-  children,
   ...otherProps
 }: {
   borderRadius?: string;
+  children: React.ReactNode;
   as?: any;
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
   className?: string;
-  children: React.ReactNode;
   [key: string]: any;
 }) {
   return (
     <Component
       className={cn(
-        "relative inline-flex items-center justify-center mx-6 my-2 px-0.5 py-0.5 font-semibold text-base md:text-lg bg-transparent overflow-hidden group transition-all duration-200 focus:outline-none",
+        "relative h-16 w-40 overflow-hidden bg-transparent p-px text-xl",
         containerClassName
       )}
       style={{
-        borderRadius: borderRadius,
+        borderRadius,
       }}
       {...otherProps}
     >
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        className="absolute inset-0"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
           <div
             className={cn(
-              "h-8 w-16 opacity-40 bg-[radial-gradient(var(--sky-400)_60%,transparent_100%)] blur-sm",
+              "h-20 w-20 bg-[radial-gradient(#0ea5e9_40%,transparent_60%)] opacity-[0.8]",
               borderClassName
             )}
           />
@@ -55,7 +55,7 @@ export function ButtonWithMovingBorder({
       </div>
       <div
         className={cn(
-          "relative z-10 px-6 py-2 rounded-full bg-slate-900/90 border border-slate-800/70 backdrop-blur-xl text-white font-bold shadow-lg group-hover:bg-slate-800/95 group-active:scale-95 transition-all duration-200 flex items-center justify-center",
+          "relative flex h-full w-full items-center justify-center border border-slate-800 bg-slate-900/80 text-sm text-white antialiased backdrop-blur-xl",
           className
         )}
         style={{
@@ -90,11 +90,11 @@ export function ImageWithMovingBorder({
   return (
     <div
       className={cn(
-        "bg-transparent relative text-xl w-48 md:w-60 lg:w-full min-[1440px]:w-72 p-[1px] overflow-hidden ",
+        "relative text-xl w-48 md:w-60 lg:w-72 bg-transparent p-px overflow-hidden",
         containerClassName
       )}
       style={{
-        borderRadius: borderRadius,
+        borderRadius,
       }}
       {...otherProps}
     >
@@ -105,7 +105,7 @@ export function ImageWithMovingBorder({
         <MovingBorder duration={duration} rx="30%" ry="30%">
           <div
             className={cn(
-              "h-20 w-20 opacity-[0.8] bg-[radial-gradient(var(--sky-500)_40%,transparent_60%)]",
+              "h-20 w-20 bg-[radial-gradient(#0ea5e9_40%,transparent_60%)] opacity-[0.8]",
               borderClassName
             )}
           />
@@ -114,7 +114,7 @@ export function ImageWithMovingBorder({
 
       <div
         className={cn(
-          "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
+          "relative flex h-full w-full items-center justify-center border border-slate-800 bg-slate-900/80 text-sm text-white antialiased backdrop-blur-xl",
           className
         )}
         style={{
@@ -124,7 +124,7 @@ export function ImageWithMovingBorder({
         <img
           src={imageSrc}
           alt={imageAlt}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
         />
       </div>
     </div>
@@ -133,7 +133,7 @@ export function ImageWithMovingBorder({
 
 export const MovingBorder = ({
   children,
-  duration = 2000,
+  duration = 3000,
   rx,
   ry,
   ...otherProps
@@ -144,25 +144,24 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>(null);
+  const pathRef = useRef<SVGRectElement | null>(null);
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
     const length = pathRef.current?.getTotalLength();
-    if (length) {
-      const pxPerMillisecond = length / duration;
-      progress.set((time * pxPerMillisecond) % length);
-    }
+    if (!length) return;
+    const pxPerMillisecond = length / duration;
+    progress.set((time * pxPerMillisecond) % length);
   });
 
-  const x = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
-  );
-  const y = useTransform(
-    progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
-  );
+  const x = useTransform(progress, (val) => {
+    const point = pathRef.current?.getPointAtLength(val);
+    return point?.x ?? 0;
+  });
+  const y = useTransform(progress, (val) => {
+    const point = pathRef.current?.getPointAtLength(val);
+    return point?.y ?? 0;
+  });
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
