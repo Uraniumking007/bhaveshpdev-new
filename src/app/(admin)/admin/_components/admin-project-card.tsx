@@ -12,8 +12,8 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
-} from "@nextui-org/modal";
-import { Button, Checkbox, DatePicker, Input } from "@nextui-org/react";
+} from "@heroui/modal";
+import { Button, Checkbox, DatePicker, Input } from "@heroui/react";
 import { editProject, revalidateAdminPages } from "../adminActions";
 
 export default function ProjectCardEditable(project: Projects) {
@@ -143,7 +143,7 @@ export default function ProjectCardEditable(project: Projects) {
                     <Input
                       size={"md"}
                       type="text"
-                      label="Title"
+                      label="Name"
                       placeholder="Enter Title"
                       defaultValue={project.name}
                       onChange={(e) =>

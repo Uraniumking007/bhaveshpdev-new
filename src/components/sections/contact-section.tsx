@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useActionState } from "react";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { TooltipButton } from "../Buttons/tooltip-button";
-import { useFormState } from "react-dom";
 import { submitContactForm } from "./contact-actions";
 import { LitupBorderButton } from "../Buttons/litup-border-button";
 import { IconLoader } from "@tabler/icons-react";
@@ -42,7 +41,7 @@ const contactInfo = [
 ];
 
 const ContactSection = () => {
-  const [formState, formAction] = useFormState(submitContactForm, {
+  const [formState, formAction] = useActionState(submitContactForm, {
     success: false,
   });
   const [isPending, startTransition] = useTransition();

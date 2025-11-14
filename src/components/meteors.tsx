@@ -9,14 +9,28 @@ export const Meteors = ({
   number?: number;
   className?: string;
 }) => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const pseudoRandom = React.useCallback((seed: number) => {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }, []);
+
   const meteors = React.useMemo(() => {
+    if (!isMounted) return [];
     return Array.from({ length: number }).map((_, i) => ({
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      animationDelay: `${Math.random() * 2}s`,
-      animationDuration: `${Math.random() * 2 + 2}s`,
+      left: `${pseudoRandom(i + 1) * 100}%`,
+      top: `${pseudoRandom(i + number + 1) * 100}%`,
+      animationDelay: `${(pseudoRandom(i + number * 2 + 1) * 2).toFixed(3)}s`,
+      animationDuration: `${(pseudoRandom(i + number * 3 + 1) * 2 + 2).toFixed(
+        3
+      )}s`,
     }));
-  }, [number]);
+  }, [number, pseudoRandom, isMounted]);
 
   return (
     <div className="absolute inset-0 overflow-hidden">

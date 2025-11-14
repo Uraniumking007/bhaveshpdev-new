@@ -9,8 +9,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-} from "@nextui-org/modal";
-import { Input, DatePicker, Checkbox, Button } from "@nextui-org/react";
+} from "@heroui/modal";
+import { Input, DatePicker, Checkbox, Button } from "@heroui/react";
 import { Projects } from "@prisma/client";
 import React, { useState } from "react";
 import { createProject, revalidateAdminPages } from "../adminActions";

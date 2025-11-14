@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {},
   images: {
     remotePatterns: [
       {
@@ -28,11 +27,6 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  webpack: (config) => {
-    config.resolve.alias.canvas = false;
-    config.module.rules.push({ test: /\.node$/, use: "raw-loader" });
-    return config;
   },
 };
 
