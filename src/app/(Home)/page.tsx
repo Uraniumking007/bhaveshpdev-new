@@ -40,9 +40,7 @@ const ContactSection = nextDynamic(
     loading: () => <div className="min-h-[60vh]" />,
   }
 );
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 3600; // Revalidate every hour (3600 seconds)
 
 async function getFeaturedProjects(): Promise<Projects[]> {
   try {
