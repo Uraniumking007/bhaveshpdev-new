@@ -8,12 +8,14 @@ type ProjectData = {
   title: string;
   description: string;
   imageUrl: string;
+  images?: string[];
   projectUrl?: string;
   githubUrl?: string;
   tech: string[];
   startDate: string;
   endDate: string;
   isCompleted: boolean;
+  categories?: string[];
 };
 
 export async function getProjects() {
@@ -25,15 +27,25 @@ export async function createProject(data: ProjectData) {
   try {
     await requireAdmin();
 
+    // Use images array if provided, otherwise use imageUrl as fallback
+    const imagesArray =
+      data.images && data.images.length > 0
+        ? data.images
+        : data.imageUrl
+        ? [data.imageUrl]
+        : [];
+
     const project = await prisma.projects.create({
       data: {
         id: crypto.randomUUID(),
         name: data.title,
         description: data.description,
         image: data.imageUrl,
+        images: imagesArray,
         link: data.projectUrl || "",
         github: data.githubUrl || "",
         tech: data.tech,
+        categories: data.categories || [],
         projectInitiated: new Date(data.startDate),
         projectCompleted: data.isCompleted ? new Date(data.endDate) : null,
         isCompleted: data.isCompleted,
@@ -42,6 +54,8 @@ export async function createProject(data: ProjectData) {
     });
 
     revalidatePath("/admin/projects");
+    revalidatePath("/projects");
+    revalidatePath("/");
     return { success: true, data: project };
   } catch (error) {
     console.error("Error creating project:", error);
@@ -55,6 +69,7 @@ export async function updateProject(
     title: string;
     description: string;
     imageUrl: string;
+    images?: string[];
     projectUrl: string;
     githubUrl: string;
     tech: string[];
@@ -67,10 +82,19 @@ export async function updateProject(
   try {
     await requireAdmin();
 
+    // Use images array if provided, otherwise use imageUrl as fallback
+    const imagesArray =
+      data.images && data.images.length > 0
+        ? data.images
+        : data.imageUrl
+        ? [data.imageUrl]
+        : [];
+
     const updateData = {
       name: data.title,
       description: data.description,
       image: data.imageUrl,
+      images: imagesArray,
       link: data.projectUrl,
       github: data.githubUrl,
       tech: data.tech,
@@ -89,6 +113,7 @@ export async function updateProject(
 
     revalidatePath("/admin/projects");
     revalidatePath("/projects");
+    revalidatePath("/");
 
     return { success: true, data: result };
   } catch (error) {

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils/cn";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { IconArrowLeft, IconCalendar } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconX } from "@tabler/icons-react";
 import { updateProject, getProjects } from "../actions";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 export default function EditProjectPage() {
   const { id } = useParams();
@@ -28,6 +29,7 @@ export default function EditProjectPage() {
     title: "",
     description: "",
     imageUrl: "",
+    images: [] as string[],
     projectUrl: "",
     githubUrl: "",
     tech: [] as string[],
@@ -36,6 +38,7 @@ export default function EditProjectPage() {
     endDate: "",
     isCompleted: false,
   });
+  const [newImageUrl, setNewImageUrl] = useState("");
 
   useEffect(() => {
     const loadProject = async () => {
@@ -54,6 +57,7 @@ export default function EditProjectPage() {
           title: project.name,
           description: project.description,
           imageUrl: project.image || "",
+          images: project.images || [],
           projectUrl: project.link,
           githubUrl: project.github,
           tech: project.tech,
@@ -104,7 +108,10 @@ export default function EditProjectPage() {
           : null,
       });
 
-      const result = await updateProject(id as string, formData);
+      const result = await updateProject(id as string, {
+        ...formData,
+        images: formData.images || [],
+      });
       console.log("Update result:", result);
 
       if (!result.success) throw new Error(result.error);
@@ -177,15 +184,117 @@ export default function EditProjectPage() {
             </div>
 
             <div>
-              <Label htmlFor="imageUrl">Image URL</Label>
+              <Label htmlFor="imageUrl">
+                Primary Image URL (for backward compatibility)
+              </Label>
               <Input
                 id="imageUrl"
                 value={formData.imageUrl}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFormData({ ...formData, imageUrl: e.target.value })
                 }
-                required
               />
+            </div>
+
+            <div className="md:col-span-2">
+              <Label>Additional Images (for carousel)</Label>
+              <div className="space-y-2">
+                <ImageUpload
+                  onUploadComplete={(url) => {
+                    if (!formData.images.includes(url)) {
+                      setFormData((prev) => ({
+                        ...prev,
+                        images: [...prev.images, url],
+                        imageUrl: prev.imageUrl || url,
+                      }));
+                    }
+                  }}
+                  folder="projects"
+                />
+                <div className="flex gap-2">
+                  <Input
+                    type="url"
+                    value={newImageUrl}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setNewImageUrl(e.target.value)
+                    }
+                    placeholder="Add image URL"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (
+                          newImageUrl.trim() &&
+                          !formData.images.includes(newImageUrl.trim())
+                        ) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            images: [...prev.images, newImageUrl.trim()],
+                            imageUrl: prev.imageUrl || newImageUrl.trim(),
+                          }));
+                          setNewImageUrl("");
+                        }
+                      }
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      if (
+                        newImageUrl.trim() &&
+                        !formData.images.includes(newImageUrl.trim())
+                      ) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          images: [...prev.images, newImageUrl.trim()],
+                          imageUrl: prev.imageUrl || newImageUrl.trim(),
+                        }));
+                        setNewImageUrl("");
+                      }
+                    }}
+                    className={cn(
+                      "bg-white/10 hover:bg-white/20 text-white",
+                      "transition-all duration-300"
+                    )}
+                  >
+                    Add
+                  </Button>
+                </div>
+                {formData.images.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-sm text-white/60">
+                      {formData.images.length} image(s) added
+                    </p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {formData.images.map((img, index) => (
+                        <div
+                          key={index}
+                          className="relative group aspect-video rounded-lg overflow-hidden border border-white/10"
+                        >
+                          <img
+                            src={img}
+                            alt={`Project image ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                images: prev.images.filter(
+                                  (_, i) => i !== index
+                                ),
+                              }));
+                            }}
+                            className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                          >
+                            <IconX className="w-6 h-6 text-white" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div>
@@ -288,14 +397,14 @@ export default function EditProjectPage() {
                           new Date(prev.endDate) < date &&
                           prev.isCompleted;
                         return {
-                    ...prev,
+                          ...prev,
                           startDate: iso,
                           endDate: shouldResetEnd ? "" : prev.endDate,
                         };
                       });
-                }}
+                    }}
                     initialFocus
-              />
+                  />
                 </PopoverContent>
               </Popover>
             </div>
@@ -331,13 +440,13 @@ export default function EditProjectPage() {
                     }
                     onSelect={(date) => {
                       if (!date) return;
-                  setFormData((prev) => ({
-                    ...prev,
+                      setFormData((prev) => ({
+                        ...prev,
                         endDate: format(date, "yyyy-MM-dd"),
-                  }));
-                }}
+                      }));
+                    }}
                     initialFocus
-              />
+                  />
                 </PopoverContent>
               </Popover>
             </div>

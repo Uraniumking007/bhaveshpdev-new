@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { ButtonWithMovingBorder } from "../moving-block";
@@ -10,6 +9,7 @@ import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
 import { useState } from "react";
 import { LitupBorderButtonLink } from "../Buttons/litup-border-button";
+import { ProjectImageCarousel } from "../ui/project-image-carousel";
 
 interface ProjectsSectionProps {
   projects?: Projects[];
@@ -27,15 +27,14 @@ const ProjectCard = ({ project }: { project: Projects }) => {
     >
       <Meteors number={2} />
       <div className="aspect-video relative">
-        <Image
-          src={project.image || "/placeholder.png"}
+        <ProjectImageCarousel
+          images={project.images}
+          image={project.image}
           alt={project.name}
-          fill
-          loading="lazy"
-          className="object-cover"
+          className="aspect-video"
         />
         {!project.isCompleted && (
-          <div className="absolute top-2 right-2">
+          <div className="absolute top-2 right-2 z-20">
             <span className="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
               Ongoing Project
             </span>

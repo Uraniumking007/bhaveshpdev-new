@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { Projects } from "@prisma/client";
 import {
   IconBrandGithub,
@@ -11,6 +10,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 import { ProjectModal } from "../ui/project-modal";
+import { ProjectImageCarousel } from "../ui/project-image-carousel";
 
 interface ProjectViewerCardProps {
   project: Projects;
@@ -32,13 +32,13 @@ export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
           "flex flex-col h-full"
         )}
       >
-        <div className="flex flex-col gap-4 flex-grow">
+        <div className="flex flex-col gap-4 grow">
           <div className="relative w-full h-48 rounded-lg overflow-hidden">
-            <Image
-              src={project.image || "/placeholder.png"}
+            <ProjectImageCarousel
+              images={project.images}
+              image={project.image}
               alt={project.name}
-              fill
-              className="object-cover"
+              className="h-48"
             />
           </div>
 

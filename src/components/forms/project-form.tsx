@@ -21,6 +21,7 @@ type ProjectFormData = {
   title: string;
   description: string;
   imageUrl: string;
+  images: string[];
   projectUrl: string;
   githubUrl: string;
   technologies: string[];
@@ -34,6 +35,7 @@ type ServerActionData = {
   title: string;
   description: string;
   imageUrl: string;
+  images: string[];
   projectUrl?: string;
   githubUrl?: string;
   tech: string[];
@@ -50,6 +52,7 @@ interface ProjectFormProps {
     title: string;
     description: string;
     imageUrl: string;
+    images?: string[];
     projectUrl: string;
     githubUrl: string;
     technologies: string[];
@@ -65,6 +68,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
     title: initialData?.title || "",
     description: initialData?.description || "",
     imageUrl: initialData?.imageUrl || "",
+    images: initialData?.images || [],
     projectUrl: initialData?.projectUrl || "",
     githubUrl: initialData?.githubUrl || "",
     technologies: initialData?.technologies || [],
@@ -76,6 +80,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
 
   const [newTechnology, setNewTechnology] = useState("");
   const [newCategory, setNewCategory] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -91,6 +96,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
         tech: technologies,
         projectUrl: rest.projectUrl || "",
         githubUrl: rest.githubUrl || "",
+        images: rest.images || [],
       };
       const result = initialData
         ? await updateProject(initialData.id, serverData)
@@ -143,6 +149,30 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
       ...formData,
       categories: formData.categories.filter((c) => c !== category),
     });
+  };
+
+  const addImage = (url: string) => {
+    if (url.trim() && !formData.images.includes(url.trim())) {
+      setFormData({
+        ...formData,
+        images: [...formData.images, url.trim()],
+      });
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setFormData({
+      ...formData,
+      images: formData.images.filter((_, i) => i !== index),
+    });
+  };
+
+  const handleImageUpload = (url: string) => {
+    addImage(url);
+    // Also set as primary image if no primary image is set
+    if (!formData.imageUrl) {
+      setFormData({ ...formData, imageUrl: url });
+    }
   };
 
   const handleCompletedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -211,13 +241,21 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
 
         <div>
           <label className="block text-sm font-medium text-white/70 mb-2">
-            Image
+            Primary Image (for backward compatibility)
           </label>
           <div className="space-y-2">
             <ImageUpload
-              onUploadComplete={(url) =>
-                setFormData({ ...formData, imageUrl: url })
-              }
+              onUploadComplete={(url) => {
+                setFormData({ ...formData, imageUrl: url });
+                // Also add to images array if not already present
+                if (!formData.images.includes(url)) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    imageUrl: url,
+                    images: prev.images.length === 0 ? [url] : prev.images,
+                  }));
+                }
+              }}
               folder="projects"
             />
             <input
@@ -228,9 +266,84 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
               }
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
               placeholder="Or enter image URL directly"
-              required
               disabled={isSubmitting}
             />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-white/70 mb-2">
+            Additional Images (for carousel)
+          </label>
+          <div className="space-y-2">
+            <ImageUpload
+              onUploadComplete={handleImageUpload}
+              folder="projects"
+            />
+            <div className="flex gap-2">
+              <input
+                type="url"
+                value={newImageUrl}
+                onChange={(e) => setNewImageUrl(e.target.value)}
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+                placeholder="Add image URL"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (newImageUrl.trim()) {
+                      addImage(newImageUrl.trim());
+                      setNewImageUrl("");
+                    }
+                  }
+                }}
+                disabled={isSubmitting}
+              />
+              <Button
+                type="button"
+                onClick={() => {
+                  if (newImageUrl.trim()) {
+                    addImage(newImageUrl.trim());
+                    setNewImageUrl("");
+                  }
+                }}
+                className={cn(
+                  "bg-white/10 hover:bg-white/20 text-white",
+                  "transition-all duration-300"
+                )}
+                disabled={isSubmitting}
+              >
+                Add
+              </Button>
+            </div>
+            {formData.images.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm text-white/60">
+                  {formData.images.length} image(s) added
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {formData.images.map((img, index) => (
+                    <div
+                      key={index}
+                      className="relative group aspect-video rounded-lg overflow-hidden border border-white/10"
+                    >
+                      <img
+                        src={img}
+                        alt={`Project image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                        disabled={isSubmitting}
+                      >
+                        <IconX className="w-6 h-6 text-white" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

@@ -3,9 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Projects } from "@prisma/client";
 import { IconX, IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
+import { ProjectImageCarousel } from "./project-image-carousel";
 
 interface ProjectModalProps {
   project: Projects;
@@ -100,11 +100,11 @@ export const ProjectModal = ({
                   transition={{ delay: 0.2 }}
                   className="relative w-full h-80 rounded-xl overflow-hidden"
                 >
-                  <Image
-                    src={project.image || "/placeholder.png"}
+                  <ProjectImageCarousel
+                    images={project.images}
+                    image={project.image}
                     alt={project.name}
-                    fill
-                    className="object-cover"
+                    className="h-80"
                   />
                 </motion.div>
 
