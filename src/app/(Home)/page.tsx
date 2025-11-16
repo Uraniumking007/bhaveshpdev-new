@@ -1,6 +1,6 @@
 import nextDynamic from "next/dynamic";
 import type { Metadata } from "next";
-import type { Projects, Timeline } from "@prisma/client";
+import type { Projects, Timeline, Certification } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 
