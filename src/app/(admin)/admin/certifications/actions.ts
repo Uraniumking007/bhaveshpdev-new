@@ -32,6 +32,7 @@ export async function createCertification(data: CertificationData) {
     });
 
     revalidatePath("/admin/certifications");
+
     return { success: true, data: certification };
   } catch (error) {
     console.error("Error creating certification:", error);

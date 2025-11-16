@@ -124,7 +124,7 @@ model Timeline {
   title       String?
   description String?
   type        String?
-  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   @@schema("public")
 }
