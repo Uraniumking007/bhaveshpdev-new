@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   certificationSchema,
   CertificationFormValues,
@@ -39,6 +40,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 interface CertificationAdminCardProps {
   certification: Certification;
+  hasTimelineEntry?: boolean;
   onDelete: () => Promise<{ success: boolean; error?: string }>;
   onUpdate: (
     data: CertificationFormValues
@@ -47,6 +49,7 @@ interface CertificationAdminCardProps {
 
 export function CertificationAdminCard({
   certification,
+  hasTimelineEntry = false,
   onDelete,
   onUpdate,
 }: CertificationAdminCardProps) {
@@ -57,13 +60,14 @@ export function CertificationAdminCard({
   const form = useForm<CertificationFormValues>({
     resolver: zodResolver(certificationSchema),
     defaultValues: {
-    title: certification.title,
-    issuer: certification.issuer,
+      title: certification.title,
+      issuer: certification.issuer,
       date: new Date(certification.date).toISOString().slice(0, 10),
-    description: certification.description || "",
-    imageUrl: certification.imageUrl || "",
-    pdfUrl: certification.pdfUrl || "",
+      description: certification.description || "",
+      imageUrl: certification.imageUrl || "",
+      pdfUrl: certification.pdfUrl || "",
       visible: certification.visible ?? "public",
+      addToTimeline: hasTimelineEntry,
     },
   });
 
@@ -84,14 +88,14 @@ export function CertificationAdminCard({
       const result = await onUpdate(values);
       if (!result.success) {
         toast.error(result.error || "Failed to update certification");
-      return;
-    }
+        return;
+      }
       toast.success("Certification updated");
       setDialogOpen(false);
     });
   });
 
-    return (
+  return (
     <Card className="border-white/10 bg-white/5 text-white">
       <CardHeader className="flex flex-row items-start justify-between gap-4">
         <div>
@@ -133,7 +137,7 @@ export function CertificationAdminCard({
                     </p>
                   )}
                 </div>
-        <div>
+                <div>
                   <Label htmlFor="issuer">Issuer</Label>
                   <Input id="issuer" {...form.register("issuer")} />
                   {form.formState.errors.issuer && (
@@ -141,8 +145,8 @@ export function CertificationAdminCard({
                       {form.formState.errors.issuer.message}
                     </p>
                   )}
-        </div>
-        <div>
+                </div>
+                <div>
                   <Label htmlFor="date">Issued on</Label>
                   <Input id="date" type="date" {...form.register("date")} />
                   {form.formState.errors.date && (
@@ -150,15 +154,15 @@ export function CertificationAdminCard({
                       {form.formState.errors.date.message}
                     </p>
                   )}
-        </div>
-        <div>
+                </div>
+                <div>
                   <Label htmlFor="description">Description</Label>
                   <Textarea
-            id="description"
+                    id="description"
                     rows={4}
                     {...form.register("description")}
-          />
-        </div>
+                  />
+                </div>
                 <div className="space-y-2">
                   <Label>Image</Label>
                   <ImageUpload
@@ -171,11 +175,11 @@ export function CertificationAdminCard({
                     }
                   />
                   <Input
-            type="url"
+                    type="url"
                     placeholder="Or paste an image URL"
                     {...form.register("imageUrl")}
-          />
-        </div>
+                  />
+                </div>
                 <div>
                   <Label htmlFor="pdfUrl">PDF URL</Label>
                   <Input id="pdfUrl" type="url" {...form.register("pdfUrl")} />
@@ -185,7 +189,7 @@ export function CertificationAdminCard({
                     </p>
                   )}
                 </div>
-        <div>
+                <div>
                   <Label>Visibility</Label>
                   <Controller
                     control={form.control}
@@ -203,9 +207,34 @@ export function CertificationAdminCard({
                           <SelectItem value="private">Private</SelectItem>
                         </SelectContent>
                       </Select>
-            )}
-          />
-        </div>
+                    )}
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Controller
+                    control={form.control}
+                    name="addToTimeline"
+                    render={({ field }) => (
+                      <Checkbox
+                        id="addToTimeline"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="border-white/10 data-[state=checked]:bg-white/10"
+                      />
+                    )}
+                  />
+                  <Label
+                    htmlFor="addToTimeline"
+                    className="text-sm font-normal cursor-pointer"
+                  >
+                    Add to timeline
+                  </Label>
+                  {form.formState.errors.addToTimeline && (
+                    <p className="text-sm text-red-400">
+                      {form.formState.errors.addToTimeline.message}
+                    </p>
+                  )}
+                </div>
                 <div className="flex justify-end gap-2">
                   <Button
                     type="button"
@@ -225,7 +254,7 @@ export function CertificationAdminCard({
                   >
                     {isSaving ? "Saving..." : "Save changes"}
                   </Button>
-        </div>
+                </div>
               </form>
             </DialogContent>
           </Dialog>
@@ -251,19 +280,19 @@ export function CertificationAdminCard({
             />
           </div>
         )}
-          {certification.description && (
+        {certification.description && (
           <p className="text-white/80">{certification.description}</p>
-          )}
-            {certification.pdfUrl && (
-              <a
-                href={certification.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+        )}
+        {certification.pdfUrl && (
+          <a
+            href={certification.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex text-sm text-white/70 hover:text-white"
-              >
+          >
             View PDF certificate
-              </a>
-            )}
+          </a>
+        )}
       </CardContent>
     </Card>
   );

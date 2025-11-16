@@ -5,7 +5,8 @@ import { CertificationAdminCard } from "@/components/cards/certification-admin-c
 import {
   deleteCertification,
   updateCertification,
-} from "@/app/(admin)/admin/certifications";
+  getCertificationsTimelineStatus,
+} from "@/app/(admin)/admin/certifications/actions";
 import {
   Card,
   CardContent,
@@ -26,6 +27,12 @@ export default async function AdminCertificationsPage() {
       date: "desc",
     },
   });
+
+  // Get timeline status for all certifications
+  const certificationIds = certifications.map((cert) => cert.id);
+  const timelineStatusMap = await getCertificationsTimelineStatus(
+    certificationIds
+  );
 
   return (
     <div className="space-y-8">
@@ -48,7 +55,7 @@ export default async function AdminCertificationsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-          <CertificationForm />
+            <CertificationForm />
           </CardContent>
         </Card>
 
@@ -63,24 +70,26 @@ export default async function AdminCertificationsPage() {
             {certifications.map((certification) => (
               <CertificationAdminCard
                 key={certification.id}
-                  certification={certification}
-                  onDelete={async () => {
-                    "use server";
+                certification={certification}
+                hasTimelineEntry={timelineStatusMap[certification.id] ?? false}
+                onDelete={async () => {
+                  "use server";
                   return await deleteCertification(certification.id);
-                  }}
+                }}
                 onUpdate={async (data: CertificationFormValues) => {
-                    "use server";
+                  "use server";
                   return await updateCertification(certification.id, {
-                      title: data.title,
-                      issuer: data.issuer,
-                    date: new Date(data.date),
-                      description: data.description || null,
-                      imageUrl: data.imageUrl || null,
-                      pdfUrl: data.pdfUrl || null,
-                      visible: data.visible,
-                    });
-                  }}
-                />
+                    title: data.title,
+                    issuer: data.issuer,
+                    date: data.date,
+                    description: data.description,
+                    imageUrl: data.imageUrl,
+                    pdfUrl: data.pdfUrl,
+                    visible: data.visible,
+                    addToTimeline: data.addToTimeline,
+                  });
+                }}
+              />
             ))}
           </CardContent>
         </Card>

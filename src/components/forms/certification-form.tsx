@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { createCertification } from "@/app/(admin)/admin/certifications";
+import { createCertification } from "@/app/(admin)/admin/certifications/actions";
 import {
   CertificationFormValues,
   certificationSchema,
@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "../ui/image-upload";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const CertificationForm = () => {
   const router = useRouter();
@@ -37,13 +38,14 @@ export const CertificationForm = () => {
   } = useForm<CertificationFormValues>({
     resolver: zodResolver(certificationSchema),
     defaultValues: {
-    title: "",
-    issuer: "",
+      title: "",
+      issuer: "",
       date: new Date().toISOString().slice(0, 10),
-    description: "",
-    imageUrl: "",
-    pdfUrl: "",
-    visible: "public",
+      description: "",
+      imageUrl: "",
+      pdfUrl: "",
+      visible: "public",
+      addToTimeline: true,
     },
   });
 
@@ -51,7 +53,6 @@ export const CertificationForm = () => {
     startTransition(async () => {
       const result = await createCertification({
         ...values,
-        date: new Date(values.date),
       });
       if (!result.success) {
         toast.error(result.error || "Failed to create certification");
@@ -113,19 +114,19 @@ export const CertificationForm = () => {
         )}
       </div>
 
-        <div className="space-y-2">
+      <div className="space-y-2">
         <Label>Featured image</Label>
-          <ImageUpload
-            folder="certifications"
+        <ImageUpload
+          folder="certifications"
           onUploadComplete={(url) => {
             setValue("imageUrl", url, {
               shouldDirty: true,
               shouldValidate: true,
             });
           }}
-          />
+        />
         <Input
-            type="url"
+          type="url"
           placeholder="Or paste an image URL"
           {...register("imageUrl")}
         />
@@ -166,6 +167,32 @@ export const CertificationForm = () => {
         />
         {errors.visible && (
           <p className="mt-1 text-sm text-red-400">{errors.visible.message}</p>
+        )}
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Controller
+          control={control}
+          name="addToTimeline"
+          render={({ field }) => (
+            <Checkbox
+              id="addToTimeline"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              className="border-white/10 data-[state=checked]:bg-white/10"
+            />
+          )}
+        />
+        <Label
+          htmlFor="addToTimeline"
+          className="text-sm font-normal cursor-pointer"
+        >
+          Add to timeline
+        </Label>
+        {errors.addToTimeline && (
+          <p className="mt-1 text-sm text-red-400">
+            {errors.addToTimeline.message}
+          </p>
         )}
       </div>
 

@@ -25,6 +25,7 @@ export const certificationSchema = z.object({
     .min(1, "PDF link is required")
     .url("Provide a valid PDF URL"),
   visible: z.enum(["public", "private"]),
+  addToTimeline: z.boolean().optional(),
 });
 
 export type CertificationFormValues = z.infer<typeof certificationSchema>;
