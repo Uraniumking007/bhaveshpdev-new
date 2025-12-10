@@ -64,7 +64,7 @@ export default function TimelineSection({
                 {item.title ?? "Untitled milestone"}
               </h3>
               {item.description && (
-                <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                <p className="text-neutral-600 dark:text-neutral-300 hidden md:block leading-relaxed">
                   {item.description}
                 </p>
               )}
