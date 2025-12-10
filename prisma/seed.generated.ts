@@ -554,71 +554,79 @@ export async function seedFromGenerated(prismaClient?: PrismaClient) {
 
   // Insert base tables
   if (seedData.users.length) {
-    await prisma.user.createMany({ data: seedData.users, skipDuplicates: true });
+    await prisma.user.createMany({
+      data: [...seedData.users],
+      skipDuplicates: true,
+    });
   }
   if (seedData.accounts.length) {
     await prisma.account.createMany({
-      data: seedData.accounts,
+      data: [...seedData.accounts],
       skipDuplicates: true,
     });
   }
   if (seedData.sessions.length) {
     await prisma.session.createMany({
-      data: seedData.sessions,
+      data: [...seedData.sessions],
       skipDuplicates: true,
     });
   }
   if (seedData.verificationTokens.length) {
     await prisma.verificationToken.createMany({
-      data: seedData.verificationTokens,
+      data: [...seedData.verificationTokens],
       skipDuplicates: true,
     });
   }
   if (seedData.technologies.length) {
     await prisma.technology.createMany({
-      data: seedData.technologies,
+      data: [...seedData.technologies],
       skipDuplicates: true,
     });
   }
   if (seedData.categories.length) {
     await prisma.category.createMany({
-      data: seedData.categories,
+      data: [...seedData.categories],
       skipDuplicates: true,
     });
   }
   if (seedData.projects.length) {
     await prisma.projects.createMany({
-      data: seedData.projects,
+      data: seedData.projects.map((project) => ({
+        ...project,
+        tech: project.tech ? [...project.tech] : undefined,
+        categories: project.categories ? [...project.categories] : undefined,
+        images: project.images ? [...project.images] : undefined,
+      })),
       skipDuplicates: true,
     });
   }
   if (seedData.projectTechnologies.length) {
     await prisma.projectTechnology.createMany({
-      data: seedData.projectTechnologies,
+      data: [...seedData.projectTechnologies],
       skipDuplicates: true,
     });
   }
   if (seedData.projectCategories.length) {
     await prisma.projectCategory.createMany({
-      data: seedData.projectCategories,
+      data: [...seedData.projectCategories],
       skipDuplicates: true,
     });
   }
   if (seedData.certifications.length) {
     await prisma.certification.createMany({
-      data: seedData.certifications,
+      data: [...seedData.certifications],
       skipDuplicates: true,
     });
   }
   if (seedData.timelines.length) {
     await prisma.timeline.createMany({
-      data: seedData.timelines,
+      data: [...seedData.timelines],
       skipDuplicates: true,
     });
   }
   if (seedData.confirmations.length) {
     await prisma.confirmation.createMany({
-      data: seedData.confirmations,
+      data: [...seedData.confirmations],
       skipDuplicates: true,
     });
   }
