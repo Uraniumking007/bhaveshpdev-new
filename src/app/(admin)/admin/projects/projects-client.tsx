@@ -20,13 +20,18 @@ import {
 import { Badge } from "@heroui/react";
 import { deleteProject } from "./actions";
 
+type ProjectWithRelations = Projects & {
+  technologies?: { technology: { name: string } }[];
+  projectCategories?: { category: { name: string } }[];
+};
+
 type ProjectsClientProps = {
-  projects: Projects[];
+  projects: ProjectWithRelations[];
 };
 
 export function ProjectsClient({ projects }: ProjectsClientProps) {
   const router = useRouter();
-  const [items, setItems] = useState(projects);
+  const [items, setItems] = useState<ProjectWithRelations[]>(projects);
   const [query, setQuery] = useState("");
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [isPending, startTransition] = useTransition();

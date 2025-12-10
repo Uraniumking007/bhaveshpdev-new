@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { IconCalendar, IconX } from "@tabler/icons-react";
+import { useState, useEffect } from "react";
+import { IconCalendar, IconX, IconChevronDown } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/cn";
 import {
   createProject,
   updateProject,
+  getAllTechnologies,
+  getAllCategories,
 } from "@/app/(admin)/admin/projects/actions";
 import { ImageUpload } from "../ui/image-upload";
 import {
@@ -86,6 +88,30 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
   const [newImageUrl, setNewImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [existingTechnologies, setExistingTechnologies] = useState<string[]>(
+    []
+  );
+  const [existingCategories, setExistingCategories] = useState<string[]>([]);
+  const [techDropdownOpen, setTechDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [techSearchQuery, setTechSearchQuery] = useState("");
+  const [categorySearchQuery, setCategorySearchQuery] = useState("");
+
+  useEffect(() => {
+    const loadExisting = async () => {
+      const [techResult, categoryResult] = await Promise.all([
+        getAllTechnologies(),
+        getAllCategories(),
+      ]);
+      if (techResult.success) {
+        setExistingTechnologies(techResult.data || []);
+      }
+      if (categoryResult.success) {
+        setExistingCategories(categoryResult.data || []);
+      }
+    };
+    loadExisting();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,13 +146,16 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
     }
   };
 
-  const addTechnology = () => {
-    if (newTechnology.trim()) {
+  const addTechnology = (tech?: string) => {
+    const techToAdd = (tech || newTechnology).trim().toLowerCase();
+    if (techToAdd && !formData.technologies.includes(techToAdd)) {
       setFormData({
         ...formData,
-        technologies: [...formData.technologies, newTechnology.trim()],
+        technologies: [...formData.technologies, techToAdd],
       });
       setNewTechnology("");
+      setTechSearchQuery("");
+      setTechDropdownOpen(false);
     }
   };
 
@@ -137,13 +166,22 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
     });
   };
 
-  const addCategory = () => {
-    if (newCategory.trim()) {
+  const filteredTechnologies = existingTechnologies.filter(
+    (tech) =>
+      tech.toLowerCase().includes(techSearchQuery.toLowerCase()) &&
+      !formData.technologies.includes(tech.toLowerCase())
+  );
+
+  const addCategory = (category?: string) => {
+    const categoryToAdd = (category || newCategory).trim().toLowerCase();
+    if (categoryToAdd && !formData.categories.includes(categoryToAdd)) {
       setFormData({
         ...formData,
-        categories: [...formData.categories, newCategory.trim()],
+        categories: [...formData.categories, categoryToAdd],
       });
       setNewCategory("");
+      setCategorySearchQuery("");
+      setCategoryDropdownOpen(false);
     }
   };
 
@@ -153,6 +191,12 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
       categories: formData.categories.filter((c) => c !== category),
     });
   };
+
+  const filteredCategories = existingCategories.filter(
+    (category) =>
+      category.toLowerCase().includes(categorySearchQuery.toLowerCase()) &&
+      !formData.categories.includes(category.toLowerCase())
+  );
 
   const addImage = (url: string) => {
     if (url.trim() && !formData.images.includes(url.trim())) {
@@ -518,12 +562,85 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             Technologies
           </label>
           <div className="flex gap-2 mb-2">
+            <div className="flex-1 relative">
+              <Popover
+                open={techDropdownOpen}
+                onOpenChange={setTechDropdownOpen}
+              >
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className={cn(
+                      "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-left text-white",
+                      "focus:outline-none focus:ring-2 focus:ring-white/20",
+                      "flex items-center justify-between"
+                    )}
+                    disabled={isSubmitting}
+                  >
+                    <span
+                      className={
+                        techSearchQuery ? "text-white" : "text-white/50"
+                      }
+                    >
+                      {techSearchQuery || "Select or type to add technology"}
+                    </span>
+                    <IconChevronDown className="w-4 h-4 text-white/50" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] bg-neutral-900 border-white/10 p-0">
+                  <div className="p-2">
+                    <input
+                      type="text"
+                      value={techSearchQuery}
+                      onChange={(e) => setTechSearchQuery(e.target.value)}
+                      placeholder="Search technologies..."
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-white/20"
+                      autoFocus
+                    />
+                    <div className="max-h-48 overflow-y-auto">
+                      {filteredTechnologies.length > 0 ? (
+                        filteredTechnologies.map((tech) => (
+                          <button
+                            key={tech}
+                            type="button"
+                            onClick={() => addTechnology(tech)}
+                            className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 rounded transition-colors"
+                          >
+                            {tech}
+                          </button>
+                        ))
+                      ) : (
+                        <div className="px-3 py-2 text-sm text-white/50">
+                          No matching technologies
+                        </div>
+                      )}
+                      {techSearchQuery &&
+                        !existingTechnologies.some(
+                          (t) =>
+                            t.toLowerCase() === techSearchQuery.toLowerCase()
+                        ) &&
+                        !formData.technologies.includes(
+                          techSearchQuery.toLowerCase()
+                        ) && (
+                          <button
+                            type="button"
+                            onClick={() => addTechnology(techSearchQuery)}
+                            className="w-full text-left px-3 py-2 text-sm text-blue-400 hover:bg-white/10 rounded transition-colors border-t border-white/10 mt-1 pt-2"
+                          >
+                            + Add "{techSearchQuery}"
+                          </button>
+                        )}
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
             <input
               type="text"
               value={newTechnology}
               onChange={(e) => setNewTechnology(e.target.value)}
-              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              placeholder="Add technology"
+              className="w-48 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              placeholder="Or type new tech"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -534,12 +651,12 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             />
             <Button
               type="button"
-              onClick={addTechnology}
+              onClick={() => addTechnology()}
               className={cn(
                 "bg-white/10 hover:bg-white/20 text-white",
                 "transition-all duration-300"
               )}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !newTechnology.trim()}
             >
               Add
             </Button>
@@ -548,7 +665,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             {formData.technologies.map((tech) => (
               <span
                 key={tech}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white capitalize"
               >
                 {tech}
                 <button
@@ -569,12 +686,86 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             Categories
           </label>
           <div className="flex gap-2 mb-2">
+            <div className="flex-1 relative">
+              <Popover
+                open={categoryDropdownOpen}
+                onOpenChange={setCategoryDropdownOpen}
+              >
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className={cn(
+                      "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-left text-white",
+                      "focus:outline-none focus:ring-2 focus:ring-white/20",
+                      "flex items-center justify-between"
+                    )}
+                    disabled={isSubmitting}
+                  >
+                    <span
+                      className={
+                        categorySearchQuery ? "text-white" : "text-white/50"
+                      }
+                    >
+                      {categorySearchQuery || "Select or type to add category"}
+                    </span>
+                    <IconChevronDown className="w-4 h-4 text-white/50" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] bg-neutral-900 border-white/10 p-0">
+                  <div className="p-2">
+                    <input
+                      type="text"
+                      value={categorySearchQuery}
+                      onChange={(e) => setCategorySearchQuery(e.target.value)}
+                      placeholder="Search categories..."
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-white/20"
+                      autoFocus
+                    />
+                    <div className="max-h-48 overflow-y-auto">
+                      {filteredCategories.length > 0 ? (
+                        filteredCategories.map((category) => (
+                          <button
+                            key={category}
+                            type="button"
+                            onClick={() => addCategory(category)}
+                            className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 rounded transition-colors"
+                          >
+                            {category}
+                          </button>
+                        ))
+                      ) : (
+                        <div className="px-3 py-2 text-sm text-white/50">
+                          No matching categories
+                        </div>
+                      )}
+                      {categorySearchQuery &&
+                        !existingCategories.some(
+                          (c) =>
+                            c.toLowerCase() ===
+                            categorySearchQuery.toLowerCase()
+                        ) &&
+                        !formData.categories.includes(
+                          categorySearchQuery.toLowerCase()
+                        ) && (
+                          <button
+                            type="button"
+                            onClick={() => addCategory(categorySearchQuery)}
+                            className="w-full text-left px-3 py-2 text-sm text-blue-400 hover:bg-white/10 rounded transition-colors border-t border-white/10 mt-1 pt-2"
+                          >
+                            + Add "{categorySearchQuery}"
+                          </button>
+                        )}
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
-              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-              placeholder="Add category"
+              className="w-48 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              placeholder="Or type new category"
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -585,12 +776,12 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             />
             <Button
               type="button"
-              onClick={addCategory}
+              onClick={() => addCategory()}
               className={cn(
                 "bg-white/10 hover:bg-white/20 text-white",
                 "transition-all duration-300"
               )}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !newCategory.trim()}
             >
               Add
             </Button>
@@ -599,7 +790,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             {formData.categories.map((category) => (
               <span
                 key={category}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white capitalize"
               >
                 {category}
                 <button

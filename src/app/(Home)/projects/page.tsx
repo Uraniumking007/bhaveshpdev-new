@@ -27,9 +27,19 @@ export const revalidate = 0;
 const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
   const projects = await getProjects(searchParams);
   const allCategories = Array.from(
-    new Set(projects.flatMap((p) => p.categories))
+    new Set(
+      projects.flatMap((p) =>
+        p.projectCategories?.map((pc) => pc.category.name) || p.categories || []
+      )
+    )
   );
-  const allTech = Array.from(new Set(projects.flatMap((p) => p.tech)));
+  const allTech = Array.from(
+    new Set(
+      projects.flatMap((p) =>
+        p.technologies?.map((pt) => pt.technology.name) || p.tech || []
+      )
+    )
+  );
 
   return (
     <HeroHighlight>
@@ -70,19 +80,31 @@ const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
 const getProjects = async (searchParams: PageProps["searchParams"]) => {
   const where: any = {};
 
-  // Filter by categories
+  // Filter by categories (using relations)
   if (searchParams.categories) {
-    const categories = searchParams.categories.split(",");
-    where.categories = {
-      hasSome: categories,
+    const categories = searchParams.categories.split(",").map((c) => c.trim().toLowerCase());
+    where.projectCategories = {
+      some: {
+        category: {
+          name: {
+            in: categories,
+          },
+        },
+      },
     };
   }
 
-  // Filter by technologies
+  // Filter by technologies (using relations)
   if (searchParams.tech) {
-    const tech = searchParams.tech.split(",");
-    where.tech = {
-      hasSome: tech,
+    const tech = searchParams.tech.split(",").map((t) => t.trim().toLowerCase());
+    where.technologies = {
+      some: {
+        technology: {
+          name: {
+            in: tech,
+          },
+        },
+      },
     };
   }
 
@@ -100,6 +122,18 @@ const getProjects = async (searchParams: PageProps["searchParams"]) => {
   try {
     projects = await prisma.projects.findMany({
       where,
+      include: {
+        technologies: {
+          include: {
+            technology: true,
+          },
+        },
+        projectCategories: {
+          include: {
+            category: true,
+          },
+        },
+      },
       orderBy: {
         projectCompleted: "desc",
       },
@@ -112,13 +146,16 @@ const getProjects = async (searchParams: PageProps["searchParams"]) => {
   // Filter by search query if present
   if (searchParams.search) {
     const searchLower = searchParams.search.toLowerCase();
-    return projects.filter(
-      (project) =>
+    return projects.filter((project) => {
+      const techNames = project.technologies?.map((pt) => pt.technology.name) || project.tech || [];
+      const categoryNames = project.projectCategories?.map((pc) => pc.category.name) || project.categories || [];
+      return (
         project.name.toLowerCase().includes(searchLower) ||
         project.description.toLowerCase().includes(searchLower) ||
-        project.tech.some((t) => t.toLowerCase().includes(searchLower)) ||
-        project.categories.some((c) => c.toLowerCase().includes(searchLower))
-    );
+        techNames.some((t) => t.toLowerCase().includes(searchLower)) ||
+        categoryNames.some((c) => c.toLowerCase().includes(searchLower))
+      );
+    });
   }
 
   return projects;

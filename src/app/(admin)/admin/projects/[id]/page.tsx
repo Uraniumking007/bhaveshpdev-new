@@ -8,8 +8,18 @@ import { cn } from "@/lib/utils/cn";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { IconArrowLeft, IconCalendar, IconX } from "@tabler/icons-react";
-import { updateProject, getProjects } from "../actions";
+import {
+  IconArrowLeft,
+  IconCalendar,
+  IconX,
+  IconChevronDown,
+} from "@tabler/icons-react";
+import {
+  updateProject,
+  getProjects,
+  getAllTechnologies,
+  getAllCategories,
+} from "../actions";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -37,8 +47,20 @@ export default function EditProjectPage() {
     startDate: "",
     endDate: "",
     isCompleted: false,
+    isFeatured: false,
   });
   const [newImageUrl, setNewImageUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newTechnology, setNewTechnology] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+  const [existingTechnologies, setExistingTechnologies] = useState<string[]>(
+    []
+  );
+  const [existingCategories, setExistingCategories] = useState<string[]>([]);
+  const [techDropdownOpen, setTechDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [techSearchQuery, setTechSearchQuery] = useState("");
+  const [categorySearchQuery, setCategorySearchQuery] = useState("");
 
   useEffect(() => {
     const loadProject = async () => {
@@ -60,8 +82,14 @@ export default function EditProjectPage() {
           images: project.images || [],
           projectUrl: project.link,
           githubUrl: project.github,
-          tech: project.tech,
-          categories: project.categories,
+          tech:
+            project.technologies?.map((pt) => pt.technology.name) ||
+            project.tech ||
+            [],
+          categories:
+            project.projectCategories?.map((pc) => pc.category.name) ||
+            project.categories ||
+            [],
           startDate: formatForInput(
             project.projectInitiated ? new Date(project.projectInitiated) : null
           ),
@@ -69,6 +97,7 @@ export default function EditProjectPage() {
             project.projectCompleted ? new Date(project.projectCompleted) : null
           ),
           isCompleted: project.isCompleted,
+          isFeatured: project.isFeatured,
         };
         console.log("Formatted form data:", formattedData);
         setFormData(formattedData);
@@ -83,8 +112,77 @@ export default function EditProjectPage() {
     loadProject();
   }, [id]);
 
+  useEffect(() => {
+    const loadExisting = async () => {
+      const [techResult, categoryResult] = await Promise.all([
+        getAllTechnologies(),
+        getAllCategories(),
+      ]);
+      if (techResult.success) {
+        setExistingTechnologies(techResult.data || []);
+      }
+      if (categoryResult.success) {
+        setExistingCategories(categoryResult.data || []);
+      }
+    };
+    loadExisting();
+  }, []);
+
+  const addTechnology = (tech?: string) => {
+    const techToAdd = (tech || newTechnology).trim().toLowerCase();
+    if (techToAdd && !formData.tech.includes(techToAdd)) {
+      setFormData({
+        ...formData,
+        tech: [...formData.tech, techToAdd],
+      });
+      setNewTechnology("");
+      setTechSearchQuery("");
+      setTechDropdownOpen(false);
+    }
+  };
+
+  const removeTechnology = (tech: string) => {
+    setFormData({
+      ...formData,
+      tech: formData.tech.filter((t) => t !== tech),
+    });
+  };
+
+  const filteredTechnologies = existingTechnologies.filter(
+    (tech) =>
+      tech.toLowerCase().includes(techSearchQuery.toLowerCase()) &&
+      !formData.tech.includes(tech.toLowerCase())
+  );
+
+  const addCategory = (category?: string) => {
+    const categoryToAdd = (category || newCategory).trim().toLowerCase();
+    if (categoryToAdd && !formData.categories.includes(categoryToAdd)) {
+      setFormData({
+        ...formData,
+        categories: [...formData.categories, categoryToAdd],
+      });
+      setNewCategory("");
+      setCategorySearchQuery("");
+      setCategoryDropdownOpen(false);
+    }
+  };
+
+  const removeCategory = (category: string) => {
+    setFormData({
+      ...formData,
+      categories: formData.categories.filter((c) => c !== category),
+    });
+  };
+
+  const filteredCategories = existingCategories.filter(
+    (category) =>
+      category.toLowerCase().includes(categorySearchQuery.toLowerCase()) &&
+      !formData.categories.includes(category.toLowerCase())
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       // Validate dates
       if (!formData.startDate) {
@@ -119,6 +217,8 @@ export default function EditProjectPage() {
     } catch (err) {
       console.error("Error updating project:", err);
       setError(err instanceof Error ? err.message : "Failed to update project");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -332,35 +432,239 @@ export default function EditProjectPage() {
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="tech">Technologies (comma-separated)</Label>
-              <Input
-                id="tech"
-                value={formData.tech.join(", ")}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setFormData({
-                    ...formData,
-                    tech: e.target.value
-                      .split(",")
-                      .map((t: string) => t.trim()),
-                  })
-                }
-              />
+              <Label>Technologies</Label>
+              <div className="flex gap-2 mb-2">
+                <div className="flex-1 relative">
+                  <Popover
+                    open={techDropdownOpen}
+                    onOpenChange={setTechDropdownOpen}
+                  >
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className={cn(
+                          "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-left text-white",
+                          "focus:outline-none focus:ring-2 focus:ring-white/20",
+                          "flex items-center justify-between"
+                        )}
+                      >
+                        <span
+                          className={
+                            techSearchQuery ? "text-white" : "text-white/50"
+                          }
+                        >
+                          {techSearchQuery ||
+                            "Select or type to add technology"}
+                        </span>
+                        <IconChevronDown className="w-4 h-4 text-white/50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[var(--radix-popover-trigger-width)] bg-neutral-900 border-white/10 p-0">
+                      <div className="p-2">
+                        <input
+                          type="text"
+                          value={techSearchQuery}
+                          onChange={(e) => setTechSearchQuery(e.target.value)}
+                          placeholder="Search technologies..."
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-white/20"
+                          autoFocus
+                        />
+                        <div className="max-h-48 overflow-y-auto">
+                          {filteredTechnologies.length > 0 ? (
+                            filteredTechnologies.map((tech) => (
+                              <button
+                                key={tech}
+                                type="button"
+                                onClick={() => addTechnology(tech)}
+                                className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 rounded transition-colors"
+                              >
+                                {tech}
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-3 py-2 text-sm text-white/50">
+                              No matching technologies
+                            </div>
+                          )}
+                          {techSearchQuery &&
+                            !existingTechnologies.some(
+                              (t) =>
+                                t.toLowerCase() ===
+                                techSearchQuery.toLowerCase()
+                            ) &&
+                            !formData.tech.includes(
+                              techSearchQuery.toLowerCase()
+                            ) && (
+                              <button
+                                type="button"
+                                onClick={() => addTechnology(techSearchQuery)}
+                                className="w-full text-left px-3 py-2 text-sm text-blue-400 hover:bg-white/10 rounded transition-colors border-t border-white/10 mt-1 pt-2"
+                              >
+                                + Add "{techSearchQuery}"
+                              </button>
+                            )}
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <Input
+                  type="text"
+                  value={newTechnology}
+                  onChange={(e) => setNewTechnology(e.target.value)}
+                  className="w-48"
+                  placeholder="Or type new tech"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addTechnology();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  onClick={() => addTechnology()}
+                  disabled={!newTechnology.trim()}
+                >
+                  Add
+                </Button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white capitalize"
+                  >
+                    {tech}
+                    <button
+                      type="button"
+                      onClick={() => removeTechnology(tech)}
+                      className="hover:text-white/70"
+                    >
+                      <IconX className="w-4 h-4" />
+                    </button>
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="categories">Categories (comma-separated)</Label>
-              <Input
-                id="categories"
-                value={formData.categories.join(", ")}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setFormData({
-                    ...formData,
-                    categories: e.target.value
-                      .split(",")
-                      .map((c: string) => c.trim()),
-                  })
-                }
-              />
+              <Label>Categories</Label>
+              <div className="flex gap-2 mb-2">
+                <div className="flex-1 relative">
+                  <Popover
+                    open={categoryDropdownOpen}
+                    onOpenChange={setCategoryDropdownOpen}
+                  >
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        className={cn(
+                          "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-left text-white",
+                          "focus:outline-none focus:ring-2 focus:ring-white/20",
+                          "flex items-center justify-between"
+                        )}
+                      >
+                        <span
+                          className={
+                            categorySearchQuery ? "text-white" : "text-white/50"
+                          }
+                        >
+                          {categorySearchQuery ||
+                            "Select or type to add category"}
+                        </span>
+                        <IconChevronDown className="w-4 h-4 text-white/50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[var(--radix-popover-trigger-width)] bg-neutral-900 border-white/10 p-0">
+                      <div className="p-2">
+                        <input
+                          type="text"
+                          value={categorySearchQuery}
+                          onChange={(e) =>
+                            setCategorySearchQuery(e.target.value)
+                          }
+                          placeholder="Search categories..."
+                          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm mb-2 focus:outline-none focus:ring-2 focus:ring-white/20"
+                          autoFocus
+                        />
+                        <div className="max-h-48 overflow-y-auto">
+                          {filteredCategories.length > 0 ? (
+                            filteredCategories.map((category) => (
+                              <button
+                                key={category}
+                                type="button"
+                                onClick={() => addCategory(category)}
+                                className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 rounded transition-colors"
+                              >
+                                {category}
+                              </button>
+                            ))
+                          ) : (
+                            <div className="px-3 py-2 text-sm text-white/50">
+                              No matching categories
+                            </div>
+                          )}
+                          {categorySearchQuery &&
+                            !existingCategories.some(
+                              (c) =>
+                                c.toLowerCase() ===
+                                categorySearchQuery.toLowerCase()
+                            ) &&
+                            !formData.categories.includes(
+                              categorySearchQuery.toLowerCase()
+                            ) && (
+                              <button
+                                type="button"
+                                onClick={() => addCategory(categorySearchQuery)}
+                                className="w-full text-left px-3 py-2 text-sm text-blue-400 hover:bg-white/10 rounded transition-colors border-t border-white/10 mt-1 pt-2"
+                              >
+                                + Add "{categorySearchQuery}"
+                              </button>
+                            )}
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <Input
+                  type="text"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  className="w-48"
+                  placeholder="Or type new category"
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addCategory();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  onClick={() => addCategory()}
+                  disabled={!newCategory.trim()}
+                >
+                  Add
+                </Button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.categories.map((category) => (
+                  <span
+                    key={category}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm bg-white/10 text-white capitalize"
+                  >
+                    {category}
+                    <button
+                      type="button"
+                      onClick={() => removeCategory(category)}
+                      className="hover:text-white/70"
+                    >
+                      <IconX className="w-4 h-4" />
+                    </button>
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div>
@@ -469,27 +773,51 @@ export default function EditProjectPage() {
               />
               <Label htmlFor="isCompleted">Project is completed</Label>
             </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="isFeatured"
+                checked={formData.isFeatured}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    isFeatured: e.target.checked,
+                  }))
+                }
+                className="w-4 h-4 rounded border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-white/20"
+              />
+              <Label htmlFor="isFeatured">Mark as featured</Label>
+            </div>
           </div>
 
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-3">
             <Button
               type="button"
               onClick={() => router.push("/admin/projects")}
+              disabled={isSubmitting}
               className={cn(
+                "inline-flex h-10 items-center justify-center gap-2",
+                "px-4 rounded-lg whitespace-nowrap",
                 "bg-white/10 hover:bg-white/20 text-white",
-                "transition-all duration-300"
+                "transition-all duration-300",
+                "disabled:opacity-60 disabled:cursor-not-allowed"
               )}
             >
               Cancel
             </Button>
             <Button
               type="submit"
+              disabled={isSubmitting}
               className={cn(
+                "inline-flex h-10 items-center justify-center gap-2",
+                "px-4 rounded-lg whitespace-nowrap",
                 "bg-blue-500 hover:bg-blue-600 text-white",
-                "transition-all duration-300"
+                "transition-all duration-300",
+                "disabled:opacity-70 disabled:cursor-not-allowed"
               )}
             >
-              Save Changes
+              {isSubmitting ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

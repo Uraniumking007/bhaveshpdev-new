@@ -50,7 +50,11 @@ export async function createProject(data: ProjectData) {
         : [];
 
     // Normalize and create/connect technologies
-    const techNames = (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean);
+    const techNames = Array.from(
+      new Set(
+        (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean)
+      )
+    );
     const techConnections = await Promise.all(
       techNames.map(async (techName) => {
         const tech = await prisma.technology.upsert({
@@ -63,9 +67,13 @@ export async function createProject(data: ProjectData) {
     );
 
     // Normalize and create/connect categories
-    const categoryNames = (data.categories || [])
-      .map((c) => c.trim().toLowerCase())
-      .filter(Boolean);
+    const categoryNames = Array.from(
+      new Set(
+        (data.categories || [])
+          .map((c) => c.trim().toLowerCase())
+          .filter(Boolean)
+      )
+    );
     const categoryConnections = await Promise.all(
       categoryNames.map(async (categoryName) => {
         const category = await prisma.category.upsert({
@@ -153,7 +161,11 @@ export async function updateProject(
         : [];
 
     // Normalize and create/connect technologies
-    const techNames = (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean);
+    const techNames = Array.from(
+      new Set(
+        (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean)
+      )
+    );
     const techConnections = await Promise.all(
       techNames.map(async (techName) => {
         const tech = await prisma.technology.upsert({
@@ -166,9 +178,13 @@ export async function updateProject(
     );
 
     // Normalize and create/connect categories
-    const categoryNames = (data.categories || [])
-      .map((c) => c.trim().toLowerCase())
-      .filter(Boolean);
+    const categoryNames = Array.from(
+      new Set(
+        (data.categories || [])
+          .map((c) => c.trim().toLowerCase())
+          .filter(Boolean)
+      )
+    );
     const categoryConnections = await Promise.all(
       categoryNames.map(async (categoryName) => {
         const category = await prisma.category.upsert({
@@ -256,5 +272,31 @@ export async function deleteProject(id: string) {
   } catch (error) {
     console.error("Error deleting project:", error);
     return { success: false, error: "Failed to delete project" };
+  }
+}
+
+export async function getAllTechnologies() {
+  try {
+    await requireAdmin();
+    const technologies = await prisma.technology.findMany({
+      orderBy: { name: "asc" },
+    });
+    return { success: true, data: technologies.map((t) => t.name) };
+  } catch (error) {
+    console.error("Error fetching technologies:", error);
+    return { success: false, error: "Failed to fetch technologies", data: [] };
+  }
+}
+
+export async function getAllCategories() {
+  try {
+    await requireAdmin();
+    const categories = await prisma.category.findMany({
+      orderBy: { name: "asc" },
+    });
+    return { success: true, data: categories.map((c) => c.name) };
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return { success: false, error: "Failed to fetch categories", data: [] };
   }
 }

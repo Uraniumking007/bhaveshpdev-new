@@ -48,6 +48,18 @@ async function getFeaturedProjects(): Promise<Projects[]> {
       where: {
         isFeatured: true,
       },
+      include: {
+        technologies: {
+          include: {
+            technology: true,
+          },
+        },
+        projectCategories: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
   } catch (error) {
     console.error("[Home] Failed to load featured projects", error);

@@ -13,6 +13,18 @@ export default function ProjectsAdminPage() {
 
 async function ProjectsContent() {
   const projects = await prisma.projects.findMany({
+    include: {
+      technologies: {
+        include: {
+          technology: true,
+        },
+      },
+      projectCategories: {
+        include: {
+          category: true,
+        },
+      },
+    },
     orderBy: { updatedAt: "desc" },
   });
 

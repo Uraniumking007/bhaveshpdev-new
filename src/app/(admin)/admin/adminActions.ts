@@ -8,9 +8,11 @@ export async function createProject({ project }: { project: Projects }) {
   await requireAdmin();
 
   // Normalize and create/connect technologies
-  const techNames = (project.tech || [])
-    .map((t) => t.trim().toLowerCase())
-    .filter(Boolean);
+  const techNames = Array.from(
+    new Set(
+      (project.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean)
+    )
+  );
   const techConnections = await Promise.all(
     techNames.map(async (techName) => {
       const tech = await prisma.technology.upsert({
@@ -23,9 +25,13 @@ export async function createProject({ project }: { project: Projects }) {
   );
 
   // Normalize and create/connect categories
-  const categoryNames = (project.categories || [])
-    .map((c) => c.trim().toLowerCase())
-    .filter(Boolean);
+  const categoryNames = Array.from(
+    new Set(
+      (project.categories || [])
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean)
+    )
+  );
   const categoryConnections = await Promise.all(
     categoryNames.map(async (categoryName) => {
       const category = await prisma.category.upsert({
@@ -67,9 +73,11 @@ export async function editProject({ project }: { project: Projects }) {
   await requireAdmin();
 
   // Normalize and create/connect technologies
-  const techNames = (project.tech || [])
-    .map((t) => t.trim().toLowerCase())
-    .filter(Boolean);
+  const techNames = Array.from(
+    new Set(
+      (project.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean)
+    )
+  );
   const techConnections = await Promise.all(
     techNames.map(async (techName) => {
       const tech = await prisma.technology.upsert({
@@ -82,9 +90,13 @@ export async function editProject({ project }: { project: Projects }) {
   );
 
   // Normalize and create/connect categories
-  const categoryNames = (project.categories || [])
-    .map((c) => c.trim().toLowerCase())
-    .filter(Boolean);
+  const categoryNames = Array.from(
+    new Set(
+      (project.categories || [])
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean)
+    )
+  );
   const categoryConnections = await Promise.all(
     categoryNames.map(async (categoryName) => {
       const category = await prisma.category.upsert({

@@ -45,7 +45,7 @@ export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-semibold text-white">{project.name}</h3>
             <div className="flex flex-wrap gap-2">
-              {project.categories.map((category, index) => (
+              {(project.projectCategories?.map((pc) => pc.category.name) || project.categories || []).map((category, index) => (
                 <span
                   key={index}
                   className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"

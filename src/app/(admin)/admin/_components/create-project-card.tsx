@@ -28,6 +28,7 @@ function CreateProjectModal() {
     projectCompleted: new Date(),
     isCompleted: false,
     categories: [],
+    isFeatured: false,
   });
   const [error, setError] = useState("");
 
@@ -188,6 +189,18 @@ function CreateProjectModal() {
                     size="sm"
                   >
                     Completed
+                  </Checkbox>
+                  <Checkbox
+                    onChange={(e) =>
+                      setnewProject({
+                        ...newProject,
+                        isFeatured: e.target.checked,
+                      })
+                    }
+                    size="sm"
+                    isSelected={newProject.isFeatured}
+                  >
+                    Featured
                   </Checkbox>
                   {newProject.isCompleted ? (
                     <DatePicker
