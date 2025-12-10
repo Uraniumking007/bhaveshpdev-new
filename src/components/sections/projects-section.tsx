@@ -84,9 +84,9 @@ const ProjectCard = ({ project }: { project: Projects }) => {
           </div>
         </div>
 
-        {project.tech && project.tech.length > 0 && (
+        {((project.technologies?.map((pt) => pt.technology.name) || project.tech || []).length > 0) && (
           <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech: string) => (
+            {(project.technologies?.map((pt) => pt.technology.name) || project.tech || []).map((tech: string) => (
               <span
                 key={tech}
                 className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
