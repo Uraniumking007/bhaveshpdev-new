@@ -16,11 +16,25 @@ type ProjectData = {
   endDate: string;
   isCompleted: boolean;
   categories?: string[];
+  isFeatured?: boolean;
 };
 
 export async function getProjects() {
   await requireAdmin();
-  return await prisma.projects.findMany();
+  return await prisma.projects.findMany({
+    include: {
+      technologies: {
+        include: {
+          technology: true,
+        },
+      },
+      projectCategories: {
+        include: {
+          category: true,
+        },
+      },
+    },
+  });
 }
 
 export async function createProject(data: ProjectData) {
@@ -35,6 +49,34 @@ export async function createProject(data: ProjectData) {
         ? [data.imageUrl]
         : [];
 
+    // Normalize and create/connect technologies
+    const techNames = (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean);
+    const techConnections = await Promise.all(
+      techNames.map(async (techName) => {
+        const tech = await prisma.technology.upsert({
+          where: { name: techName },
+          update: {},
+          create: { name: techName },
+        });
+        return { technologyId: tech.id };
+      })
+    );
+
+    // Normalize and create/connect categories
+    const categoryNames = (data.categories || [])
+      .map((c) => c.trim().toLowerCase())
+      .filter(Boolean);
+    const categoryConnections = await Promise.all(
+      categoryNames.map(async (categoryName) => {
+        const category = await prisma.category.upsert({
+          where: { name: categoryName },
+          update: {},
+          create: { name: categoryName },
+        });
+        return { categoryId: category.id };
+      })
+    );
+
     const project = await prisma.projects.create({
       data: {
         id: crypto.randomUUID(),
@@ -44,12 +86,31 @@ export async function createProject(data: ProjectData) {
         images: imagesArray,
         link: data.projectUrl || "",
         github: data.githubUrl || "",
-        tech: data.tech,
-        categories: data.categories || [],
+        tech: data.tech, // Keep for backward compatibility
+        categories: data.categories || [], // Keep for backward compatibility
         projectInitiated: new Date(data.startDate),
         projectCompleted: data.isCompleted ? new Date(data.endDate) : null,
         isCompleted: data.isCompleted,
+        isFeatured: data.isFeatured ?? false,
         updatedAt: new Date(),
+        technologies: {
+          create: techConnections,
+        },
+        projectCategories: {
+          create: categoryConnections,
+        },
+      },
+      include: {
+        technologies: {
+          include: {
+            technology: true,
+          },
+        },
+        projectCategories: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
 
@@ -77,6 +138,7 @@ export async function updateProject(
     startDate: string;
     endDate: string;
     isCompleted: boolean;
+    isFeatured?: boolean;
   }
 ) {
   try {
@@ -90,6 +152,42 @@ export async function updateProject(
         ? [data.imageUrl]
         : [];
 
+    // Normalize and create/connect technologies
+    const techNames = (data.tech || []).map((t) => t.trim().toLowerCase()).filter(Boolean);
+    const techConnections = await Promise.all(
+      techNames.map(async (techName) => {
+        const tech = await prisma.technology.upsert({
+          where: { name: techName },
+          update: {},
+          create: { name: techName },
+        });
+        return { technologyId: tech.id };
+      })
+    );
+
+    // Normalize and create/connect categories
+    const categoryNames = (data.categories || [])
+      .map((c) => c.trim().toLowerCase())
+      .filter(Boolean);
+    const categoryConnections = await Promise.all(
+      categoryNames.map(async (categoryName) => {
+        const category = await prisma.category.upsert({
+          where: { name: categoryName },
+          update: {},
+          create: { name: categoryName },
+        });
+        return { categoryId: category.id };
+      })
+    );
+
+    // Delete existing relations and create new ones
+    await prisma.projectTechnology.deleteMany({
+      where: { projectId: id },
+    });
+    await prisma.projectCategory.deleteMany({
+      where: { projectId: id },
+    });
+
     const updateData = {
       name: data.title,
       description: data.description,
@@ -97,18 +195,37 @@ export async function updateProject(
       images: imagesArray,
       link: data.projectUrl,
       github: data.githubUrl,
-      tech: data.tech,
-      categories: data.categories,
+      tech: data.tech, // Keep for backward compatibility
+      categories: data.categories, // Keep for backward compatibility
       projectInitiated: new Date(data.startDate),
       projectCompleted:
         data.isCompleted && data.endDate ? new Date(data.endDate) : null,
       isCompleted: data.isCompleted,
+      isFeatured: data.isFeatured ?? false,
       updatedAt: new Date(),
+      technologies: {
+        create: techConnections,
+      },
+      projectCategories: {
+        create: categoryConnections,
+      },
     };
 
     const result = await prisma.projects.update({
       where: { id },
       data: updateData,
+      include: {
+        technologies: {
+          include: {
+            technology: true,
+          },
+        },
+        projectCategories: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
 
     revalidatePath("/admin/projects");
