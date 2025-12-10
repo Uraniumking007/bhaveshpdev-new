@@ -4,19 +4,19 @@ import { motion } from "framer-motion";
 import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { ButtonWithMovingBorder } from "../moving-block";
-import { Projects } from "@prisma/client";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { LitupBorderButtonLink } from "../Buttons/litup-border-button";
 import { ProjectImageCarousel } from "../ui/project-image-carousel";
+import { ProjectWithRelations } from "../../types/projects";
 
 interface ProjectsSectionProps {
-  projects?: Projects[];
+  projects?: ProjectWithRelations[];
 }
 
-const ProjectCard = ({ project }: { project: Projects }) => {
+const ProjectCard = ({ project }: { project: ProjectWithRelations }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(cardRef, {
@@ -84,9 +84,17 @@ const ProjectCard = ({ project }: { project: Projects }) => {
           </div>
         </div>
 
-        {((project.technologies?.map((pt) => pt.technology.name) || project.tech || []).length > 0) && (
+        {(
+          project.technologies?.map((pt) => pt.technology.name) ||
+          project.tech ||
+          []
+        ).length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {(project.technologies?.map((pt) => pt.technology.name) || project.tech || []).map((tech: string) => (
+            {(
+              project.technologies?.map((pt) => pt.technology.name) ||
+              project.tech ||
+              []
+            ).map((tech: string) => (
               <span
                 key={tech}
                 className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
