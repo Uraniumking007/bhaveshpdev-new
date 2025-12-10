@@ -117,11 +117,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     jwt: async ({ token, user }) => {
       if (user) {
-        token.id = user.id;
+        const userData = await prisma.user.findFirst({
+          where: {
+            email: user.email!,
+          },
+        });
+        token.id = userData?.id;
         token.email = user.email;
-        token.isAdmin = user.isAdmin;
-        token.username = user.username;
-        token.isDemo = user.isDemo;
+        token.isAdmin = userData?.isAdmin;
+        token.username = userData?.username;
+        token.isDemo = userData?.isDemo;
       }
       return token;
     },
