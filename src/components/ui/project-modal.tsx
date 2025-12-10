@@ -82,7 +82,7 @@ export const ProjectModal = ({
                     {project.name}
                   </h2>
                   <div className="flex flex-wrap gap-2">
-                    {project.categories.map((category, index) => (
+                    {(project.projectCategories?.map((pc) => pc.category.name) || project.categories || []).map((category, index) => (
                       <span
                         key={index}
                         className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
@@ -131,7 +131,7 @@ export const ProjectModal = ({
                     Tech Stack
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech, index) => (
+                    {(project.technologies?.map((pt) => pt.technology.name) || project.tech || []).map((tech, index) => (
                       <span
                         key={index}
                         className="px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm"
