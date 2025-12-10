@@ -81,6 +81,15 @@ const ContactSection = () => {
                 }}
                 className="space-y-4"
               >
+                {/* Honeypot field to deter bots */}
+                <input
+                  type="text"
+                  name="company"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="hidden"
+                  autoComplete="off"
+                />
                 <div>
                   <label
                     htmlFor="name"
@@ -138,13 +147,13 @@ const ContactSection = () => {
                   )}
                 </LitupBorderButton>
                 {formState.success && submitted && (
-                  <div className="text-green-600 mt-2">
+                  <div className="text-green-600 mt-2" aria-live="polite">
                     Message sent successfully!
                   </div>
                 )}
                 {!formState.success && submitted && (
-                  <div className="text-red-600 mt-2">
-                    Something went wrong. Please try again.
+                  <div className="text-red-600 mt-2" aria-live="assertive">
+                    {formState.error || "Something went wrong. Please try again."}
                   </div>
                 )}
               </form>

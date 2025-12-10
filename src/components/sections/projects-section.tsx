@@ -7,7 +7,8 @@ import { ButtonWithMovingBorder } from "../moving-block";
 import { Projects } from "@prisma/client";
 import { IconBrandGithub, IconExternalLink } from "@tabler/icons-react";
 import { Meteors } from "../meteors";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "framer-motion";
 import { LitupBorderButtonLink } from "../Buttons/litup-border-button";
 import { ProjectImageCarousel } from "../ui/project-image-carousel";
 
@@ -17,12 +18,29 @@ interface ProjectsSectionProps {
 
 const ProjectCard = ({ project }: { project: Projects }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(cardRef, {
+    margin: "-10% 0px",
+    amount: 0.3,
+    once: true, // only animate in, never toggle back to hidden
+  });
+  const fadeInEase = [0.22, 1, 0.36, 1] as const;
+
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: fadeInEase },
+    },
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      ref={cardRef}
+      variants={fadeInVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : undefined}
       className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full"
     >
       <Meteors number={2} />

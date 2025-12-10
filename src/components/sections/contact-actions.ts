@@ -2,22 +2,68 @@
 
 import nodemailer from "nodemailer";
 
+type ContactFormState = {
+  success: boolean;
+  error?: string;
+};
+
+const MAX_NAME_LENGTH = 80;
+const MAX_MESSAGE_LENGTH = 1500;
+
+const sanitize = (value: string) =>
+  value
+    .replace(/[\r\n]+/g, " ")
+    .replace(/[<>]/g, (char) => ({ "<": "&lt;", ">": "&gt;" }[char] ?? ""))
+    .trim();
+
+const isValidEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 export async function submitContactForm(
-  prevState: { success: boolean },
+  _prevState: ContactFormState,
   formData: FormData
-) {
-  // Extract form data
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
+): Promise<ContactFormState> {
+  const honeypot = (formData.get("company") as string | null) || "";
+  if (honeypot.trim().length > 0) {
+    return { success: false, error: "Invalid submission" };
+  }
+
+  const name = sanitize(String(formData.get("name") || ""));
+  const email = String(formData.get("email") || "")
+    .trim()
+    .toLowerCase();
+  const message = sanitize(String(formData.get("message") || ""));
+
+  if (!name || !email || !message) {
+    return { success: false, error: "All fields are required" };
+  }
+
+  if (!isValidEmail(email)) {
+    return { success: false, error: "Please provide a valid email" };
+  }
+
+  if (name.length > MAX_NAME_LENGTH) {
+    return { success: false, error: "Name is too long" };
+  }
+
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    return { success: false, error: "Message exceeds allowed length" };
+  }
+
+  const user = process.env.ZOHOMAIL_USER;
+  const pass = process.env.ZOHOMAIL_PASS;
+  if (!user || !pass) {
+    console.error("Email credentials missing");
+    return { success: false, error: "Email service unavailable" };
+  }
 
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.in",
     port: 465,
     secure: true,
     auth: {
-      user: process.env.ZOHOMAIL_USER!,
-      pass: process.env.ZOHOMAIL_PASS!,
+      user,
+      pass,
     },
   });
 
@@ -27,7 +73,7 @@ export async function submitContactForm(
       to: "bhaveshpatil918@gmail.com",
       replyTo: email,
       subject: "New Contact Form Submission",
-      text: message,
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
       html: `
         <div style="max-width:480px;margin:32px auto;padding:24px;background:#f9fafb;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.07);font-family:sans-serif;color:#222;">
           <div style="border-bottom:1px solid #e5e7eb;padding-bottom:12px;margin-bottom:20px;">
@@ -54,6 +100,6 @@ export async function submitContactForm(
     return { success: true };
   } catch (error) {
     console.error("Email send error:", error);
-    return { success: false };
+    return { success: false, error: "Failed to send message" };
   }
 }
