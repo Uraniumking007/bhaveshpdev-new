@@ -50,7 +50,7 @@ export const TooltipButton = ({
         >
           {hoveredIndex === item.id && (
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.6 }}
+              initial={{ opacity: 0, y: 12, scale: 0.95 }}
               animate={{
                 opacity: 1,
                 y: 0,
@@ -58,19 +58,19 @@ export const TooltipButton = ({
                 transition: {
                   type: "spring",
                   stiffness: 260,
-                  damping: 10,
+                  damping: 16,
                 },
               }}
-              exit={{ opacity: 0, y: 20, scale: 0.6 }}
+              exit={{ opacity: 0, y: 12, scale: 0.95 }}
               style={{
                 translateX: translateX,
                 rotate: rotate,
                 whiteSpace: "nowrap",
               }}
-              className="absolute -top-16 -left-12 translate-x-1/2 flex text-xs  flex-col items-center justify-center rounded-md bg-black z-50 shadow-xl px-4 py-2"
+              className="pointer-events-none absolute -top-14 left-1/2 -translate-x-1/2 flex text-xs flex-col items-center justify-center rounded-md bg-black/90 backdrop-blur z-50 shadow-xl px-4 py-2"
             >
-              <div className="absolute inset-x-10 z-30 w-[20%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px " />
-              <div className="absolute left-10 w-[40%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px " />
+              <div className="absolute inset-x-6 z-30 w-[60%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px" />
+              <div className="absolute inset-x-10 z-30 w-[40%] -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px" />
               <div className="font-bold text-white relative z-30 text-base">
                 {item.title}
               </div>

@@ -1,13 +1,17 @@
 "use client";
 
-import React from "react";
-import { HeroHighlight, Highlight } from "./hero-highlight";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { TextGenerateEffect } from "./text-generate-effect";
+import TextType from "./text-type";
+import { Highlight } from "./hero-highlight";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { ImageWithMovingBorder } from "./moving-block";
-import { TooltipButton } from "./Buttons/tooltip-button";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 
 const DevInfo = () => {
+  const [showNameHighlight, setShowNameHighlight] = useState(false);
+  const [typeNextText, setTypeNextText] = useState(false);
+
   return (
     <div className="w-screen h-screen">
       <div className="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row">
@@ -32,22 +36,60 @@ const DevInfo = () => {
             }}
             className="text-2xl px-4 md:text-4xl mt-4 lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto flex flex-col justify-center items-center"
           >
-            <div className="w-full">
-              Hi! I&apos;m{" "}
-              <Highlight className="text-black dark:text-white">
-                Bhavesh.
-              </Highlight>
+            <div className="w-full flex justify-center flex-wrap items-center gap-2">
+              {!typeNextText ? (
+                <TextType
+                  key="intro-typing"
+                  as="span"
+                  className="text-black dark:text-white"
+                  text="Hi! I'm"
+                  typingSpeed={60}
+                  deletingSpeed={35}
+                  pauseDuration={1600}
+                  cursorClassName="text-black dark:text-white"
+                  startOnVisible
+                  loop={false}
+                  hideCursorWhileTyping
+                  onSentenceComplete={() => setTypeNextText(true)}
+                />
+              ) : (
+                <span className="text-black dark:text-white">Hi! I'm</span>
+              )}
+
+              {showNameHighlight ? (
+                <Highlight className="text-black dark:text-white">
+                  Bhavesh Patil.
+                </Highlight>
+              ) : typeNextText ? (
+                <TextType
+                  key="name-typing"
+                  as="span"
+                  className="text-black dark:text-white"
+                  text="Bhavesh Patil."
+                  typingSpeed={60}
+                  deletingSpeed={35}
+                  pauseDuration={1600}
+                  cursorClassName="text-black dark:text-white"
+                  startOnVisible
+                  loop={false}
+                  hideCursorWhileTyping
+                  onSentenceComplete={() => setShowNameHighlight(true)}
+                />
+              ) : null}
             </div>
             <TextGenerateEffect
-              className="lg:text-lg md:w-[70%] text-sm font-normal lg:pt-4 lg:w-[75%]"
-              words="I'm a computer engineering student who enjoys using JavaScript,
-            TypeScript, Next.js, and Tailwind CSS. I am interested about creating
-            dynamic, responsive web applications that provide an excellent user
-            experience."
+              className="w-full max-w-3xl px-4 sm:px-6 lg:pt-4 font-normal"
+              textClassName="text-base sm:text-lg md:text-xl leading-7 md:leading-8 tracking-wide"
+              textStyle={{
+                fontFamily: '"Zalando Sans", sans-serif',
+                fontOpticalSizing: "auto",
+                fontVariationSettings: '"wdth" 100',
+              }}
+              words="I'm a computer engineering student passionate about building dynamic, user-friendly web applications with JavaScript, TypeScript, Next.js, and Tailwind CSS. Alongside my projects, I gained hands-on experience during a two-month internship, supporting real-world applications. Let's connect and create something great together!"
             />
           </motion.h1>
           <div className="flex flex-row gap-4 items-center justify-center mt-6 w-full">
-            <TooltipButton items={contactInfo} />
+            <AnimatedTooltip items={contactInfo} />
           </div>
         </div>
       </div>
