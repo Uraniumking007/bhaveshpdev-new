@@ -32,8 +32,13 @@ export function ProjectFilters({
 
   // Initialize filters from URL params
   useEffect(() => {
-    const categories = searchParams.get("categories")?.split(",") || [];
-    const tech = searchParams.get("tech")?.split(",") || [];
+    const normalize = (items: string[] = []) =>
+      items.map((i) => i.trim()).filter(Boolean);
+
+    const categories = normalize(
+      searchParams.get("categories")?.split(",") || []
+    );
+    const tech = normalize(searchParams.get("tech")?.split(",") || []);
     const search = searchParams.get("search") || "";
     const completed = searchParams.get("completed") !== "false";
     const ongoing = searchParams.get("ongoing") !== "false";

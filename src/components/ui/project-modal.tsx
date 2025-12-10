@@ -1,14 +1,14 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Projects } from "@prisma/client";
 import { IconX, IconExternalLink, IconBrandGithub } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
 import { ProjectImageCarousel } from "./project-image-carousel";
+import { ProjectWithRelations } from "@/types/projects";
 
 interface ProjectModalProps {
-  project: Projects;
+  project: ProjectWithRelations;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -82,14 +82,16 @@ export const ProjectModal = ({
                     {project.name}
                   </h2>
                   <div className="flex flex-wrap gap-2">
-                    {(project.projectCategories?.map((pc) => pc.category.name) || project.categories || []).map((category, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
-                      >
-                        {category}
-                      </span>
-                    ))}
+                    {(project.projectCategories?.map((pc) => pc.category.name) || []).map(
+                      (category, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
+                        >
+                          {category}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
 
@@ -131,14 +133,16 @@ export const ProjectModal = ({
                     Tech Stack
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {(project.technologies?.map((pt) => pt.technology.name) || project.tech || []).map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                    {(project.technologies?.map((pt) => pt.technology.name) || []).map(
+                      (tech, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm"
+                        >
+                          {tech}
+                        </span>
+                      )
+                    )}
                   </div>
                 </motion.div>
 

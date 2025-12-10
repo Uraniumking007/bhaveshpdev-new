@@ -2,44 +2,25 @@ import { HeroHighlight } from "@/components/hero-highlight";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
-import { Projects } from "@prisma/client";
-import { ProjectViewerCard } from "@/components/cards/project-viewer-card";
 import { ProjectFilters } from "@/components/project-filters";
+import { ProjectsList } from "@/components/projects-list";
+import { ProjectWithRelations } from "@/types/projects";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Projects",
   description: "Bhavesh Patil's projects.",
 };
 
-interface PageProps {
-  searchParams: {
-    categories?: string;
-    tech?: string;
-    search?: string;
-    completed?: string;
-    ongoing?: string;
-  };
-}
-
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
-  const projects = await getProjects(searchParams);
-  const allCategories = Array.from(
-    new Set(
-      projects.flatMap((p) =>
-        p.projectCategories?.map((pc) => pc.category.name) || p.categories || []
-      )
-    )
-  );
-  const allTech = Array.from(
-    new Set(
-      projects.flatMap((p) =>
-        p.technologies?.map((pt) => pt.technology.name) || p.tech || []
-      )
-    )
-  );
+const ProjectPage: React.FC = async () => {
+  const [projects, filterOptions] = await Promise.all([
+    getAllProjects(),
+    getFilterOptions(),
+  ]);
+  const allCategories = filterOptions.categories;
+  const allTech = filterOptions.technologies;
 
   return (
     <HeroHighlight>
@@ -66,62 +47,20 @@ const ProjectPage: React.FC<PageProps> = async ({ searchParams }) => {
             </Suspense>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full">
-            {projects.map((project: Projects) => (
-              <ProjectViewerCard key={project.id} project={project} />
-            ))}
-          </div>
+          <Suspense
+            fallback={<div className="text-white">Loading projects...</div>}
+          >
+            <ProjectsList projects={projects} />
+          </Suspense>
         </div>
       </div>
     </HeroHighlight>
   );
 };
 
-const getProjects = async (searchParams: PageProps["searchParams"]) => {
-  const where: any = {};
-
-  // Filter by categories (using relations)
-  if (searchParams.categories) {
-    const categories = searchParams.categories.split(",").map((c) => c.trim().toLowerCase());
-    where.projectCategories = {
-      some: {
-        category: {
-          name: {
-            in: categories,
-          },
-        },
-      },
-    };
-  }
-
-  // Filter by technologies (using relations)
-  if (searchParams.tech) {
-    const tech = searchParams.tech.split(",").map((t) => t.trim().toLowerCase());
-    where.technologies = {
-      some: {
-        technology: {
-          name: {
-            in: tech,
-          },
-        },
-      },
-    };
-  }
-
-  // Filter by completion status
-  if (searchParams.completed === "false" && searchParams.ongoing === "false") {
-    where.isCompleted = false; // This will never match anything
-  } else if (searchParams.completed === "false") {
-    where.isCompleted = false;
-  } else if (searchParams.ongoing === "false") {
-    where.isCompleted = true;
-  }
-
-  // Get all projects with filters
-  let projects: Projects[] = [];
+const getAllProjects = async (): Promise<ProjectWithRelations[]> => {
   try {
-    projects = await prisma.projects.findMany({
-      where,
+    const projects = await prisma.projects.findMany({
       include: {
         technologies: {
           include: {
@@ -138,27 +77,25 @@ const getProjects = async (searchParams: PageProps["searchParams"]) => {
         projectCompleted: "desc",
       },
     });
+    return projects;
   } catch (error) {
     console.error("[ProjectsPage] Failed to fetch projects", error);
     return [];
   }
-
-  // Filter by search query if present
-  if (searchParams.search) {
-    const searchLower = searchParams.search.toLowerCase();
-    return projects.filter((project) => {
-      const techNames = project.technologies?.map((pt) => pt.technology.name) || project.tech || [];
-      const categoryNames = project.projectCategories?.map((pc) => pc.category.name) || project.categories || [];
-      return (
-        project.name.toLowerCase().includes(searchLower) ||
-        project.description.toLowerCase().includes(searchLower) ||
-        techNames.some((t) => t.toLowerCase().includes(searchLower)) ||
-        categoryNames.some((c) => c.toLowerCase().includes(searchLower))
-      );
-    });
-  }
-
-  return projects;
 };
 
+async function getFilterOptions() {
+  // Gather from normalized tables only
+  const [techRows, categoryRows] = await Promise.all([
+    prisma.technology.findMany({ select: { name: true } }),
+    prisma.category.findMany({ select: { name: true } }),
+  ]);
+
+  return {
+    technologies: techRows.map((t) => t.name).sort(),
+    categories: categoryRows.map((c) => c.name).sort(),
+  };
+}
+
 export default ProjectPage;
+

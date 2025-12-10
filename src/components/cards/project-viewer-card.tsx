@@ -1,5 +1,4 @@
 "use client";
-import { Projects } from "@prisma/client";
 import {
   IconBrandGithub,
   IconExternalLink,
@@ -11,9 +10,10 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 import { ProjectModal } from "../ui/project-modal";
 import { ProjectImageCarousel } from "../ui/project-image-carousel";
+import { ProjectWithRelations } from "@/types/projects";
 
 interface ProjectViewerCardProps {
-  project: Projects;
+  project: ProjectWithRelations;
 }
 
 export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
@@ -45,14 +45,16 @@ export const ProjectViewerCard = ({ project }: ProjectViewerCardProps) => {
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-semibold text-white">{project.name}</h3>
             <div className="flex flex-wrap gap-2">
-              {(project.projectCategories?.map((pc) => pc.category.name) || project.categories || []).map((category, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
-                >
-                  {category}
-                </span>
-              ))}
+              {(project.projectCategories?.map((pc) => pc.category.name) || []).map(
+                (category, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
+                  >
+                    {category}
+                  </span>
+                )
+              )}
             </div>
             <p className="text-white/80 mt-2 line-clamp-2">
               {project.description}
