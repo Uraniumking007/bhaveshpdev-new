@@ -28,25 +28,38 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
   const router = useRouter();
   const [items, setItems] = useState(projects);
   const [query, setQuery] = useState("");
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const filteredProjects = useMemo(() => {
-    if (!query.trim()) return items;
+    const filtered = showFeaturedOnly
+      ? items.filter((project) => project.isFeatured)
+      : items;
+
+    if (!query.trim()) return filtered;
     const normalized = query.toLowerCase();
-    return items.filter((project) => {
+    return filtered.filter((project) => {
+      const techNames =
+        project.technologies?.map((pt) => pt.technology.name) ||
+        project.tech ||
+        [];
+      const categoryNames =
+        project.projectCategories?.map((pc) => pc.category.name) ||
+        project.categories ||
+        [];
       const haystack = [
         project.name,
         project.description,
-        project.categories?.join(" "),
-        project.tech?.join(" "),
+        categoryNames.join(" "),
+        techNames.join(" "),
       ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
       return haystack.includes(normalized);
     });
-  }, [items, query]);
+  }, [items, query, showFeaturedOnly]);
 
   const handleDelete = (id: string) => {
     setDeletingId(id);
@@ -93,9 +106,20 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
               className="mt-1 border-white/10 bg-black/20 text-white placeholder:text-white/40"
             />
           </div>
-          <p className="text-sm text-white/60">
-            Showing {filteredProjects.length} of {items.length}
-          </p>
+          <div className="flex flex-col items-start gap-2 md:items-end">
+            <label className="flex items-center gap-2 text-white/70 text-sm">
+              <input
+                type="checkbox"
+                checked={showFeaturedOnly}
+                onChange={(event) => setShowFeaturedOnly(event.target.checked)}
+                className="h-4 w-4 rounded border-white/20 bg-black/40"
+              />
+              Show only featured
+            </label>
+            <p className="text-sm text-white/60">
+              Showing {filteredProjects.length} of {items.length}
+            </p>
+          </div>
         </div>
 
         <Table className="[&_th]:text-white [&_td]:text-white/80">
@@ -103,6 +127,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             <TableRow className="border-white/10">
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Featured</TableHead>
               <TableHead>Tech Stack</TableHead>
               <TableHead>Categories</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -128,8 +153,20 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                   </Badge>
                 </TableCell>
                 <TableCell>
+                  <Badge
+                    color={project.isFeatured ? "primary" : "default"}
+                    variant="flat"
+                  >
+                    {project.isFeatured ? "Featured" : "Standard"}
+                  </Badge>
+                </TableCell>
+                <TableCell>
                   <div className="flex flex-wrap gap-1 text-xs text-white/70">
-                    {project.tech?.map((tech) => (
+                    {(
+                      project.technologies?.map((pt) => pt.technology.name) ||
+                      project.tech ||
+                      []
+                    ).map((tech) => (
                       <span
                         key={`${project.id}-${tech}`}
                         className="rounded-full bg-white/10 px-2 py-0.5"
@@ -141,7 +178,13 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-wrap gap-1 text-xs text-white/70">
-                    {project.categories?.map((category) => (
+                    {(
+                      project.projectCategories?.map(
+                        (pc) => pc.category.name
+                      ) ||
+                      project.categories ||
+                      []
+                    ).map((category) => (
                       <span
                         key={`${project.id}-${category}`}
                         className="rounded-full bg-white/10 px-2 py-0.5"

@@ -29,6 +29,7 @@ type ProjectFormData = {
   endDate: string;
   isCompleted: boolean;
   categories: string[];
+  isFeatured: boolean;
 };
 
 type ServerActionData = {
@@ -60,6 +61,7 @@ interface ProjectFormProps {
     endDate: string;
     isCompleted: boolean;
     categories: string[];
+    isFeatured: boolean;
   };
 }
 
@@ -76,6 +78,7 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
     endDate: initialData?.endDate || "",
     isCompleted: initialData?.isCompleted || false,
     categories: initialData?.categories || [],
+    isFeatured: initialData?.isFeatured || false,
   });
 
   const [newTechnology, setNewTechnology] = useState("");
@@ -488,6 +491,25 @@ export function ProjectForm({ onClose, initialData }: ProjectFormProps) {
             className="text-sm font-medium text-white/70"
           >
             Project is completed
+          </label>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="isFeatured"
+            checked={formData.isFeatured}
+            onChange={(e) =>
+              setFormData({ ...formData, isFeatured: e.target.checked })
+            }
+            className="w-4 h-4 rounded border-white/10 bg-white/5 text-white focus:ring-2 focus:ring-white/20"
+            disabled={isSubmitting}
+          />
+          <label
+            htmlFor="isFeatured"
+            className="text-sm font-medium text-white/70"
+          >
+            Mark as featured
           </label>
         </div>
 
