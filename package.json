@@ -7,7 +7,13 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "watch": "next build && next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "bun run prisma/seed.ts",
+    "db:seed": "bun run prisma/seed.generated.ts",
+    "seed:dump": "bun run scripts/export-seed.ts"
+  },
+  "prisma": {
+    "seed": "bun run prisma/seed.ts"
   },
   "dependencies": {
     "@auth/core": "0.34.3",
