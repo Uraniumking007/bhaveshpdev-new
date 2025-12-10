@@ -9,23 +9,69 @@ datasource db {
 }
 
 model Projects {
-  id               String    @id
+  id               String         @id
   name             String
   description      String
   image            String?
   link             String
   github           String
-  tech             String[]
-  createdAt        DateTime  @default(now())
+  tech             String[]       // Deprecated: kept for migration compatibility
+  createdAt        DateTime       @default(now())
   updatedAt        DateTime
   projectInitiated DateTime
   projectCompleted DateTime?
-  isCompleted      Boolean   @default(false)
-  categories       String[]
+  isCompleted      Boolean        @default(false)
+  categories       String[]       // Deprecated: kept for migration compatibility
   endDate          DateTime?
-  isFeatured       Boolean   @default(false)
+  isFeatured       Boolean        @default(false)
   images           String[]
+  technologies     ProjectTechnology[]
+  projectCategories ProjectCategory[]
 
+  @@schema("public")
+}
+
+model Technology {
+  id        String              @id @default(cuid())
+  name      String              @unique
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  projects  ProjectTechnology[]
+
+  @@schema("public")
+}
+
+model Category {
+  id        String              @id @default(cuid())
+  name      String              @unique
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  projects  ProjectCategory[]
+
+  @@schema("public")
+}
+
+model ProjectTechnology {
+  id           String     @id @default(cuid())
+  projectId    String
+  technologyId String
+  project      Projects   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  technology   Technology @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@unique([projectId, technologyId])
+  @@schema("public")
+}
+
+model ProjectCategory {
+  id         String   @id @default(cuid())
+  projectId  String
+  categoryId String
+  project    Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([projectId, categoryId])
   @@schema("public")
 }
 
