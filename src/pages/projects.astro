@@ -1,0 +1,112 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Projects - Bhavesh Patel">
+  <Header currentPath="/projects" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Projects</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        A selection of projects I've worked on
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white border border-zinc-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="aspect-video bg-zinc-100 flex items-center justify-center">
+            <span class="text-zinc-400">Project Screenshot</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-zinc-900 mb-2">
+              Portfolio Website
+            </h3>
+            <p class="text-zinc-600 mb-4">
+              Modern portfolio with blog, built using Astro, TypeScript, and Tailwind CSS.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                Astro
+              </span>
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                TypeScript
+              </span>
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                Tailwind
+              </span>
+            </div>
+            <div class="flex gap-4">
+              <a
+                href="#"
+                class="text-sm font-medium text-zinc-900 hover:text-zinc-700"
+              >
+                View Code
+              </a>
+              <a
+                href="#"
+                class="text-sm font-medium text-zinc-900 hover:text-zinc-700"
+              >
+                Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-zinc-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="aspect-video bg-zinc-100 flex items-center justify-center">
+            <span class="text-zinc-400">Project Screenshot</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-zinc-900 mb-2">
+              Blog Platform
+            </h3>
+            <p class="text-zinc-600 mb-4">
+              Full-stack blog with authentication, rich text editor, and scheduled publishing.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                React
+              </span>
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                Node.js
+              </span>
+              <span class="px-3 py-1 bg-zinc-100 text-zinc-700 text-sm rounded-full">
+                PostgreSQL
+              </span>
+            </div>
+            <div class="flex gap-4">
+              <a
+                href="#"
+                class="text-sm font-medium text-zinc-900 hover:text-zinc-700"
+              >
+                View Code
+              </a>
+              <a
+                href="#"
+                class="text-sm font-medium text-zinc-900 hover:text-zinc-700"
+              >
+                Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-zinc-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="aspect-video bg-zinc-100 flex items-center justify-center">
+            <span class="text-zinc-400">More Projects Coming Soon</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-zinc-900 mb-2">
+              More Projects
+            </h3>
+            <p class="text-zinc-600 mb-4">
+              I'm constantly working on new projects. Check back soon for updates!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

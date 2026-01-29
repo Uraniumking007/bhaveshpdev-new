@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="About - Bhavesh Patel">
+  <Header currentPath="/about" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-8">About Me</h1>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-4">
+          Who I Am
+        </h2>
+        <p class="text-lg text-zinc-600 leading-relaxed mb-4">
+          I'm a passionate software developer with expertise in full-stack development.
+          I love building clean, efficient, and user-friendly applications that solve real-world problems.
+        </p>
+        <p class="text-lg text-zinc-600 leading-relaxed">
+          With experience across multiple technologies and domains, I bring a holistic approach to software development -
+          from database design to frontend interfaces, from API development to deployment automation.
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-4">
+          My Approach
+        </h2>
+        <ul class="space-y-3 text-lg text-zinc-600">
+          <li class="flex items-start">
+            <span class="text-zinc-900 mr-2">✓</span>
+            Write clean, maintainable, and well-documented code
+          </li>
+          <li class="flex items-start">
+            <span class="text-zinc-900 mr-2">✓</span>
+            Focus on performance optimization and user experience
+          </li>
+          <li class="flex items-start">
+            <span class="text-zinc-900 mr-2">✓</span>
+            Stay up-to-date with latest technologies and best practices
+          </li>
+          <li class="flex items-start">
+            <span class="text-zinc-900 mr-2">✓</span>
+            Collaborate effectively in team environments
+          </li>
+          <li class="flex items-start">
+            <span class="text-zinc-900 mr-2">✓</span>
+            Continuously learn and adapt to new challenges
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-4">
+          Let's Connect
+        </h2>
+        <p class="text-lg text-zinc-600 mb-6">
+          I'm always interested in hearing about new opportunities, interesting projects,
+          or just having a chat about technology.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center px-6 py-3 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-colors"
+        >
+          Get in Touch
+        </a>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

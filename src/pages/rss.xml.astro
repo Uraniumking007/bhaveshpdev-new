@@ -1,0 +1,35 @@
+---
+import rss from '@astrojs/rss';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../../consts';
+
+const posts = [
+  {
+    title: 'Getting Started with Astro',
+    pubDate: new Date('2024-01-28'),
+    description: 'Learn how to build a fast website with Astro',
+    link: '/blog/getting-started-with-astro',
+    slug: 'getting-started-with-astro'
+  },
+  {
+    title: 'Building with Tailwind CSS',
+    pubDate: new Date('2024-01-27'),
+    description: 'A guide to using Tailwind CSS in Astro projects',
+    link: '/blog/building-with-tailwind',
+    slug: 'building-with-tailwind'
+  }
+];
+
+export async function GET(context) {
+  return rss({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: context.site,
+    items: posts.map((post) => ({
+      title: post.title,
+      pubDate: post.pubDate,
+      description: post.description,
+      link: `${post.link}`,
+    })),
+    customData: `<language>en-us</language>`,
+  });
+}

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Skills - Bhavesh Patel">
+  <Header currentPath="/skills" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Skills & Stack</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        Technologies and tools I work with
+      </p>
+
+      <div class="space-y-12">
+        <section>
+          <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+            Frontend Development
+          </h2>
+          <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {['React', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'Astro', 'Next.js', 'HTML5', 'CSS3'].map(skill => (
+              <div class="bg-white border border-zinc-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <span class="text-zinc-900 font-medium">{skill}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+            Backend Development
+          </h2>
+          <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {['Node.js', 'Python', 'Express', 'FastAPI', 'PostgreSQL', 'MongoDB', 'Redis', 'GraphQL'].map(skill => (
+              <div class="bg-white border border-zinc-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <span class="text-zinc-900 font-medium">{skill}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+            DevOps & Tools
+          </h2>
+          <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {['Git', 'Docker', 'Kubernetes', 'AWS', 'Vercel', 'CI/CD', 'Linux', 'Nginx'].map(skill => (
+              <div class="bg-white border border-zinc-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                <span class="text-zinc-900 font-medium">{skill}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

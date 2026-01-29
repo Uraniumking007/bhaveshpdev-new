@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Speaking - Bhavesh Patel">
+  <Header currentPath="/speaking" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Speaking & Writing</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        Talks, articles, and other content I've created
+      </p>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+          Conference Talks
+        </h2>
+        <p class="text-zinc-600 italic">
+          Coming soon - I'm working on my first conference presentation!
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+          Blog Articles
+        </h2>
+        <p class="text-zinc-600 italic">
+          Check out my <a href="/blog" class="text-zinc-900 font-medium hover:underline">blog</a> for my latest articles
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

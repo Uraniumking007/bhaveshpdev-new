@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Resume - Bhavesh Patel">
+  <Header currentPath="/resume" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Resume / CV</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        Download my resume or view it online
+      </p>
+
+      <div class="bg-white border border-zinc-200 rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-semibold text-zinc-900 mb-6">
+          Bhavesh Patel
+        </h2>
+        <div class="space-y-6 text-zinc-600">
+          <div>
+            <h3 class="font-semibold text-zinc-900 mb-2">Summary</h3>
+            <p>
+              Passionate software developer with expertise in full-stack development,
+              focusing on building modern, efficient, and user-friendly applications.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-zinc-900 mb-2">Skills</h3>
+            <ul class="list-disc ml-6 space-y-1">
+              <li>Frontend: React, TypeScript, JavaScript, Tailwind CSS, Astro</li>
+              <li>Backend: Node.js, Python, Express, FastAPI</li>
+              <li>Databases: PostgreSQL, MongoDB, Redis</li>
+              <li>Tools: Git, Docker, AWS, Kubernetes, CI/CD</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-zinc-900 mb-2">Experience</h3>
+            <p>
+              See <a href="/experience" class="text-zinc-900 hover:underline font-medium">Experience page</a> for detailed work history
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="inline-flex items-center justify-center px-6 py-3 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-colors">
+          Download PDF
+        </button>
+        <button class="inline-flex items-center justify-center px-6 py-3 bg-white border border-zinc-300 text-zinc-900 rounded-lg font-medium hover:bg-zinc-50 transition-colors">
+          Print Resume
+        </button>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

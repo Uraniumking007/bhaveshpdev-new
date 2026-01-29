@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+export const prerender = false;
+---
+
+<BaseLayout title="Create Post - Admin">
+  <Header currentPath="/admin/new" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Create New Post</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        Write and publish your blog post
+      </p>
+
+      <p class="text-zinc-600 bg-zinc-50 border-l-4 border-zinc-200 rounded-lg p-6">
+        Database setup required. Please run:
+      </p>
+      <code class="block bg-zinc-900 text-white rounded-md p-4">
+        bun run db:setup
+      </code>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

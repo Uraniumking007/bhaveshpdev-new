@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { getPool } from '@/db/connection';
+import { createKysely } from '@/db/schema';
+
+const { slug } = Astro.params;
+const pool = await getPool();
+const db = createKysely(pool);
+
+const post = await db
+  .selectFrom('blog_posts')
+  .where('slug', '=', slug)
+  .select([
+    'id',
+    'slug',
+    'title',
+    'description',
+    'markdown',
+    'cover_image_url',
+    'canonical_url',
+    'published_at',
+    'created_at',
+    'updated_at',
+  ])
+  .executeTakeFirst();
+
+await pool.end();
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const now = new Date();
+const isVisible = !post.draft && (!post.scheduled_at || post.scheduled_at <= now);
+
+if (!isVisible) {
+  return Astro.redirect('/404');
+}
+---
+
+<BaseLayout title={`${post.title} - Blog`}>
+  <Header currentPath={`/blog/${slug}`} />
+  <main class="min-h-screen py-20 px-4">
+    <article class="max-w-4xl mx-auto">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold text-zinc-900 mb-4">
+          {post.title}
+        </h1>
+        {post.description && (
+          <p class="text-xl text-zinc-600">{post.description}</p>
+        )}
+        <div class="flex items-center text-sm text-zinc-500">
+          <time datetime={post.published_at?.toISOString()}>
+            Published {new Date(post.published_at || post.created_at).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </div>
+      </header>
+
+      {post.cover_image_url && (
+        <img
+          src={post.cover_image_url}
+          alt={post.title}
+          class="w-full rounded-lg mb-8"
+        />
+      )}
+
+      <div class="prose prose-zinc max-w-none">
+        {post.markdown ? (
+          <div set:html={post.markdown} />
+        ) : (
+          <p class="text-zinc-600 italic">No content available</p>
+        )}
+      </div>
+
+      {post.canonical_url && (
+        <link rel="canonical" href={post.canonical_url} />
+      )}
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

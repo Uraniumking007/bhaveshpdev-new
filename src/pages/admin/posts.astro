@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout title="Admin Dashboard - Bhavesh Patel">
+  <Header currentPath="/admin" />
+  <main class="min-h-screen py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Admin Dashboard</h1>
+      <p class="text-lg text-zinc-600 mb-12">
+        Manage your blog posts and content
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a
+          href="/admin/posts"
+          class="bg-white border border-zinc-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
+        >
+          <h2 class="text-xl font-semibold text-zinc-900 mb-2">
+            Manage Posts
+          </h2>
+          <p class="text-zinc-600">
+            Create, edit, and publish blog posts
+          </p>
+        </a>
+
+        <a
+          href="/admin/new"
+          class="bg-white border border-zinc-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
+        >
+          <h2 class="text-xl font-semibold text-zinc-900 mb-2">
+            Create New Post
+          </h2>
+          <p class="text-zinc-600">
+            Start writing a new blog post
+          </p>
+        </a>
+
+        <div class="bg-zinc-50 border border-zinc-200 rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-zinc-900 mb-2">
+            Quick Stats
+          </h2>
+          <div class="space-y-2 text-zinc-600">
+            <p>Total Posts: 0</p>
+            <p>Published: 0</p>
+            <p>Drafts: 0</p>
+            <p>Scheduled: 0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
