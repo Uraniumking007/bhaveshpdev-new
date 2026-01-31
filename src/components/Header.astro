@@ -2,33 +2,36 @@
 const { currentPath = '/' } = Astro.props;
 
 const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
   { href: '/projects', label: 'Projects' },
-  { href: '/experience', label: 'Experience' },
-  { href: '/skills', label: 'Skills' },
-  { href: '/speaking', label: 'Speaking' },
-  { href: '/testimonials', label: 'Testimonials' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Blog', isRoutePrefix: true },
 ];
+
+const isActive = (href: string, isRoutePrefix = false) => {
+  if (isRoutePrefix) {
+    return currentPath.startsWith(href) && currentPath.length > href.length;
+  }
+  return currentPath === href;
+};
 ---
 
 <header class="border-b border-zinc-200 bg-white sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
-      <a href="/" class="text-xl font-bold text-zinc-900 hover:text-zinc-700">
-        Bhavesh Patel
+      <a
+        href="/"
+        class="text-xl font-bold text-zinc-900 hover:text-zinc-700"
+      >
+        Bhavesh Patil
       </a>
 
       <!-- Desktop navigation -->
-      <nav class="hidden md:flex space-x-8">
+      <nav class="hidden md:flex space-x-8 items-center">
         {navItems.map(item => (
           <a
             href={item.href}
             class={`text-sm font-medium transition-colors hover:text-zinc-900 ${
-              currentPath === item.href
+              isActive(item.href, item.isRoutePrefix)
                 ? 'text-zinc-900 font-semibold'
                 : 'text-zinc-600'
             }`}
@@ -36,6 +39,34 @@ const navItems = [
             {item.label}
           </a>
         ))}
+
+        <!-- Resume secondary link -->
+        <a
+          href="/resume"
+          class={`text-sm font-medium transition-colors hover:text-zinc-900 ml-4 flex items-center gap-1 ${
+            isActive('/resume', false)
+              ? 'text-zinc-900 font-semibold'
+              : 'text-zinc-600'
+          }`}
+          aria-label="View Resume"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9 5-9 5 9 5zm0-12v4l4-4 4 4H3l4 4 4z" />
+          </svg>
+          Resume
+        </a>
+
+        <!-- Contact CTA -->
+        <a
+          href="/contact"
+          class={`bg-zinc-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-zinc-800 transition-colors ml-4 ${
+            isActive('/contact', false)
+              ? 'bg-zinc-800'
+              : ''
+          }`}
+        >
+          Contact
+        </a>
       </nav>
 
       <!-- Mobile menu button -->
@@ -57,7 +88,7 @@ const navItems = [
           <a
             href={item.href}
             class={`block px-3 py-2 text-base font-medium rounded-md transition-colors ${
-              currentPath === item.href
+              isActive(item.href, item.isRoutePrefix)
                 ? 'bg-zinc-100 text-zinc-900'
                 : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
             }`}
@@ -65,6 +96,33 @@ const navItems = [
             {item.label}
           </a>
         ))}
+
+        <!-- Resume secondary link -->
+        <a
+          href="/resume"
+          class={`block px-3 py-2 text-base font-medium rounded-md transition-colors flex items-center gap-2 ${
+            isActive('/resume', false)
+              ? 'bg-zinc-100 text-zinc-900'
+              : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'
+          }`}
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9 5-9 5 9 5zm0-12v4l4-4 4 4H3l4 4 4z" />
+          </svg>
+          Resume
+        </a>
+
+        <!-- Contact CTA -->
+        <a
+          href="/contact"
+          class={`block px-3 py-2 text-base font-medium rounded-md bg-zinc-900 text-white hover:bg-zinc-800 transition-colors ${
+            isActive('/contact', false)
+              ? 'bg-zinc-800'
+              : ''
+          }`}
+        >
+          Contact
+        </a>
       </div>
     </div>
   </div>

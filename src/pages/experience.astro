@@ -1,59 +1,12 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import type { APIRoute } from 'astro';
+
+export const GET: APIRoute = (): Response => {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: '/#experience',
+    },
+  });
+};
 ---
-
-<BaseLayout title="Experience - Bhavesh Patel">
-  <Header currentPath="/experience" />
-  <main class="min-h-screen py-20 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Experience</h1>
-      <p class="text-lg text-zinc-600 mb-12">
-        My professional journey and work history
-      </p>
-
-      <div class="space-y-8">
-        <div class="border-l-2 border-zinc-200 pl-6 relative">
-          <div class="absolute -left-2 top-0 h-4 w-4 bg-zinc-900 rounded-full"></div>
-          <h3 class="text-xl font-semibold text-zinc-900 mb-2">
-            Software Developer
-          </h3>
-          <p class="text-zinc-600 mb-2">Company Name • 2022 - Present</p>
-          <ul class="space-y-2 text-zinc-600 ml-4">
-            <li>• Developed and maintained full-stack web applications</li>
-            <li>• Collaborated with cross-functional teams to deliver features</li>
-            <li>• Implemented responsive UIs using modern frameworks</li>
-            <li>• Optimized database queries and API performance</li>
-          </ul>
-        </div>
-
-        <div class="border-l-2 border-zinc-200 pl-6 relative">
-          <div class="absolute -left-2 top-0 h-4 w-4 bg-zinc-900 rounded-full"></div>
-          <h3 class="text-xl font-semibold text-zinc-900 mb-2">
-            Junior Developer
-          </h3>
-          <p class="text-zinc-600 mb-2">Previous Company • 2020 - 2022</p>
-          <ul class="space-y-2 text-zinc-600 ml-4">
-            <li>• Built web applications using JavaScript and frameworks</li>
-            <li>• Fixed bugs and improved existing codebases</li>
-            <li>• Participated in code reviews and team meetings</li>
-            <li>• Learned and applied best practices in software development</li>
-          </ul>
-        </div>
-
-        <div class="border-l-2 border-zinc-200 pl-6 relative">
-          <div class="absolute -left-2 top-0 h-4 w-4 bg-zinc-900 rounded-full"></div>
-          <h3 class="text-xl font-semibold text-zinc-900 mb-2">
-            Education
-          </h3>
-          <p class="text-zinc-600 mb-2">University Name • 2016 - 2020</p>
-          <p class="text-zinc-600">
-            Bachelor's degree in Computer Science or related field
-          </p>
-        </div>
-      </div>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>

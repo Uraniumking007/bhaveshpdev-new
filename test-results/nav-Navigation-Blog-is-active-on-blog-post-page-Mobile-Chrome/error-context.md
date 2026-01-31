@@ -1,0 +1,42 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Bhavesh Patil" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - button "Open menu" [ref=e6]:
+        - img [ref=e7]
+  - main [ref=e9]:
+    - generic [ref=e10]:
+      - heading "Blog" [level=1] [ref=e11]
+      - paragraph [ref=e12]: Thoughts, tutorials, and articles
+      - paragraph [ref=e14]: No posts yet. Check back soon!
+  - contentinfo [ref=e15]:
+    - generic [ref=e17]:
+      - paragraph [ref=e18]: © 2026 Bhavesh Patil. All rights reserved.
+      - generic [ref=e19]:
+        - link "GitHub" [ref=e20] [cursor=pointer]:
+          - /url: https://github.com/UraniumKing007
+          - img [ref=e21]
+        - link "Twitter" [ref=e23] [cursor=pointer]:
+          - /url: https://twitter.com/UraniumKing007
+          - img [ref=e24]
+        - link "LinkedIn" [ref=e26] [cursor=pointer]:
+          - /url: https://linkedin.com/in/bhaveshpatil
+          - img [ref=e27]
+  - generic [ref=e31]:
+    - button "Menu" [ref=e32]:
+      - img [ref=e34]
+      - generic: Menu
+    - button "Inspect" [ref=e38]:
+      - img [ref=e40]
+      - generic: Inspect
+    - button "Audit" [ref=e42]:
+      - img [ref=e44]
+      - generic: Audit
+    - button "Settings" [ref=e47]:
+      - img [ref=e49]
+      - generic: Settings
+```

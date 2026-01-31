@@ -13,7 +13,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwind()],
     build: {
-      ssrEmitAssets: true,
+      assetsInline: true,
     },
   },
 });

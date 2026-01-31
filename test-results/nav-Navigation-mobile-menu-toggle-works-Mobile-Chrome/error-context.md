@@ -1,0 +1,177 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Bhavesh Patil" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - button "Open menu" [active] [ref=e6]:
+          - img [ref=e7]
+      - generic [ref=e10]:
+        - link "Projects" [ref=e11] [cursor=pointer]:
+          - /url: /projects
+        - link "About" [ref=e12] [cursor=pointer]:
+          - /url: /about
+        - link "Blog" [ref=e13] [cursor=pointer]:
+          - /url: /blog
+        - link "Resume" [ref=e14] [cursor=pointer]:
+          - /url: /resume
+          - img [ref=e15]
+          - text: Resume
+        - link "Contact" [ref=e17] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - heading "Hi, I'm Bhavesh Patil" [level=1] [ref=e21]
+      - paragraph [ref=e22]: Software Developer specializing in Full-Stack Development
+      - generic [ref=e23]:
+        - link "View Projects" [ref=e24] [cursor=pointer]:
+          - /url: /projects
+        - link "Get in Touch" [ref=e25] [cursor=pointer]:
+          - /url: /contact
+    - generic [ref=e27]:
+      - heading "About Me" [level=2] [ref=e28]
+      - generic [ref=e29]:
+        - paragraph [ref=e30]: I'm a passionate software developer with expertise in full-stack development. I love building clean, efficient, and user-friendly applications that solve real-world problems.
+        - link "Read More" [ref=e31] [cursor=pointer]:
+          - /url: /about
+    - generic [ref=e33]:
+      - heading "Featured Projects" [level=2] [ref=e34]
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - heading "Portfolio Website" [level=3] [ref=e37]
+          - paragraph [ref=e38]: Modern portfolio and blog built with Astro, TypeScript, and Tailwind CSS.
+          - link "View Details →" [ref=e39] [cursor=pointer]:
+            - /url: /projects
+        - generic [ref=e40]:
+          - heading "Blog Platform" [level=3] [ref=e41]
+          - paragraph [ref=e42]: Full-featured blog with authentication, rich text editor, and scheduled publishing.
+          - link "Read Posts →" [ref=e43] [cursor=pointer]:
+            - /url: /blog
+    - generic [ref=e45]:
+      - heading "Experience" [level=2] [ref=e46]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Software Developer" [level=3] [ref=e50]
+          - paragraph [ref=e51]: Company Name • 2022 - Present
+          - list [ref=e52]:
+            - listitem [ref=e53]: • Developed and maintained full-stack web applications
+            - listitem [ref=e54]: • Collaborated with cross-functional teams to deliver features
+            - listitem [ref=e55]: • Implemented responsive UIs using modern frameworks
+            - listitem [ref=e56]: • Optimized database queries and API performance
+        - generic [ref=e57]:
+          - heading "Junior Developer" [level=3] [ref=e59]
+          - paragraph [ref=e60]: Previous Company • 2020 - 2022
+          - list [ref=e61]:
+            - listitem [ref=e62]: • Built web applications using JavaScript and frameworks
+            - listitem [ref=e63]: • Fixed bugs and improved existing codebases
+            - listitem [ref=e64]: • Participated in code reviews and team meetings
+            - listitem [ref=e65]: • Learned and applied best practices in software development
+        - generic [ref=e66]:
+          - heading "Education" [level=3] [ref=e68]
+          - paragraph [ref=e69]: University Name • 2016 - 2020
+          - paragraph [ref=e70]: Bachelor's degree in Computer Science or related field
+    - generic [ref=e72]:
+      - heading "Skills & Stack" [level=2] [ref=e73]
+      - paragraph [ref=e74]: Technologies and tools I work with
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - heading "Frontend Development" [level=3] [ref=e77]
+          - generic [ref=e78]:
+            - generic [ref=e79]: React
+            - generic [ref=e80]: TypeScript
+            - generic [ref=e81]: JavaScript
+            - generic [ref=e82]: Tailwind CSS
+            - generic [ref=e83]: Astro
+            - generic [ref=e84]: Next.js
+            - generic [ref=e85]: HTML5
+            - generic [ref=e86]: CSS3
+        - generic [ref=e87]:
+          - heading "Backend Development" [level=3] [ref=e88]
+          - generic [ref=e89]:
+            - generic [ref=e90]: Node.js
+            - generic [ref=e91]: Python
+            - generic [ref=e92]: Express
+            - generic [ref=e93]: FastAPI
+            - generic [ref=e94]: PostgreSQL
+            - generic [ref=e95]: MongoDB
+            - generic [ref=e96]: Redis
+            - generic [ref=e97]: GraphQL
+        - generic [ref=e98]:
+          - heading "DevOps & Tools" [level=3] [ref=e99]
+          - generic [ref=e100]:
+            - generic [ref=e101]: Git
+            - generic [ref=e102]: Docker
+            - generic [ref=e103]: Kubernetes
+            - generic [ref=e104]: AWS
+            - generic [ref=e105]: Vercel
+            - generic [ref=e106]: CI/CD
+            - generic [ref=e107]: Linux
+            - generic [ref=e108]: Nginx
+    - generic [ref=e110]:
+      - heading "Testimonials" [level=2] [ref=e111]
+      - paragraph [ref=e112]: What people say about working with me
+      - generic [ref=e113]:
+        - generic [ref=e114]:
+          - paragraph [ref=e115]: "\"Bhavesh is an exceptional developer who consistently delivers high-quality work. His attention to detail and problem-solving skills are outstanding.\""
+          - generic [ref=e116]:
+            - generic [ref=e118]: initials
+            - generic [ref=e119]:
+              - paragraph [ref=e120]: Colleague Name
+              - paragraph [ref=e121]: Title at Company
+        - generic [ref=e122]:
+          - paragraph [ref=e123]: "\"Working with Bhavesh was a pleasure. He's knowledgeable, collaborative, and always meets deadlines.\""
+          - generic [ref=e124]:
+            - generic [ref=e126]: initials
+            - generic [ref=e127]:
+              - paragraph [ref=e128]: Colleague Name
+              - paragraph [ref=e129]: Title at Company
+      - paragraph [ref=e130]: More testimonials coming soon!
+    - generic [ref=e132]:
+      - heading "Speaking & Writing" [level=2] [ref=e133]
+      - paragraph [ref=e134]: Talks, articles, and other content I've created
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - heading "Conference Talks" [level=3] [ref=e137]
+          - paragraph [ref=e138]: Coming soon - I'm working on my first conference presentation!
+        - generic [ref=e139]:
+          - heading "Blog Articles" [level=3] [ref=e140]
+          - paragraph [ref=e141]:
+            - text: Check out my
+            - link "blog" [ref=e142] [cursor=pointer]:
+              - /url: /blog
+            - text: for my latest articles
+    - generic [ref=e144]:
+      - heading "Get in Touch" [level=2] [ref=e145]
+      - paragraph [ref=e146]: Have a question or want to work together? Drop me a message!
+      - link "Contact Me" [ref=e147] [cursor=pointer]:
+        - /url: /contact
+  - contentinfo [ref=e148]:
+    - generic [ref=e150]:
+      - paragraph [ref=e151]: © 2026 Bhavesh Patil. All rights reserved.
+      - generic [ref=e152]:
+        - link "GitHub" [ref=e153] [cursor=pointer]:
+          - /url: https://github.com/UraniumKing007
+          - img [ref=e154]
+        - link "Twitter" [ref=e156] [cursor=pointer]:
+          - /url: https://twitter.com/UraniumKing007
+          - img [ref=e157]
+        - link "LinkedIn" [ref=e159] [cursor=pointer]:
+          - /url: https://linkedin.com/in/bhaveshpatil
+          - img [ref=e160]
+  - generic [ref=e164]:
+    - button "Menu" [ref=e165]:
+      - img [ref=e167]
+      - generic: Menu
+    - button "Inspect" [ref=e171]:
+      - img [ref=e173]
+      - generic: Inspect
+    - button "Audit" [ref=e175]:
+      - img [ref=e177]
+      - generic: Audit
+    - button "Settings" [ref=e180]:
+      - img [ref=e182]
+      - generic: Settings
+```

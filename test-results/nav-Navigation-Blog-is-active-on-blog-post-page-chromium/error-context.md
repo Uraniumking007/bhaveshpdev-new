@@ -1,0 +1,53 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Bhavesh Patil" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e6]:
+        - link "Projects" [ref=e7] [cursor=pointer]:
+          - /url: /projects
+        - link "About" [ref=e8] [cursor=pointer]:
+          - /url: /about
+        - link "Blog" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+        - link "View Resume" [ref=e10] [cursor=pointer]:
+          - /url: /resume
+          - img [ref=e11]
+          - text: Resume
+        - link "Contact" [ref=e13] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - heading "Blog" [level=1] [ref=e16]
+      - paragraph [ref=e17]: Thoughts, tutorials, and articles
+      - paragraph [ref=e19]: No posts yet. Check back soon!
+  - contentinfo [ref=e20]:
+    - generic [ref=e22]:
+      - paragraph [ref=e23]: © 2026 Bhavesh Patil. All rights reserved.
+      - generic [ref=e24]:
+        - link "GitHub" [ref=e25] [cursor=pointer]:
+          - /url: https://github.com/UraniumKing007
+          - img [ref=e26]
+        - link "Twitter" [ref=e28] [cursor=pointer]:
+          - /url: https://twitter.com/UraniumKing007
+          - img [ref=e29]
+        - link "LinkedIn" [ref=e31] [cursor=pointer]:
+          - /url: https://linkedin.com/in/bhaveshpatil
+          - img [ref=e32]
+  - generic [ref=e36]:
+    - button "Menu" [ref=e37]:
+      - img [ref=e39]
+      - generic: Menu
+    - button "Inspect" [ref=e43]:
+      - img [ref=e45]
+      - generic: Inspect
+    - button "Audit" [ref=e47]:
+      - img [ref=e49]
+      - generic: Audit
+    - button "Settings" [ref=e52]:
+      - img [ref=e54]
+      - generic: Settings
+```

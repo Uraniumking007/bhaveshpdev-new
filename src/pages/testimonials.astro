@@ -1,56 +1,12 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+import type { APIRoute } from 'astro';
+
+export const GET: APIRoute = (): Response => {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: '/#testimonials',
+    },
+  });
+};
 ---
-
-<BaseLayout title="Testimonials - Bhavesh Patel">
-  <Header currentPath="/testimonials" />
-  <main class="min-h-screen py-20 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl font-bold text-zinc-900 mb-4">Testimonials</h1>
-      <p class="text-lg text-zinc-600 mb-12">
-        What people say about working with me
-      </p>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-white border border-zinc-200 rounded-lg p-6">
-          <p class="text-zinc-600 mb-4 italic">
-            "Bhavesh is an exceptional developer who consistently delivers high-quality work.
-            His attention to detail and problem-solving skills are outstanding."
-          </p>
-          <div class="flex items-center">
-            <div class="h-12 w-12 bg-zinc-200 rounded-full flex items-center justify-center mr-4">
-              <span class="text-zinc-600"> initials</span>
-            </div>
-            <div>
-              <p class="font-semibold text-zinc-900">Colleague Name</p>
-              <p class="text-sm text-zinc-600">Title at Company</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white border border-zinc-200 rounded-lg p-6">
-          <p class="text-zinc-600 mb-4 italic">
-            "Working with Bhavesh was a pleasure. He's knowledgeable, collaborative,
-            and always meets deadlines."
-          </p>
-          <div class="flex items-center">
-            <div class="h-12 w-12 bg-zinc-200 rounded-full flex items-center justify-center mr-4">
-              <span class="text-zinc-600">initials</span>
-            </div>
-            <div>
-              <p class="font-semibold text-zinc-900">Colleague Name</p>
-              <p class="text-sm text-zinc-600">Title at Company</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <p class="text-center text-zinc-600 italic mt-12">
-        More testimonials coming soon!
-      </p>
-    </div>
-  </main>
-  <Footer />
-</BaseLayout>

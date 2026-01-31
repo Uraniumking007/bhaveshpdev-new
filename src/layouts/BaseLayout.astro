@@ -1,24 +1,26 @@
 ---
 import '@/styles/global.css';
-
+import { ClientRouter, slide } from 'astro:transitions';
+ 
 interface Props {
-  title: string;
-}
+   title: string;
+ }
 
 const { title } = Astro.props;
 ---
-
+ 
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Bhavesh Patel - Software Developer Portfolio" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<html lang="en" transition:name="root" transition:animate={slide({ duration: '0.5s' })}>
+   <head>
+     <meta charset="UTF-8" />
+     <meta name="description" content="Bhavesh Patil - Software Developer Portfolio" />
+     <meta name="viewport" content="width=device-width" />
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-  </head>
-  <body>
+    <ClientRouter />
+   </head>
+   <body>
     <slot />
-  </body>
+   </body>
 </html>
