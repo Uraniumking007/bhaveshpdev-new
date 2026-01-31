@@ -28,6 +28,8 @@ model Projects {
   technologies     ProjectTechnology[]
   projectCategories ProjectCategory[]
 
+  @@index([isFeatured])
+  @@index([projectCompleted])
   @@schema("public")
 }
 
@@ -146,6 +148,8 @@ model Certification {
   pdfUrl        String?
   visible       visibility? @default(public)
 
+  @@index([visible])
+  @@index([date(sort: Desc)])
   @@schema("public")
 }
 
@@ -172,6 +176,7 @@ model Timeline {
   type        String?
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
+  @@index([yearStart(sort: Desc)])
   @@schema("public")
 }
 
