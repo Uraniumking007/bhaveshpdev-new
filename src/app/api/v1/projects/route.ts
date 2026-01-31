@@ -20,5 +20,11 @@ export async function GET() {
     },
   });
 
-  return Response.json(data.filter((project) => project.projectCompleted));
+  const filtered = data.filter((project) => project.projectCompleted);
+  return new Response(JSON.stringify(filtered), {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+    },
+  });
 }
