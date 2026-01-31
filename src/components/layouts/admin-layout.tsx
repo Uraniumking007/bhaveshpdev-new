@@ -1,16 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import type {
-  ForwardRefExoticComponent,
-  ReactNode,
-  RefAttributes,
-} from "react";
+import type { ComponentType, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/lib/utils/cn";
 import {
-  Icon,
   IconCertificate,
   IconFolder,
   IconHome,
@@ -46,7 +40,7 @@ import { signOut } from "next-auth/react";
 type NavigationItem = {
   name: string;
   href: string;
-  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  icon: ComponentType<IconProps>;
 };
 
 const navigation: NavigationItem[] = [
