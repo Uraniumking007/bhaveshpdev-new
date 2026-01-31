@@ -11,8 +11,7 @@ export const metadata: Metadata = {
   description: "Bhavesh Patil's projects.",
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
 
 const ProjectPage: React.FC = async () => {
   const [projects, filterOptions] = await Promise.all([
