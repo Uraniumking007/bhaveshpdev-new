@@ -1,6 +1,5 @@
 import NavBar from "@/components/navbar";
-import { ShootingStars } from "@/components/ui/shooting-stars";
-import { StarsBackground } from "@/components/ui/stars-background";
+import { HomeBackgroundEffects } from "@/components/home-background-effects";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,8 +15,7 @@ export default function HomeLayout({
     <div className="relative min-h-screen">
       <NavBar />
       {children}
-      <ShootingStars />
-      <StarsBackground />
+      <HomeBackgroundEffects />
     </div>
   );
 }
