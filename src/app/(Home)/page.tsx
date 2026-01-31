@@ -1,8 +1,9 @@
 import nextDynamic from "next/dynamic";
 import type { Metadata } from "next";
-import type { Projects, Timeline, Certification } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import type { Project, Timeline } from "@/types/static-data";
+import { getFeaturedProjects, getTimeline, getTechnologies, getCategories } from "@/lib/data";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import type { ProjectWithRelations } from "@/types/projects";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Home",
@@ -42,54 +43,33 @@ const ContactSection = nextDynamic(
 );
 export const revalidate = 3600; // Revalidate every hour (3600 seconds)
 
-async function getFeaturedProjects(): Promise<Projects[]> {
-  try {
-    return await prisma.projects.findMany({
-      where: {
-        isFeatured: true,
-      },
-      include: {
-        technologies: {
-          include: {
-            technology: true,
-          },
-        },
-        projectCategories: {
-          include: {
-            category: true,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    console.error("[Home] Failed to load featured projects", error);
-    return [];
-  }
-}
-
-async function getTimelineData(): Promise<Timeline[]> {
-  try {
-    return await prisma.timeline.findMany({
-      orderBy: { yearStart: "desc" },
-    });
-  } catch (error) {
-    console.error("[Home] Failed to load timeline data", error);
-    return [];
-  }
-}
-
 export default async function Home() {
-  const [projects, timelineData] = await Promise.all([
+  const [projects, timelineData, technologies, categories] = await Promise.all([
     getFeaturedProjects(),
-    getTimelineData(),
+    getTimeline(),
+    getTechnologies(),
+    getCategories(),
   ]);
+
+  // Transform projects to match ProjectWithRelations type
+  const transformedProjects: ProjectWithRelations[] = projects.map((project) => ({
+    ...project,
+    technologies: project.technologies.map((pt) => ({
+      ...pt,
+      technology: technologies.find((t) => t.id === pt.technologyId),
+    })),
+    projectCategories: project.categories.map((pc) => ({
+      ...pc,
+      category: categories.find((c) => c.id === pc.categoryId),
+    })),
+  }));
 
   return (
     <main className="min-h-screen">
       <ScrollProgress />
       <DevInfo />
       <SkillsSection />
-      <ProjectsSection projects={projects} />
+      <ProjectsSection projects={transformedProjects} />
       <TimelineSection timelineData={timelineData} />
       <ContactSection />
     </main>

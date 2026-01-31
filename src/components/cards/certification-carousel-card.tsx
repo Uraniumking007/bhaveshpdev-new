@@ -1,6 +1,6 @@
 "use client";
 
-import { Certification } from "@prisma/client";
+import type { Certification } from "@/types/static-data";
 import { motion } from "framer-motion";
 import { IconExternalLink, IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";

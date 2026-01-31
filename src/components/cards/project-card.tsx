@@ -1,27 +1,24 @@
 "use client";
 import Image from "next/image";
-import { Projects } from "@prisma/client";
+import type { Project } from "@/types/static-data";
 import {
   IconBrandGithub,
-  IconEdit,
-  IconTrash,
   IconExternalLink,
 } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils/cn";
-import { Button } from "../ui/button";
 
-interface ProjectAdminCardProps {
-  project: Projects;
-  onDelete: (id: string) => Promise<void>;
-  onUpdate: (id: string) => Promise<void>;
+interface ProjectViewerCardProps {
+  project: Project;
 }
 
-export function ProjectAdminCard({
+export function ProjectViewerCard({
   project,
-  onDelete,
-  onUpdate,
-}: ProjectAdminCardProps) {
+}: ProjectViewerCardProps) {
+  const techNames = project.technologies
+    ?.map((pt) => pt.technology?.name)
+    .filter(Boolean) || [];
+
   return (
     <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
       <div className="aspect-video relative">
@@ -65,39 +62,20 @@ export function ProjectAdminCard({
           </p>
         </div>
 
-        {project.tech && project.tech.length > 0 && (
+        {techNames.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {project.tech.map((tech: string) => (
-              <span
-                key={tech}
-                className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
-              >
-                {tech}
-              </span>
-            ))}
+            {techNames
+              .filter((tech): tech is string => tech !== undefined)
+              .map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
+                >
+                  {tech}
+                </span>
+              ))}
           </div>
         )}
-
-        <div className="flex justify-end gap-2">
-          <Button
-            onClick={() => onUpdate(project.id)}
-            className={cn(
-              "bg-white/10 hover:bg-white/20 text-white",
-              "transition-all duration-300"
-            )}
-          >
-            <IconEdit className="w-4 h-4" />
-          </Button>
-          <Button
-            onClick={() => onDelete(project.id)}
-            className={cn(
-              "bg-red-500/10 hover:bg-red-500/20 text-red-500",
-              "transition-all duration-300"
-            )}
-          >
-            <IconTrash className="w-4 h-4" />
-          </Button>
-        </div>
       </div>
     </div>
   );

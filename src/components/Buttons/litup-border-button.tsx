@@ -3,7 +3,6 @@ import { IconClipboard } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import React from "react";
-import TransitionLink from "../transition-link";
 
 interface LitupBorderButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -39,9 +38,9 @@ const LitupBorderButtonLink: React.FC<LitupBorderButtonLinkProps> = ({
   ...props
 }: LitupBorderButtonLinkProps) => {
   return (
-    <TransitionLink href={path} {...props}>
+    <Link href={path} {...props}>
       <LitupBorderButton>{children}</LitupBorderButton>
-    </TransitionLink>
+    </Link>
   );
 };
 

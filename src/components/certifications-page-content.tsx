@@ -1,6 +1,6 @@
 "use client";
 
-import { Certification } from "@prisma/client";
+import type { Certification } from "@/types/static-data";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { CertificationFilters } from "./certification-filters";

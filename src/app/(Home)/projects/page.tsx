@@ -1,10 +1,10 @@
 import { HeroHighlight } from "@/components/hero-highlight";
-import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 import { ProjectFilters } from "@/components/project-filters";
 import { ProjectsList } from "@/components/projects-list";
-import { ProjectWithRelations } from "@/types/projects";
+import { getProjects, getTechnologies, getCategories } from "@/lib/data";
+import type { ProjectWithRelations } from "@/types/projects";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Projects",
@@ -14,12 +14,27 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 const ProjectPage: React.FC = async () => {
-  const [projects, filterOptions] = await Promise.all([
-    getAllProjects(),
-    getFilterOptions(),
+  const [projects, technologies, categories] = await Promise.all([
+    getProjects(),
+    getTechnologies(),
+    getCategories(),
   ]);
-  const allCategories = filterOptions.categories;
-  const allTech = filterOptions.technologies;
+
+  // Transform data to match the expected format
+  const transformedProjects: ProjectWithRelations[] = projects.map((project) => ({
+    ...project,
+    technologies: project.technologies.map((pt) => ({
+      ...pt,
+      technology: technologies.find((t) => t.id === pt.technologyId) || undefined,
+    })),
+    projectCategories: project.categories.map((pc) => ({
+      ...pc,
+      category: categories.find((c) => c.id === pc.categoryId) || undefined,
+    })),
+  }));
+
+  const allTech = technologies.map((t) => t.name).sort();
+  const allCategories = categories.map((c) => c.name).sort();
 
   return (
     <HeroHighlight>
@@ -49,52 +64,13 @@ const ProjectPage: React.FC = async () => {
           <Suspense
             fallback={<div className="text-white">Loading projects...</div>}
           >
-            <ProjectsList projects={projects} />
+            <ProjectsList projects={transformedProjects} />
           </Suspense>
         </div>
       </div>
     </HeroHighlight>
   );
 };
-
-const getAllProjects = async (): Promise<ProjectWithRelations[]> => {
-  try {
-    const projects = await prisma.projects.findMany({
-      include: {
-        technologies: {
-          include: {
-            technology: true,
-          },
-        },
-        projectCategories: {
-          include: {
-            category: true,
-          },
-        },
-      },
-      orderBy: {
-        projectCompleted: "desc",
-      },
-    });
-    return projects;
-  } catch (error) {
-    console.error("[ProjectsPage] Failed to fetch projects", error);
-    return [];
-  }
-};
-
-async function getFilterOptions() {
-  // Gather from normalized tables only
-  const [techRows, categoryRows] = await Promise.all([
-    prisma.technology.findMany({ select: { name: true } }),
-    prisma.category.findMany({ select: { name: true } }),
-  ]);
-
-  return {
-    technologies: techRows.map((t) => t.name).sort(),
-    categories: categoryRows.map((c) => c.name).sort(),
-  };
-}
 
 export default ProjectPage;
 

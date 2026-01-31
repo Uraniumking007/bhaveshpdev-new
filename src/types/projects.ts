@@ -1,8 +1,12 @@
-import { Projects } from "@prisma/client";
+import type { Project, Technology, Category } from "./static-data";
 
-export type ProjectWithRelations = Omit<Projects, "tech" | "categories"> & {
-  tech?: Projects["tech"];
-  categories?: Projects["categories"];
-  technologies?: { technology: { name: string } }[];
-  projectCategories?: { category: { name: string } }[];
+export type ProjectWithRelations = Omit<Project, "technologies" | "categories"> & {
+  technologies?: {
+    technologyId: string;
+    technology?: Technology;
+  }[];
+  projectCategories?: {
+    categoryId: string;
+    category?: Category;
+  }[];
 };

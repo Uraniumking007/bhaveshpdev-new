@@ -1,9 +1,8 @@
 import { HeroHighlight } from "@/components/hero-highlight";
 import { CertificationsPageContent } from "@/components/certifications-page-content";
-import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
-import { Certification } from "@prisma/client";
 import { Suspense } from "react";
+import { getCertifications } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Bhavesh Patil - Certifications",
@@ -13,19 +12,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 const CertificationsPage = async () => {
-  let certifications: Certification[] = [];
-  try {
-    certifications = await prisma.certification.findMany({
-      where: {
-        visible: "public",
-      },
-      orderBy: {
-        date: "desc",
-      },
-    });
-  } catch (error) {
-    console.error("[CertificationsPage] Failed to fetch certifications", error);
-  }
+  const certifications = await getCertifications();
 
   return (
     <HeroHighlight>

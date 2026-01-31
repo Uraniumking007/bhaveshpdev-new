@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Certification } from "@prisma/client";
+import type { Certification } from "@/types/static-data";
 import { IconX, IconExternalLink } from "@tabler/icons-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";

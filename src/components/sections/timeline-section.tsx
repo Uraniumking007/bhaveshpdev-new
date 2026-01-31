@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Timeline as PrismaTimeline } from "@prisma/client";
+import type { Timeline } from "@/types/static-data";
 import { Timeline as AceternityTimeline } from "@/components/ui/timeline";
 import { TextGenerateEffect } from "../text-generate-effect";
 
 export default function TimelineSection({
   timelineData,
 }: {
-  timelineData: PrismaTimeline[];
+  timelineData: Timeline[];
 }) {
   const heading = (
     <div className="space-y-6">

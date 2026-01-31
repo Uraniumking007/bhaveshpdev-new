@@ -85,21 +85,23 @@ const ProjectCard = ({ project }: { project: ProjectWithRelations }) => {
         </div>
 
         {(
-          project.technologies?.map((pt) => pt.technology.name) ||
-          project.tech ||
+          project.technologies
+            ?.map((pt) => pt.technology?.name)
+            .filter((n): n is string => n !== undefined) ||
           []
         ).length > 0 && (
           <div className="flex flex-wrap gap-2">
             {(
-              project.technologies?.map((pt) => pt.technology.name) ||
-              project.tech ||
+              project.technologies
+                ?.map((pt) => pt.technology?.name)
+                .filter((n): n is string => n !== undefined) ||
               []
-            ).map((tech: string) => (
+            ).map((tech) => (
               <span
                 key={tech}
                 className="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
               >
-                {tech.toLowerCase()}
+                {tech}
               </span>
             ))}
           </div>

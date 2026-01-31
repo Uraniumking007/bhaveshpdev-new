@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Certification } from "@prisma/client";
+import type { Certification } from "@/types/static-data";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";

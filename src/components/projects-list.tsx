@@ -27,9 +27,9 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       if (categoriesLower.length > 0) {
         filtered = filtered.filter((project) => {
           const categoryNames =
-            project.projectCategories?.map((pc) =>
-              pc.category.name.toLowerCase()
-            ) || [];
+            project.projectCategories
+              ?.map((pc) => pc.category?.name?.toLowerCase())
+              .filter((c): c is string => c !== undefined) || [];
           return categoriesLower.some((c) => categoryNames.includes(c));
         });
       }
@@ -47,9 +47,9 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       if (techLower.length > 0) {
         filtered = filtered.filter((project) => {
           const techNames =
-            project.technologies?.map((pt) =>
-              pt.technology.name.toLowerCase()
-            ) || [];
+            project.technologies
+              ?.map((pt) => pt.technology?.name?.toLowerCase())
+              .filter((t): t is string => t !== undefined) || [];
           return techLower.some((t) => techNames.includes(t));
         });
       }
@@ -79,9 +79,13 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       const searchLower = searchParam.toLowerCase();
       filtered = filtered.filter((project) => {
         const techNames =
-          project.technologies?.map((pt) => pt.technology.name) || [];
+          project.technologies
+            ?.map((pt) => pt.technology?.name)
+            .filter((t): t is string => t !== undefined) || [];
         const categoryNames =
-          project.projectCategories?.map((pc) => pc.category.name) || [];
+          project.projectCategories
+            ?.map((pc) => pc.category?.name)
+            .filter((c): c is string => c !== undefined) || [];
         return (
           project.name.toLowerCase().includes(searchLower) ||
           project.description.toLowerCase().includes(searchLower) ||

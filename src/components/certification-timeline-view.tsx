@@ -1,6 +1,6 @@
 "use client";
 
-import { Certification } from "@prisma/client";
+import type { Certification } from "@/types/static-data";
 import { motion } from "framer-motion";
 import { format, parseISO } from "date-fns";
 import { CertificationViewerCard } from "./cards/certification-viewer-card";
