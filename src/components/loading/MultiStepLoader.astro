@@ -1,0 +1,28 @@
+---
+/**
+ * MultiStepLoader - Astro wrapper
+ */
+import { MultiStepLoader as MultiStepLoaderReact } from './multi-step-loader';
+
+interface LoaderKeyframe {
+	text?: string;
+	[key: string]: unknown;
+}
+
+interface Props {
+	loadingStates?: LoaderKeyframe[];
+	loading?: boolean;
+	defaultDuration?: number;
+	[key: string]: unknown;
+}
+
+const { loadingStates, loading, defaultDuration, ...rest } = Astro.props;
+---
+
+<MultiStepLoaderReact
+	loadingStates={loadingStates}
+	loading={loading}
+	defaultDuration={defaultDuration}
+	{...rest}
+	client:load
+/>
