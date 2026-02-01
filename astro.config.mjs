@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import alpinejs from '@astrojs/alpinejs';
+import vercel from '@astrojs/vercel';
 import { devAdmin } from './src/integrations/dev-admin.ts';
 
 export default defineConfig({
@@ -10,6 +11,7 @@ export default defineConfig({
     alpinejs(),
     devAdmin(),
   ],
+  adapter: vercel(),
   vite: {
     plugins: [tailwindcss()],
     build: {
@@ -38,6 +40,6 @@ export default defineConfig({
       { protocol: 'https', hostname: 'fivemanage.com' },
     ],
   },
-  output: 'static',
+  output: 'server',
   compressHTML: true,
 });
