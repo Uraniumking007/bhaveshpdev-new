@@ -10,6 +10,12 @@ export interface Category {
   id: string;
   name: string;
 }
+export interface Skill {
+  language: string;
+  src: string;
+  colorScheme: string;
+}
+
 
 export interface ProjectTechnology {
   projectId: string;
