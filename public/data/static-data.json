@@ -1,12 +1,296 @@
 {
   "projects": [
     {
+      "id": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+      "name": "Once Human Assistant",
+      "description": "OH Assistant serves as a comprehensive resource for Once Human, providing guides, tools, and community support. Whether you're a beginner or an experienced player, we provide step-by-step tutorials, resource guides, and advanced strategies to enhance your gameplay.",
+      "image": "https://r2.fivemanage.com/image/Gj2makGv4LuM.png",
+      "link": "https://ohassistant.com/",
+      "github": "https://github.com/Uraniumking007/once_human_outpost",
+      "technologies": [
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "technologyId": "1"
+        },
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "technologyId": "abe1300b-1f66-43b7-8944-28ea038bf1e1"
+        },
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "technologyId": "3747c4be-3258-46e3-90a2-b6a19491c2f5"
+        },
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "technologyId": "de34eaba-c48f-467d-b523-515b2c2ea191"
+        },
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "technologyId": "7ecd5727-2aea-4c5c-bba5-b3a49a12fc74"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "categoryId": "1cee00a7-d3c4-44c9-98c4-c1a10a351f75"
+        },
+        {
+          "projectId": "411fed55-58d5-4b72-a92c-8bcf013bb336",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        }
+      ],
+      "createdAt": "2026-02-01T16:14:04.786Z",
+      "updatedAt": "2026-02-01T16:15:43.668Z",
+      "projectInitiated": null,
+      "projectCompleted": null,
+      "isCompleted": true,
+      "endDate": null,
+      "isFeatured": false,
+      "images": []
+    },
+    {
+      "id": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+      "name": " Metaverse Asia Roleplay",
+      "description": "The application portal and Admin panel for the Metaverse Asia Roleplay server.",
+      "image": "https://r2.fivemanage.com/image/MlO06inlJYaC.png",
+      "link": "https://application.metaverseasiarp.xyz/",
+      "github": "https://github.com/Uraniumking007/MetaverseAsiaApplications",
+      "technologies": [
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "technologyId": "4237d598-6650-4139-9565-5cd3a005a681"
+        },
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "technologyId": "1f70c567-b9d9-49dc-b9f2-fb0933cd5a44"
+        },
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "technologyId": "de34eaba-c48f-467d-b523-515b2c2ea191"
+        },
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "technologyId": "1"
+        },
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "technologyId": "5"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "categoryId": "59871b84-4612-475f-9bb0-39c327846248"
+        },
+        {
+          "projectId": "b123744f-27f1-4b92-897d-6f3bb140ca52",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        }
+      ],
+      "createdAt": "2026-02-01T16:10:07.583Z",
+      "updatedAt": "2026-02-01T16:15:37.152Z",
+      "projectInitiated": "2025-07-17T00:00:00.000Z",
+      "projectCompleted": "2025-08-31T00:00:00.000Z",
+      "isCompleted": true,
+      "endDate": "2025-08-31T00:00:00.000Z",
+      "isFeatured": true,
+      "images": []
+    },
+    {
+      "id": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+      "name": "SkipSquad",
+      "description": "",
+      "image": "https://r2.fivemanage.com/image/78t4HfjDvpKm.png",
+      "link": "https://skipsquad.vercel.app/",
+      "github": null,
+      "technologies": [
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "technologyId": "eb36fcc8-1742-45f3-aea9-6f7bb2d96636"
+        },
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "technologyId": "2a465cc5-1140-443a-b4a7-328eb5957ffe"
+        },
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "technologyId": "3747c4be-3258-46e3-90a2-b6a19491c2f5"
+        },
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "technologyId": "2"
+        },
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "technologyId": "1"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        },
+        {
+          "projectId": "b1a7f2d1-8d9e-45b8-85dc-784d7bb11028",
+          "categoryId": "59871b84-4612-475f-9bb0-39c327846248"
+        }
+      ],
+      "createdAt": "2026-02-01T16:01:41.252Z",
+      "updatedAt": "2026-02-01T16:15:59.422Z",
+      "projectInitiated": "2023-03-29T00:00:00.000Z",
+      "projectCompleted": "2023-05-23T00:00:00.000Z",
+      "isCompleted": true,
+      "endDate": "2023-05-23T00:00:00.000Z",
+      "isFeatured": false,
+      "images": []
+    },
+    {
+      "id": "c0a63de0-df8e-440b-837b-277007faaf6a",
+      "name": "Blogify",
+      "description": "This is a blogging platform with a rich text editor. Made for College Final Year Project",
+      "image": "https://r2.fivemanage.com/image/E2HYOwyI1qfB.png",
+      "link": "http://blogify.bhaveshp.dev/",
+      "github": "https://github.com/Uraniumking007/blogify",
+      "technologies": [
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "2a465cc5-1140-443a-b4a7-328eb5957ffe"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "eb36fcc8-1742-45f3-aea9-6f7bb2d96636"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "3747c4be-3258-46e3-90a2-b6a19491c2f5"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "abe1300b-1f66-43b7-8944-28ea038bf1e1"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "1"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "3"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "8ab11a99-d757-42ac-875d-6e2a15293434"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "technologyId": "24d3c476-0bcd-40d4-b6af-f7a09de72f29"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        },
+        {
+          "projectId": "c0a63de0-df8e-440b-837b-277007faaf6a",
+          "categoryId": "59871b84-4612-475f-9bb0-39c327846248"
+        }
+      ],
+      "createdAt": "2026-02-01T15:57:22.701Z",
+      "updatedAt": "2026-02-01T16:16:08.418Z",
+      "projectInitiated": "2023-11-01T00:00:00.000Z",
+      "projectCompleted": "2024-05-03T00:00:00.000Z",
+      "isCompleted": true,
+      "endDate": "2024-05-03T00:00:00.000Z",
+      "isFeatured": false,
+      "images": []
+    },
+    {
+      "id": "8e0d196d-2336-49fa-adfa-148cca86c463",
+      "name": "Image Hosting Site (Internship, Localhost)",
+      "description": "It is an image hosting site where you can host as many images as your browser's application local storage supports. I made it on the first day of my first-ever internship.",
+      "image": "https://r2.fivemanage.com/image/LQqVf7xdDDbM.png",
+      "link": "https://local-image.bhaveshp.dev/",
+      "github": "https://github.com/Uraniumking007/LocalStorage-Image-Gallery",
+      "technologies": [
+        {
+          "projectId": "8e0d196d-2336-49fa-adfa-148cca86c463",
+          "technologyId": "c23e3da3-2cd7-4c3f-829d-67a4815e5dbf"
+        },
+        {
+          "projectId": "8e0d196d-2336-49fa-adfa-148cca86c463",
+          "technologyId": "6c34714d-296e-42b5-aeb0-e89c48604e1e"
+        },
+        {
+          "projectId": "8e0d196d-2336-49fa-adfa-148cca86c463",
+          "technologyId": "4370aadd-08eb-40c6-9a81-460312b9278e"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "8e0d196d-2336-49fa-adfa-148cca86c463",
+          "categoryId": "1cee00a7-d3c4-44c9-98c4-c1a10a351f75"
+        },
+        {
+          "projectId": "8e0d196d-2336-49fa-adfa-148cca86c463",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        }
+      ],
+      "createdAt": "2026-02-01T15:55:46.104Z",
+      "updatedAt": "2026-02-01T16:16:15.246Z",
+      "projectInitiated": "2023-07-29T00:00:00.000Z",
+      "projectCompleted": "2023-07-29T00:00:00.000Z",
+      "isCompleted": true,
+      "endDate": "2023-07-29T00:00:00.000Z",
+      "isFeatured": false,
+      "images": []
+    },
+    {
+      "id": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+      "name": "Previous Portfolio",
+      "description": "What is there to say, I mean?",
+      "image": "https://r2.fivemanage.com/image/nBQQKMUni21j.png",
+      "link": "https://obsolete.bhaveshp.dev/",
+      "github": "https://github.com/Uraniumking007/Website-Main",
+      "technologies": [
+        {
+          "projectId": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+          "technologyId": "4370aadd-08eb-40c6-9a81-460312b9278e"
+        },
+        {
+          "projectId": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+          "technologyId": "c23e3da3-2cd7-4c3f-829d-67a4815e5dbf"
+        },
+        {
+          "projectId": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+          "technologyId": "6c34714d-296e-42b5-aeb0-e89c48604e1e"
+        }
+      ],
+      "categories": [
+        {
+          "projectId": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+          "categoryId": "1cee00a7-d3c4-44c9-98c4-c1a10a351f75"
+        },
+        {
+          "projectId": "70f0e5c9-d6b1-4aef-a035-0d37bb63ff8a",
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        }
+      ],
+      "createdAt": "2026-02-01T15:53:37.985Z",
+      "updatedAt": "2026-02-01T16:16:20.887Z",
+      "projectInitiated": null,
+      "projectCompleted": null,
+      "isCompleted": true,
+      "endDate": null,
+      "isFeatured": false,
+      "images": []
+    },
+    {
       "id": "1",
-      "name": "Portfolio Website",
-      "description": "A modern portfolio website built with Next.js, featuring dark mode, responsive design, and smooth animations.",
-      "image": "/images/projects/portfolio.jpg",
-      "link": "https://bhaveshpatil.dev",
-      "github": "https://github.com/bhaveshpatil/bhaveshpdev-new",
+      "name": "Tasky",
+      "description": "This is a task management app.",
+      "image": "https://r2.fivemanage.com/image/RhpP3ohbxUyk.png",
+      "link": "https://tasky.bhaveshp.dev/",
+      "github": "https://github.com/Uraniumking007/Tasky",
       "technologies": [
         {
           "projectId": "1",
@@ -19,33 +303,42 @@
         {
           "projectId": "1",
           "technologyId": "3"
+        },
+        {
+          "projectId": "1",
+          "technologyId": "4"
+        },
+        {
+          "projectId": "1",
+          "technologyId": "5"
         }
       ],
       "categories": [
         {
           "projectId": "1",
-          "categoryId": "1"
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        },
+        {
+          "projectId": "1",
+          "categoryId": "59871b84-4612-475f-9bb0-39c327846248"
         }
       ],
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2026-02-01T10:54:05.856Z",
-      "projectInitiated": "2024-01-01T00:00:00.000Z",
-      "projectCompleted": "2024-01-15T00:00:00.000Z",
+      "updatedAt": "2026-02-01T16:16:28.652Z",
+      "projectInitiated": "2023-08-15T00:00:00.000Z",
+      "projectCompleted": "2024-12-24T00:00:00.000Z",
       "isCompleted": true,
-      "endDate": "2024-01-15T00:00:00.000Z",
-      "isFeatured": true,
-      "images": [
-        "/images/projects/portfolio-1.jpg",
-        "/images/projects/portfolio-2.jpg"
-      ]
+      "endDate": "2024-12-24T00:00:00.000Z",
+      "isFeatured": false,
+      "images": []
     },
     {
       "id": "2",
-      "name": "Task Management App",
-      "description": "A full-stack task management application with real-time updates, team collaboration features, and advanced filtering.",
-      "image": "/images/projects/task-manager.jpg",
-      "link": null,
-      "github": "https://github.com/bhaveshpatil/task-manager",
+      "name": "Snippy",
+      "description": "This is a code-sharing platform.",
+      "image": "https://r2.fivemanage.com/image/jyF29kBGSHrg.png",
+      "link": "https://snippy-bb.vercel.app/",
+      "github": "https://github.com/bug-busterss/snippy",
       "technologies": [
         {
           "projectId": "2",
@@ -58,30 +351,138 @@
         {
           "projectId": "2",
           "technologyId": "5"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "1"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "3"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "abe1300b-1f66-43b7-8944-28ea038bf1e1"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "3747c4be-3258-46e3-90a2-b6a19491c2f5"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "24d3c476-0bcd-40d4-b6af-f7a09de72f29"
         }
       ],
       "categories": [
         {
           "projectId": "2",
-          "categoryId": "2"
+          "categoryId": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98"
+        },
+        {
+          "projectId": "2",
+          "categoryId": "1cee00a7-d3c4-44c9-98c4-c1a10a351f75"
         }
       ],
       "createdAt": "2024-02-01T00:00:00.000Z",
-      "updatedAt": "2024-03-01T00:00:00.000Z",
-      "projectInitiated": "2024-02-01T00:00:00.000Z",
-      "projectCompleted": null,
-      "isCompleted": false,
-      "endDate": null,
+      "updatedAt": "2026-02-01T16:16:46.552Z",
+      "projectInitiated": "2023-09-26T00:00:00.000Z",
+      "projectCompleted": "2023-09-30T00:00:00.000Z",
+      "isCompleted": true,
+      "endDate": "2023-09-30T00:00:00.000Z",
       "isFeatured": true,
       "images": []
     }
   ],
   "technologies": [
     {
+      "id": "4237d598-6650-4139-9565-5cd3a005a681",
+      "name": "BetterAuth",
+      "createdAt": "2026-02-01T16:11:46.972Z",
+      "updatedAt": "2026-02-01T16:11:50.041Z"
+    },
+    {
+      "id": "1f70c567-b9d9-49dc-b9f2-fb0933cd5a44",
+      "name": "TRPC",
+      "createdAt": "2026-02-01T16:11:38.633Z",
+      "updatedAt": "2026-02-01T16:11:42.091Z"
+    },
+    {
+      "id": "de34eaba-c48f-467d-b523-515b2c2ea191",
+      "name": "ShadCN",
+      "createdAt": "2026-02-01T16:11:31.567Z",
+      "updatedAt": "2026-02-01T16:11:35.256Z"
+    },
+    {
+      "id": "2a465cc5-1140-443a-b4a7-328eb5957ffe",
+      "name": "Clerk",
+      "createdAt": "2026-02-01T15:58:29.469Z",
+      "updatedAt": "2026-02-01T15:58:33.781Z"
+    },
+    {
+      "id": "eb36fcc8-1742-45f3-aea9-6f7bb2d96636",
+      "name": "DaisyUI",
+      "createdAt": "2026-02-01T15:58:22.334Z",
+      "updatedAt": "2026-02-01T15:58:25.806Z"
+    },
+    {
+      "id": "4370aadd-08eb-40c6-9a81-460312b9278e",
+      "name": "CSS",
+      "createdAt": "2026-02-01T15:55:01.720Z",
+      "updatedAt": "2026-02-01T15:55:05.853Z"
+    },
+    {
+      "id": "c23e3da3-2cd7-4c3f-829d-67a4815e5dbf",
+      "name": "Javascript",
+      "createdAt": "2026-02-01T15:54:54.034Z",
+      "updatedAt": "2026-02-01T15:54:58.916Z"
+    },
+    {
+      "id": "6c34714d-296e-42b5-aeb0-e89c48604e1e",
+      "name": "HTML5",
+      "createdAt": "2026-02-01T15:54:49.721Z",
+      "updatedAt": "2026-02-01T15:54:52.871Z"
+    },
+    {
+      "id": "7ecd5727-2aea-4c5c-bba5-b3a49a12fc74",
+      "name": "Xata.io",
+      "createdAt": "2026-02-01T15:50:31.868Z",
+      "updatedAt": "2026-02-01T15:50:46.767Z"
+    },
+    {
+      "id": "24d3c476-0bcd-40d4-b6af-f7a09de72f29",
+      "name": "Tiptap",
+      "createdAt": "2026-02-01T15:50:27.719Z",
+      "updatedAt": "2026-02-01T15:50:30.703Z"
+    },
+    {
+      "id": "8ab11a99-d757-42ac-875d-6e2a15293434",
+      "name": "Supabase",
+      "createdAt": "2026-02-01T15:50:21.852Z",
+      "updatedAt": "2026-02-01T15:50:26.511Z"
+    },
+    {
+      "id": "4c7fd64d-8a1a-443e-a4ae-3ce77b3abbed",
+      "name": "Drizzle ORM",
+      "createdAt": "2026-02-01T15:50:16.994Z",
+      "updatedAt": "2026-02-01T15:50:20.345Z"
+    },
+    {
+      "id": "3747c4be-3258-46e3-90a2-b6a19491c2f5",
+      "name": "Prisma",
+      "createdAt": "2026-02-01T15:50:11.669Z",
+      "updatedAt": "2026-02-01T15:50:15.693Z"
+    },
+    {
+      "id": "abe1300b-1f66-43b7-8944-28ea038bf1e1",
+      "name": "TailwindCSS",
+      "createdAt": "2026-02-01T15:50:05.486Z",
+      "updatedAt": "2026-02-01T15:50:10.371Z"
+    },
+    {
       "id": "1",
-      "name": "Next.js",
+      "name": "Next",
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "updatedAt": "2026-02-01T15:55:14.415Z"
     },
     {
       "id": "2",
@@ -97,9 +498,9 @@
     },
     {
       "id": "4",
-      "name": "Node.js",
+      "name": "Node",
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "updatedAt": "2026-02-01T15:55:13.141Z"
     },
     {
       "id": "5",
@@ -110,70 +511,204 @@
   ],
   "categories": [
     {
-      "id": "1",
+      "id": "ff2d96a2-5f64-4e5e-872f-c653c2cd4f98",
       "name": "Web Development",
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "createdAt": "2026-02-01T16:15:14.703Z",
+      "updatedAt": "2026-02-01T16:15:23.066Z"
     },
     {
-      "id": "2",
-      "name": "Full Stack",
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "id": "59871b84-4612-475f-9bb0-39c327846248",
+      "name": "Fullstack",
+      "createdAt": "2026-02-01T16:12:29.322Z",
+      "updatedAt": "2026-02-01T16:12:34.996Z"
+    },
+    {
+      "id": "56dbc779-6937-42ec-9744-c77bf262e8a0",
+      "name": "Software Development",
+      "createdAt": "2026-02-01T15:51:21.334Z",
+      "updatedAt": "2026-02-01T15:51:28.392Z"
+    },
+    {
+      "id": "1cee00a7-d3c4-44c9-98c4-c1a10a351f75",
+      "name": "Frontend",
+      "createdAt": "2026-02-01T15:51:16.368Z",
+      "updatedAt": "2026-02-01T15:51:19.595Z"
+    },
+    {
+      "id": "17457025-c5ae-45f1-901a-956f91e93bd6",
+      "name": "Backend",
+      "createdAt": "2026-02-01T15:51:06.334Z",
+      "updatedAt": "2026-02-01T15:51:14.310Z"
     }
   ],
   "certifications": [
     {
+      "id": "432569ff-1f58-4e98-9a13-0f323ae885c7",
+      "title": "Event Coordinator",
+      "issuer": "C. K. Pithawala College of Engineering and Technology",
+      "date": "2025-09-15T00:00:00.000Z",
+      "description": "Prompt League Coordinator in INSPIRE '25, a college-level technical festival held on September 15th, 2025, at C. K. Pithawala Campus.",
+      "imageUrl": "https://r2.fivemanage.com/image/xKMjdLWUTgsK.png",
+      "credentialUrl": "https://drive.google.com/file/d/1l0PUFPFsaOXzntw4VirePextJKoxiFyD/view?usp=drive_link",
+      "createdAt": "2026-02-01T16:28:54.239Z",
+      "updatedAt": "2026-02-01T16:29:19.434Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
+      "id": "0b826b5a-5920-4f1c-8055-74d6bf87c180",
+      "title": "Programming using Java",
+      "issuer": "Infosys | Springboard",
+      "date": "2025-03-31T00:00:00.000Z",
+      "description": "The course provided me with an introduction to the fundamentals of object-oriented programming and Java as the programming language.",
+      "imageUrl": "https://i.vgy.me/Y0FCKU.png",
+      "credentialUrl": "https://drive.google.com/file/d/1XiVj-__E7BNtLoVwzLjgbfIIbzvAw-6D/view",
+      "createdAt": "2026-02-01T16:28:00.736Z",
+      "updatedAt": "2026-02-01T16:28:39.282Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
+      "id": "f9be8672-cd75-4d56-b1a0-ba01591c09cf",
+      "title": "College Level Shark Tank like Event Coordinator",
+      "issuer": "C.K Pithawala College of Engineering & Technology",
+      "date": "2025-03-08T00:00:00.000Z",
+      "description": "Shark Tank Event Coordinator in INSPIRE '25, a national-level technical festival held on March 7 & 8, 2025, at C. K. Pithawala Campus.",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/chrome_OMgpLhDpjM_6ffpdyIpm.png",
+      "credentialUrl": "https://drive.google.com/file/d/1a_4l1EZiFsVnzZ7P6Gz_By99mDX5b84W/view",
+      "createdAt": "2026-02-01T16:27:00.341Z",
+      "updatedAt": "2026-02-01T16:27:53.656Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
+      "id": "5a2ef2fe-efdf-469a-a0c9-f93a79751da9",
+      "title": "Inspire 2k25 C-Evolution",
+      "issuer": "C.K Pithawala College of Engineering & Technology",
+      "date": "2025-03-07T00:00:00.000Z",
+      "description": "Participation in C Quiz",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/Acrobat_ed5rqJ2xka_Tdb06aTDk.png",
+      "credentialUrl": "https://drive.google.com/file/d/14VgxXaKuda-e4tVDSHzs7dCfdBYfHzqQ/view",
+      "createdAt": "2026-02-01T16:26:11.757Z",
+      "updatedAt": "2026-02-01T16:28:52.970Z",
+      "pdfUrl": null,
+      "visible": false
+    },
+    {
+      "id": "1619b874-3059-496d-8c99-69a7681e5da7",
+      "title": "Basics of Python",
+      "issuer": "Infosys | Springboard",
+      "date": "2024-07-30T00:00:00.000Z",
+      "description": "This course provided me with an understanding of the fundamental concepts of Python, which are the basis of this programming language.",
+      "imageUrl": "https://i.vgy.me/NwpUHE.png",
+      "credentialUrl": "https://drive.google.com/file/d/1XiVj-__E7BNtLoVwzLjgbfIIbzvAw-6D/view",
+      "createdAt": "2026-02-01T16:25:26.768Z",
+      "updatedAt": "2026-02-01T16:26:07.156Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
+      "id": "0e5a3fbe-adea-4e6a-b6b9-7780b9d3eef0",
+      "title": "Innov8 Hackathon Participation 2023",
+      "issuer": "JECRC University",
+      "date": "2024-02-08T00:00:00.000Z",
+      "description": "Participation",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/chrome_U6HvhFU584_dquBz-UGu.png",
+      "credentialUrl": "https://drive.google.com/file/d/1E9-YGDmOoH-fkcCD5yl4lK5zrnrPv9bG/view",
+      "createdAt": "2026-02-01T16:24:42.452Z",
+      "updatedAt": "2026-02-01T16:25:21.440Z",
+      "pdfUrl": null,
+      "visible": false
+    },
+    {
+      "id": "67b0c650-84c1-46a1-a5f3-f136ef656483",
+      "title": "Internship in Web development with React",
+      "issuer": "Sridix Technology",
+      "date": "2023-06-09T00:00:00.000Z",
+      "description": "Developed three websites. Two of these websites leverage the browser's local storage as their database. The final website is a fully developed project that uses Supabase Postgres as its database.",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/Acrobat_xqsDa3NROJ_ttQqfqe-u.png",
+      "credentialUrl": "https://drive.google.com/file/d/1QwSalh7e1PLsdqznDqb3-UKnAbGFve0V/view",
+      "createdAt": "2026-02-01T16:22:09.553Z",
+      "updatedAt": "2026-02-01T16:23:49.639Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
+      "id": "9d496b0a-2b23-463a-9072-1a8ccbf36246",
+      "title": "Best Solution to Impact Academia",
+      "issuer": "Indian Society of Technical Education, Gujarat Section (ISTE)",
+      "date": "0023-03-25T00:00:00.000Z",
+      "description": "We won an award for Best Solution to Impact Academia, a state-level programming competition organized by the Indian Society for Technical Education (STE), Gujarat Section, and B&B Institute of Technology, Vallabh Vidyanagar.",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/Acrobat_uNWJadRgdI_bXXIH9MDx.png",
+      "credentialUrl": "https://drive.google.com/file/d/1Y0QwZmUiTi2U4bGc2m3iTefMieNzvrvI/view",
+      "createdAt": "2026-02-01T16:21:07.355Z",
+      "updatedAt": "2026-02-01T16:23:55.052Z",
+      "pdfUrl": null,
+      "visible": true
+    },
+    {
       "id": "1",
-      "title": "AWS Certified Solutions Architect",
-      "issuer": "Amazon Web Services",
-      "date": "2023-06-15T00:00:00.000Z",
-      "description": "Professional certification for designing distributed systems on AWS.",
-      "imageUrl": "/images/certifications/aws.png",
-      "credentialUrl": "https://aws.amazon.com/certification/",
+      "title": "SSIP Regional Round 2022",
+      "issuer": "AURO University & SSIP",
+      "date": "2022-10-08T00:00:00.000Z",
+      "description": "Participation in the Regional Round of Azadi ka Amrit Mahotsav Hackathon-2022 during 7th & 8th October, 2022, held at AURO University, Surat.",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/chrome_gRMtSdjgEw_keQMClG2ZS.png",
+      "credentialUrl": "https://drive.google.com/file/d/1tE99A-mWq6z8bXK4utQdv1kDsAbLJNPe/view",
       "createdAt": "2023-06-15T00:00:00.000Z",
-      "updatedAt": "2023-06-15T00:00:00.000Z",
+      "updatedAt": "2026-02-01T16:21:05.350Z",
       "pdfUrl": null,
       "visible": true
     },
     {
       "id": "2",
-      "title": "Meta Frontend Developer Professional Certificate",
-      "issuer": "Meta",
-      "date": "2023-09-20T00:00:00.000Z",
-      "description": "Comprehensive frontend development program covering React, JavaScript, and modern web technologies.",
-      "imageUrl": "/images/certifications/meta-frontend.png",
-      "credentialUrl": "https://www.coursera.org/professional-certificates/meta-front-end-developer",
+      "title": "Pythakon - 2k22",
+      "issuer": "CHARUSAT campus",
+      "date": "2023-08-06T00:00:00.000Z",
+      "description": "Participation in the national-level hackathon Pythakon-2k22\nduring 5-6 August at CHARUSAT campus, Changa, Anand, Gujarat.",
+      "imageUrl": "https://ik.imagekit.io/i6dlpbs14/certifications/Acrobat_C1kwGr1K4Y_-MCqKg7EZ.png",
+      "credentialUrl": "https://drive.google.com/file/d/1Saew0rlf1HLgH5tRf0nazEBWqVJjmhSD/view",
       "createdAt": "2023-09-20T00:00:00.000Z",
-      "updatedAt": "2023-09-20T00:00:00.000Z",
+      "updatedAt": "2026-02-01T16:23:59.656Z",
       "pdfUrl": "/certificates/meta-frontend.pdf",
       "visible": true
     }
   ],
   "timeline": [
     {
-      "id": "1",
-      "title": "Started Full Stack Development Journey",
-      "description": "Began learning web development with a focus on React and Node.js",
-      "yearStart": "2022",
-      "yearEnd": null,
+      "id": "3ccb6669-71ef-4a76-a7c0-7db6437e1bfd",
+      "title": "Bachlors in Engineering (IT)",
+      "description": "at C.K Pithawalla College of Engineering & Technology",
+      "yearStart": "2024",
+      "yearEnd": "2027",
       "ongoing": true,
       "type": "education",
       "visibility": "public",
-      "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "createdAt": "2026-02-01T16:19:03.266Z",
+      "updatedAt": "2026-02-01T16:19:26.886Z"
     },
     {
-      "id": "2",
-      "title": "First Professional Project",
-      "description": "Completed first commercial project for a local business",
+      "id": "1",
+      "title": "Internship",
+      "description": "at Sridix Technology",
       "yearStart": "2023",
       "yearEnd": "2023",
-      "ongoing": false,
+      "ongoing": true,
       "type": "work",
       "visibility": "public",
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-01T00:00:00.000Z"
+      "updatedAt": "2026-02-01T16:18:53.010Z"
+    },
+    {
+      "id": "2",
+      "title": "Diploma in Computer Engineering",
+      "description": "at Chhotubhai Gopalbhai Patel Institute of Technology",
+      "yearStart": "2021",
+      "yearEnd": "2024",
+      "ongoing": false,
+      "type": "education",
+      "visibility": "public",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2026-02-01T16:18:11.654Z"
     }
   ]
 }
