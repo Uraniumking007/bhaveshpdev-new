@@ -1,0 +1,30 @@
+---
+/**
+ * ProjectFilters - Astro wrapper
+ * Passes props to React ProjectFilters with client:load
+ */
+import { ProjectFilters as ProjectFiltersReact } from './project-filters';
+
+interface Props {
+	categories: string[];
+	technologies: string[];
+	currentUrl?: string;
+	filterParams?: {
+		categories?: string;
+		tech?: string;
+		search?: string;
+		completed?: string;
+		ongoing?: string;
+	};
+}
+
+const { categories, technologies, currentUrl, filterParams } = Astro.props;
+---
+
+<ProjectFiltersReact
+	categories={categories}
+	technologies={technologies}
+	currentUrl={currentUrl}
+	filterParams={filterParams}
+	client:load
+/>

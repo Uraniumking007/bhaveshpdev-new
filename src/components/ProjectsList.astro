@@ -1,0 +1,29 @@
+---
+/**
+ * ProjectsList - Astro wrapper
+ * Passes projects to React ProjectsList with client:load
+ */
+import { ProjectsList as ProjectsListReact } from './projects-list';
+
+interface ProjectWithRelations {
+	id: string;
+	name: string;
+	description: string;
+	image?: string;
+	link?: string | null;
+	github?: string | null;
+	images?: string[];
+	isCompleted?: boolean;
+	technologies?: Array<{ technology?: { name: string } }>;
+	projectCategories?: Array<{ category?: { name: string } }>;
+	[key: string]: unknown;
+}
+
+interface Props {
+	projects: ProjectWithRelations[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ProjectsListReact projects={projects} client:load />
