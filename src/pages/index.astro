@@ -1,14 +1,19 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import HomeLayout from '@/layouts/HomeLayout.astro';
-import ScrollProgress from '@/components/ui/ScrollProgress.astro';
-import HeroSection from '@/components/HeroSection.astro';
-import SkillsSection from '@/components/sections/SkillsSection.astro';
-import ProjectsSection from '@/components/sections/ProjectsSection.astro';
-import TimelineSection from '@/components/sections/TimelineSection.astro';
-import ContactSection from '@/components/sections/ContactSection.astro';
-import { getFeaturedProjects, getTimeline, getTechnologies, getCategories } from '@/lib/data';
-import type { ProjectWithRelations } from '@/types/projects';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeLayout from "@/layouts/HomeLayout.astro";
+import ScrollProgress from "@/components/ui/ScrollProgress.astro";
+import HeroSection from "@/components/HeroSection.astro";
+import SkillsSection from "@/components/sections/SkillsSection.astro";
+import ProjectsSection from "@/components/sections/ProjectsSection.astro";
+import TimelineSection from "@/components/sections/TimelineSection.astro";
+import ContactSection from "@/components/sections/ContactSectionIsland.astro";
+import {
+  getFeaturedProjects,
+  getTimeline,
+  getTechnologies,
+  getCategories,
+} from "@/lib/data";
+import type { ProjectWithRelations } from "@/types/projects";
 
 const [projects, timelineData, technologies, categories] = await Promise.all([
   getFeaturedProjects(),
@@ -30,7 +35,7 @@ const transformedProjects: ProjectWithRelations[] = projects.map((project) => ({
 }));
 
 const metadata = {
-  title: 'Bhavesh Patil - Home',
+  title: "Bhavesh Patil - Home",
   description: "Bhavesh Patil's personal website.",
 };
 ---
