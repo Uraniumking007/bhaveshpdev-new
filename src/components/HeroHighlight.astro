@@ -1,0 +1,18 @@
+---
+/**
+ * HeroHighlight - Astro wrapper
+ * Renders children in React HeroHighlight with client:load
+ */
+import { HeroHighlight as HeroHighlightReact } from './hero-highlight';
+
+interface Props {
+	className?: string;
+	containerClassName?: string;
+}
+
+const { className, containerClassName } = Astro.props;
+---
+
+<HeroHighlightReact className={className} containerClassName={containerClassName} client:load>
+	<slot />
+</HeroHighlightReact>

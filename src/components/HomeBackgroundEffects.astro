@@ -1,0 +1,11 @@
+---
+/**
+ * HomeBackgroundEffects - Astro version
+ * Wraps ShootingStars and StarsBackground as client islands
+ */
+import { ShootingStars } from './ui/shooting-stars';
+import { StarsBackground } from './ui/stars-background';
+---
+
+<ShootingStars client:load />
+<StarsBackground client:load />

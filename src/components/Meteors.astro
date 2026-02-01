@@ -1,0 +1,15 @@
+---
+/**
+ * Meteors - Astro wrapper
+ */
+import { Meteors as MeteorsReact } from './meteors';
+
+interface Props {
+	number?: number;
+	class?: string;
+}
+
+const { number: count = 20, class: className } = Astro.props;
+---
+
+<MeteorsReact number={count} className={className} client:load />

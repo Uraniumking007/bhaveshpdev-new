@@ -1,0 +1,31 @@
+---
+/**
+ * MovingBlock (ButtonWithMovingBorder) - Astro wrapper
+ */
+import { ButtonWithMovingBorder } from './moving-block';
+
+interface Props {
+	borderRadius?: string;
+	as?: string;
+	containerClassName?: string;
+	borderClassName?: string;
+	duration?: number;
+	class?: string;
+	[key: string]: unknown;
+}
+
+const { borderRadius, as, containerClassName, borderClassName, duration, class: className, ...rest } = Astro.props;
+---
+
+<ButtonWithMovingBorder
+	borderRadius={borderRadius}
+	as={as}
+	containerClassName={containerClassName}
+	borderClassName={borderClassName}
+	duration={duration}
+	className={className}
+	{...rest}
+	client:load
+>
+	<slot />
+</ButtonWithMovingBorder>
