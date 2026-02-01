@@ -1,0 +1,323 @@
+---
+/**
+ * Modern Form Component
+ * Provides a clean, accessible form interface with validation
+ */
+interface FormField {
+  name: string;
+  label: string;
+  type: 'text' | 'textarea' | 'select' | 'checkbox' | 'number' | 'date' | 'url' | 'email';
+  placeholder?: string;
+  required?: boolean;
+  options?: { value: string; label: string }[];
+  defaultValue?: string | number | boolean;
+  description?: string;
+}
+
+interface Props {
+  fields: FormField[];
+  submitLabel?: string;
+  action: string;
+  method?: 'POST' | 'PUT' | 'PATCH';
+  id?: string;
+}
+
+const {
+  fields,
+  submitLabel = 'Submit',
+  action,
+  method = 'POST',
+  id = 'form'
+} = Astro.props;
+
+function generateId(name: string) {
+  return `${id}-${name}`;
+}
+---
+
+<form id={id} action={action} method={method} class="modern-form">
+  <div class="form-grid">
+    {fields.map(field => (
+      <div class={`form-field form-field--${field.type}`}>
+        <label for={generateId(field.name)} class="form-label">
+          {field.label}
+          {field.required && <span class="form-required">*</span>}
+        </label>
+
+        {field.description && (
+          <p class="form-description">{field.description}</p>
+        )}
+
+        {
+          field.type === 'textarea' ? (
+            <textarea
+              id={generateId(field.name)}
+              name={field.name}
+              placeholder={field.placeholder}
+              required={field.required}
+              class="form-input form-textarea"
+              rows="5"
+            >
+              {String(field.defaultValue ?? '')}
+            </textarea>
+          ) : field.type === 'select' ? (
+            <select
+              id={generateId(field.name)}
+              name={field.name}
+              required={field.required}
+              class="form-input form-select"
+            >
+              <option value="">Select an option</option>
+              {field.options?.map(option => (
+                <option
+                  value={option.value}
+                  selected={String(field.defaultValue ?? '') === option.value}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          ) : field.type === 'checkbox' ? (
+            <div class="form-checkbox-wrapper">
+              <input
+                type="checkbox"
+                id={generateId(field.name)}
+                name={field.name}
+                checked={field.defaultValue === true}
+                class="form-checkbox"
+              />
+              <label for={generateId(field.name)} class="form-checkbox-label">
+                {field.placeholder || 'Enable this option'}
+              </label>
+            </div>
+          ) : (
+            <input
+              type={field.type}
+              id={generateId(field.name)}
+              name={field.name}
+              placeholder={field.placeholder}
+              required={field.required}
+              value={String(field.defaultValue ?? '')}
+              class="form-input"
+            />
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="form-submit">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      {submitLabel}
+    </button>
+    <button type="reset" class="form-reset">Reset</button>
+  </div>
+</form>
+
+<style>
+  .modern-form {
+    background: white;
+    dark:bg-gray-800;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(17 24 39);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .form-required {
+    color: rgb(239 68 68);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .form-description {
+    font-size: 0.875rem;
+    color: rgb(107 114 128);
+    margin: 0;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgb(17 24 39);
+    background: white;
+    transition: all 0.2s;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: rgb(59 130 246);
+    box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+  }
+
+  .form-input:hover {
+    border-color: rgb(156 163 175);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+  }
+
+  .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+
+  .form-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .form-checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .form-checkbox:checked {
+    background: rgb(59 130 246);
+    border-color: rgb(59 130 246);
+  }
+
+  .form-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.125rem;
+    width: 0.375rem;
+    height: 0.625rem;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .form-checkbox-label {
+    font-size: 0.875rem;
+    color: rgb(55 65 81);
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(229 231 235);
+  }
+
+  .form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: rgb(59 130 246);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .form-submit:hover {
+    background: rgb(37 99 235);
+  }
+
+  .form-reset {
+    padding: 0.625rem 1.25rem;
+    background: white;
+    color: rgb(75 85 99);
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .form-reset:hover {
+    background: rgb(249 250 251);
+    border-color: rgb(156 163 175);
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .modern-form {
+      background: rgb(31 41 55);
+    }
+
+    .form-label {
+      color: rgb(243 244 246);
+    }
+
+    .form-input {
+      background: rgb(55 65 81);
+      border-color: rgb(75 85 99);
+      color: rgb(243 244 246);
+    }
+
+    .form-input:focus {
+      border-color: rgb(96 165 250);
+      box-shadow: 0 0 0 3px rgb(96 165 250 / 0.1);
+    }
+
+    .form-checkbox {
+      border-color: rgb(75 85 99);
+    }
+
+    .form-checkbox-label {
+      color: rgb(209 213 219);
+    }
+
+    .form-reset {
+      background: rgb(55 65 81);
+      color: rgb(209 213 219);
+      border-color: rgb(75 85 99);
+    }
+
+    .form-reset:hover {
+      background: rgb(75 85 99);
+    }
+  }
+</style>

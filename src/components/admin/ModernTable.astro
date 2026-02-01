@@ -1,0 +1,533 @@
+---
+/**
+ * Modern Data Table Component
+ * Sortable, filterable table with bulk actions
+ */
+interface TableColumn {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  filterable?: boolean;
+  render?: (value: any, row: any) => string;
+}
+
+interface TableAction {
+  label: string;
+  icon?: string;
+  onClick: string; // JavaScript function name
+  variant?: 'primary' | 'secondary' | 'danger';
+}
+
+interface Props {
+  columns: TableColumn[];
+  data: any[];
+  rowKey: string;
+  actions?: TableAction[];
+  searchable?: boolean;
+  filterable?: boolean;
+  emptyMessage?: string;
+}
+
+const {
+  columns,
+  data = [],
+  rowKey = 'id',
+  actions = [],
+  searchable = true,
+  filterable = true,
+  emptyMessage = 'No data available'
+} = Astro.props;
+
+const tableId = `table-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="table-container" id={tableId}>
+  <!-- Table Controls -->
+  <div class="table-controls">
+    {searchable && (
+      <div class="table-search">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input
+          type="text"
+          id={`${tableId}-search`}
+          placeholder="Search..."
+          class="search-input"
+        />
+      </div>
+    )}
+
+    {filterable && (
+      <div class="table-filter">
+        <button id={`${tableId}-filter-btn`} class="filter-btn">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+          </svg>
+          Filter
+        </button>
+      </div>
+    )}
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          {columns.map(column => (
+            <th class={`table-header ${column.sortable ? 'table-header--sortable' : ''}`} data-column={column.key}>
+              <div class="table-header-content">
+                {column.label}
+                {column.sortable && (
+                  <button class="sort-btn" data-column={column.key}>
+                    <svg class="sort-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </th>
+          ))}
+
+          {actions.length > 0 && <th class="table-header">Actions</th>}
+        </tr>
+      </thead>
+
+      <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td colspan={columns.length + (actions.length > 0 ? 1 : 0)} class="table-empty">
+              <div class="empty-state">
+                <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                </svg>
+                <p>{emptyMessage}</p>
+              </div>
+            </td>
+          </tr>
+        ) : (
+          data.map((row, index) => (
+            <tr class="table-row" data-key={row[rowKey]}>
+              {columns.map(column => (
+                <td class="table-cell">
+                  {column.render ? column.render(row[column.key], row) : row[column.key]}
+                </td>
+              ))}
+
+              {actions.length > 0 && (
+                <td class="table-cell table-cell--actions">
+                  <div class="row-actions">
+                    {actions.map((action, actionIndex) => (
+                      <button
+                        class={`action-btn action-btn--${action.variant || 'secondary'}`}
+                        onclick={`${action.onClick}('${row[rowKey]}')`}
+                        title={action.label}
+                      >
+                        {action.icon && <span set:html={action.icon} />}
+                        <span class="action-label">{action.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </td>
+              )}
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {data.length > 0 && (
+    <div class="table-pagination">
+      <div class="pagination-info">
+        <span id={`${tableId}-showing`}>Showing 1-10 of {data.length}</span>
+      </div>
+
+      <div class="pagination-controls">
+        <button class="pagination-btn" disabled>Previous</button>
+        <div class="pagination-pages">
+          <button class="pagination-page pagination-page--active">1</button>
+          <button class="pagination-page">2</button>
+          <button class="pagination-page">3</button>
+        </div>
+        <button class="pagination-btn">Next</button>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .table-container {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+  }
+
+  .table-controls {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgb(229 231 235);
+    flex-wrap: wrap;
+  }
+
+  .table-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+    padding: 0.5rem 0.75rem;
+    background: rgb(249 250 251);
+    border: 1px solid rgb(229 231 235);
+    border-radius: 0.5rem;
+  }
+
+  .search-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: rgb(107 114 128);
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.875rem;
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(55 65 81);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover {
+    background: rgb(249 250 251);
+    border-color: rgb(156 163 175);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .table-header {
+    background: rgb(249 250 251);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: rgb(55 65 81);
+    border-bottom: 1px solid rgb(229 231 235);
+    white-space: nowrap;
+  }
+
+  .table-header--sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .table-header--sortable:hover {
+    background: rgb(243 244 246);
+  }
+
+  .table-header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sort-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: rgb(107 114 128);
+    transition: color 0.2s;
+  }
+
+  .sort-btn:hover {
+    color: rgb(55 65 81);
+  }
+
+  .sort-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .table-row {
+    border-bottom: 1px solid rgb(229 231 235);
+    transition: background 0.2s;
+  }
+
+  .table-row:hover {
+    background: rgb(249 250 251);
+  }
+
+  .table-cell {
+    padding: 0.75rem 1rem;
+    color: rgb(55 65 81);
+  }
+
+  .table-cell--actions {
+    white-space: nowrap;
+  }
+
+  .row-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .action-btn--primary {
+    background: rgb(59 130 246);
+    color: white;
+  }
+
+  .action-btn--primary:hover {
+    background: rgb(37 99 235);
+  }
+
+  .action-btn--secondary {
+    background: white;
+    border-color: rgb(209 213 219);
+    color: rgb(55 65 81);
+  }
+
+  .action-btn--secondary:hover {
+    background: rgb(249 250 251);
+    border-color: rgb(156 163 175);
+  }
+
+  .action-btn--danger {
+    background: rgb(239 68 68);
+    color: white;
+  }
+
+  .action-btn--danger:hover {
+    background: rgb(220 38 38);
+  }
+
+  .action-label {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .action-label {
+      display: inline;
+    }
+  }
+
+  .table-empty {
+    padding: 3rem;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .empty-icon {
+    width: 3rem;
+    height: 3rem;
+    color: rgb(156 163 175);
+  }
+
+  .empty-state p {
+    margin: 0;
+    color: rgb(107 114 128);
+    font-size: 0.875rem;
+  }
+
+  .table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-top: 1px solid rgb(229 231 235);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .pagination-info {
+    font-size: 0.875rem;
+    color: rgb(107 114 128);
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .pagination-pages {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .pagination-btn,
+  .pagination-page {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgb(209 213 219);
+    background: white;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: rgb(55 65 81);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .pagination-btn:disabled,
+  .pagination-page:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .pagination-page--active {
+    background: rgb(59 130 246);
+    border-color: rgb(59 130 246);
+    color: white;
+  }
+
+  @media (max-width: 640px) {
+    .table-pagination {
+      flex-direction: column;
+    }
+
+    .pagination-controls {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script define:vars={{ tableId, data, rowKey }}>
+  function initTable() {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+
+    const searchInput = document.getElementById(`${tableId}-search`);
+    const rows = table.querySelectorAll('.table-row[data-key]');
+    const showingEl = document.getElementById(`${tableId}-showing`);
+
+    let currentPage = 1;
+    const pageSize = 10;
+    let filteredData = Array.from(rows);
+
+    // Search functionality
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+
+        filteredData = Array.from(rows).filter(row => {
+          const text = row.textContent.toLowerCase();
+          return text.includes(query);
+        });
+
+        currentPage = 1;
+        updatePagination();
+        updateVisibility();
+      });
+    }
+
+    // Sorting
+    table.querySelectorAll('.table-header--sortable').forEach(header => {
+      header.addEventListener('click', () => {
+        const column = header.dataset.column;
+        const sortDir = header.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+
+        header.dataset.sortDir = sortDir;
+
+        // Update sort icons
+        table.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('sorted'));
+        header.querySelector('.sort-btn')?.classList.add('sorted');
+
+        const sortedRows = Array.from(rows).sort((a, b) => {
+          const aVal = a.querySelector(`[data-column="${column}"]`)?.textContent || '';
+          const bVal = b.querySelector(`[data-column="${column}"]`)?.textContent || '';
+
+          if (sortDir === 'asc') {
+            return aVal.localeCompare(bVal);
+          } else {
+            return bVal.localeCompare(aVal);
+          }
+        });
+
+        const tbody = table.querySelector('tbody');
+        sortedRows.forEach(row => tbody?.appendChild(row));
+
+        filteredData = sortedRows;
+        currentPage = 1;
+        updatePagination();
+        updateVisibility();
+      });
+    });
+
+    function updateVisibility() {
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+
+      rows.forEach(row => {
+        row.style.display = 'none';
+      });
+
+      filteredData.slice(start, end).forEach(row => {
+        row.style.display = '';
+      });
+    }
+
+    function updatePagination() {
+      if (!showingEl) return;
+
+      const total = filteredData.length;
+      const start = (currentPage - 1) * pageSize + 1;
+      const end = Math.min(currentPage * pageSize, total);
+
+      showingEl.textContent = `Showing ${total > 0 ? start : 0}-${end} of ${total}`;
+    }
+
+    // Initialize
+    updatePagination();
+    updateVisibility();
+  }
+
+  initTable();
+</script>
