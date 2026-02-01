@@ -1,7 +1,4 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -13,15 +10,23 @@ import { motion, AnimatePresence } from "framer-motion";
 interface ProjectFiltersProps {
   categories: string[];
   technologies: string[];
+  currentUrl?: string;
+  filterParams?: {
+    categories?: string;
+    tech?: string;
+    search?: string;
+    completed?: string;
+    ongoing?: string;
+  };
+  onFilterChange?: (params: URLSearchParams) => void;
 }
 
 export function ProjectFilters({
   categories,
   technologies,
+  filterParams,
+  onFilterChange,
 }: ProjectFiltersProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -30,25 +35,27 @@ export function ProjectFilters({
   const [showCompleted, setShowCompleted] = useState(true);
   const [showOngoing, setShowOngoing] = useState(true);
 
-  // Initialize filters from URL params
+  // Initialize filters from URL params passed as props
   useEffect(() => {
+    if (!filterParams) return;
+
     const normalize = (items: string[] = []) =>
       items.map((i) => i.trim()).filter(Boolean);
 
     const categories = normalize(
-      searchParams.get("categories")?.split(",") || []
+      filterParams.categories?.split(",") || []
     );
-    const tech = normalize(searchParams.get("tech")?.split(",") || []);
-    const search = searchParams.get("search") || "";
-    const completed = searchParams.get("completed") !== "false";
-    const ongoing = searchParams.get("ongoing") !== "false";
+    const tech = normalize(filterParams.tech?.split(",") || []);
+    const search = filterParams.search || "";
+    const completed = filterParams.completed !== "false";
+    const ongoing = filterParams.ongoing !== "false";
 
     setSelectedCategories(categories);
     setSelectedTech(tech);
     setSearchQuery(search);
     setShowCompleted(completed);
     setShowOngoing(ongoing);
-  }, [searchParams]);
+  }, [filterParams]);
 
   const updateFilters = () => {
     const params = new URLSearchParams();
@@ -69,7 +76,10 @@ export function ProjectFilters({
       params.set("ongoing", "false");
     }
 
-    router.push(`${pathname}?${params.toString()}`);
+    // Call the callback to update URL
+    if (onFilterChange) {
+      onFilterChange(params);
+    }
     setIsModalOpen(false);
   };
 
@@ -83,7 +93,7 @@ export function ProjectFilters({
 
   const handleTechToggle = (tech: string) => {
     setSelectedTech((prev) =>
-      prev.includes(tech) ? prev.filter((t) => t !== tech) : [...prev, tech]
+      prev.includes(tech) ? prev.filter((t) => tech) : [...prev, tech]
     );
   };
 
@@ -93,7 +103,11 @@ export function ProjectFilters({
     setSearchQuery("");
     setShowCompleted(true);
     setShowOngoing(true);
-    router.push(pathname);
+
+    // Clear filters by calling callback with empty params
+    if (onFilterChange) {
+      onFilterChange(new URLSearchParams());
+    }
     setIsModalOpen(false);
   };
 

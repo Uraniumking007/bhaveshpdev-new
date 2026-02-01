@@ -1,7 +1,7 @@
 "use client";
 
 import type { Certification } from "@/types/static-data";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "@/hooks/use-search-params";
 import { useMemo } from "react";
 import { CertificationFilters } from "./certification-filters";
 import { CertificationViewerCard } from "./cards/certification-viewer-card";

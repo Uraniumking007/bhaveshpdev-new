@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "@/hooks/use-search-params";
 import { ProjectViewerCard } from "./cards/project-viewer-card";
-import { ProjectWithRelations } from "@/types/projects";
+import type { ProjectWithRelations } from "@/types/projects";
 
 interface ProjectsListProps {
   projects: ProjectWithRelations[];
