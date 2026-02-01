@@ -1,0 +1,17 @@
+---
+/**
+ * CertificationViewerCard - Astro wrapper
+ * Passes certification to React CertificationViewerCard with client:load
+ */
+import { CertificationViewerCard as CertificationViewerCardReact } from './certification-viewer-card';
+import type { Certification } from '@/types/static-data';
+
+interface Props {
+	certification: Certification;
+	index?: number;
+}
+
+const { certification, index = 0 } = Astro.props;
+---
+
+<CertificationViewerCardReact certification={certification} index={index} client:load />

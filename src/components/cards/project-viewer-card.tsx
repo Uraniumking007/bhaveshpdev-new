@@ -1,13 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import type { ProjectWithRelations } from "@/types/projects";
 import {
   IconBrandGithub,
   IconExternalLink,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
-import Link from "next/link";
 
 interface ProjectViewerCardProps {
   project: ProjectWithRelations;
@@ -25,11 +23,10 @@ export function ProjectViewerCard({
   return (
     <div className="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
       <div className="aspect-video relative">
-        <Image
+        <img
           src={project.image || "/placeholder.png"}
           alt={project.name}
-          fill
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
           {project.link && (

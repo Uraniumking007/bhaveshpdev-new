@@ -1,0 +1,16 @@
+---
+/**
+ * CertificationCarouselCard - Astro wrapper
+ * Passes certification to React CertificationCarouselCard with client:load
+ */
+import { CertificationCarouselCard as CertificationCarouselCardReact } from './certification-carousel-card';
+import type { Certification } from '@/types/static-data';
+
+interface Props {
+	certification: Certification;
+}
+
+const { certification } = Astro.props;
+---
+
+<CertificationCarouselCardReact certification={certification} client:load />

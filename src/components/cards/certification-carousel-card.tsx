@@ -1,10 +1,7 @@
-"use client";
-
 import type { Certification } from "@/types/static-data";
 import { motion } from "framer-motion";
 import { IconExternalLink, IconArrowRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
-import Image from "next/image";
 import { CertificateModal } from "../ui/certificate-modal";
 import { useState } from "react";
 
@@ -49,11 +46,10 @@ export const CertificationCarouselCard = ({
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
-              <Image
+              <img
                 src={certification.imageUrl}
                 alt={certification.title}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
