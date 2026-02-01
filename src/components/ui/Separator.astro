@@ -1,0 +1,38 @@
+---
+/**
+ * Separator Component
+ * A visual separator/divider line that can be horizontal or vertical
+ *
+ * @param {string} className - Additional CSS classes
+ * @param 'horizontal' | 'vertical' orientation - Direction of the separator
+ * @param {boolean} decorative - Whether the separator is decorative (default: true)
+ */
+interface Props {
+  className?: string;
+  orientation?: 'horizontal' | 'vertical';
+  decorative?: boolean;
+}
+
+const {
+  className = '',
+  orientation = 'horizontal',
+  decorative = true
+} = Astro.props;
+
+const role = decorative ? 'none' : 'separator';
+const ariaOrientation = orientation === 'vertical' ? 'vertical' : undefined;
+---
+
+<separator
+  data-slot="separator"
+  class:list={[
+    'bg-border shrink-0',
+    {
+      'h-px w-full': orientation === 'horizontal',
+      'h-full w-px': orientation === 'vertical',
+    },
+    className
+  ]}
+  role={role}
+  aria-orientation={ariaOrientation}
+/>

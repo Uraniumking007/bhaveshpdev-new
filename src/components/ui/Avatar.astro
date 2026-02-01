@@ -1,0 +1,27 @@
+---
+/**
+ * Avatar Component
+ *
+ * A container component for user avatars with circular clipping.
+ * This is a static, presentational component (no client-side JS).
+ *
+ * @example
+ * <Avatar>
+ *   <AvatarImage src="/avatar.jpg" alt="User" />
+ *   <AvatarFallback>JD</AvatarFallback>
+ * </Avatar>
+ */
+
+interface AvatarProps {
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span
+  class={`relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full ${className}`}
+>
+  <slot />
+</span>

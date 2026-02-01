@@ -1,0 +1,113 @@
+---
+/**
+ * Tabs Component - Astro + Alpine.js
+ * Converts Radix UI tabs to Alpine.js for lighter weight
+ * Maintains keyboard navigation and ARIA attributes
+ */
+
+interface TabsProps {
+  defaultValue?: string;
+  value?: string;
+  class?: string;
+  [key: string]: any;
+}
+
+const { defaultValue = '0', value, class: className, ...props } = Astro.props;
+
+const defaultValueAttr = value ? undefined : defaultValue;
+const controlledValue = value;
+---
+
+<div
+  x-data="tabs(
+    { value: ${controlledValue ? `'${controlledValue}'` : undefined} },
+    '${defaultValueAttr}'
+  )"
+  data-slot="tabs"
+  class:flex-flex-col={true}
+  class:gap-2={true}
+  class={className}
+  role="presentation"
+  {...props}
+>
+  <slot />
+</div>
+
+<script>
+/**
+ * Tabs composable for Alpine.js
+ * Handles active state, keyboard navigation, and ARIA
+ */
+window.tabs = (model = {}, defaultValue = '0') => {
+  return {
+    activeValue: model.value ?? defaultValue,
+    isControlled: model.value !== undefined,
+
+    getActiveValue() {
+      return this.activeValue;
+    },
+
+    setActiveValue(value) {
+      if (!this.isControlled) {
+        this.activeValue = value;
+      }
+    },
+
+    isActive(value) {
+      return this.activeValue === value;
+    },
+
+    // Keyboard navigation for tab list
+    handleKeydown(event, tabs, direction = 'horizontal') {
+      const currentTab = event.currentTarget;
+      const tabsList = Array.from(tabs);
+
+      const currentIndex = tabsList.indexOf(currentTab);
+      if (currentIndex === -1) return;
+
+      let nextIndex = currentIndex;
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          if (direction === 'horizontal') {
+            event.preventDefault();
+            nextIndex = currentIndex > 0 ? currentIndex - 1 : tabsList.length - 1;
+          }
+          break;
+        case 'ArrowRight':
+          if (direction === 'horizontal') {
+            event.preventDefault();
+            nextIndex = currentIndex < tabsList.length - 1 ? currentIndex + 1 : 0;
+          }
+          break;
+        case 'ArrowUp':
+          if (direction === 'vertical') {
+            event.preventDefault();
+            nextIndex = currentIndex > 0 ? currentIndex - 1 : tabsList.length - 1;
+          }
+          break;
+        case 'ArrowDown':
+          if (direction === 'vertical') {
+            event.preventDefault();
+            nextIndex = currentIndex < tabsList.length - 1 ? currentIndex + 1 : 0;
+          }
+          break;
+        case 'Home':
+          event.preventDefault();
+          nextIndex = 0;
+          break;
+        case 'End':
+          event.preventDefault();
+          nextIndex = tabsList.length - 1;
+          break;
+        default:
+          return;
+      }
+
+      const nextTab = tabsList[nextIndex];
+      nextTab?.focus();
+      nextTab?.click();
+    },
+  };
+};
+</script>

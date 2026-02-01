@@ -1,0 +1,35 @@
+---
+/**
+ * AvatarImage Component
+ *
+ * An image element for avatars with loading states and error handling.
+ * This is a static component that renders an <img> tag.
+ *
+ * @example
+ * <AvatarImage src="/avatar.jpg" alt="User" />
+ */
+
+interface AvatarImageProps {
+  /** Image source URL */
+  src: string;
+  /** Alt text for accessibility */
+  alt: string;
+  /** Additional CSS classes */
+  class?: string;
+  /** Whether to use object-cover (default) or object-contain */
+  objectFit?: 'cover' | 'contain';
+}
+
+const {
+  src,
+  alt,
+  class: className = '',
+  objectFit = 'cover',
+} = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  class={`aspect-square h-full w-full object-${objectFit} ${className}`}
+/>

@@ -1,0 +1,21 @@
+---
+/**
+ * TableFooter - Astro Component
+ * Table footer (tfoot) component
+ */
+
+import { cn } from "@/lib/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<tfoot
+  data-slot="table-footer"
+  class={cn(
+    "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
+    className
+  )}
+  {...props}
+>
+  <slot />
+</tfoot>

@@ -1,0 +1,21 @@
+---
+/**
+ * TableRow - Astro Component
+ * Table row (tr) component
+ */
+
+import { cn } from "@/lib/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<tr
+  data-slot="table-row"
+  class={cn(
+    "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+    className
+  )}
+  {...props}
+>
+  <slot />
+</tr>

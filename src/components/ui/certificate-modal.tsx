@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import type { Certification } from "@/types/static-data";
 import { IconX, IconExternalLink } from "@tabler/icons-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { useEffect, useRef } from "react";
 
@@ -94,11 +93,10 @@ export const CertificateModal = ({
                     transition={{ delay: 0.2 }}
                     className="relative w-full h-64 rounded-xl overflow-hidden"
                   >
-                    <Image
+                    <img
                       src={certification.imageUrl}
                       alt={certification.title}
-                      fill
-                      className="object-cover"
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
                   </motion.div>
                 )}

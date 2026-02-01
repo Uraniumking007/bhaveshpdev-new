@@ -1,0 +1,18 @@
+---
+/**
+ * TableHeader - Astro Component
+ * Table header (thead) component
+ */
+
+import { cn } from "@/lib/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<thead
+  data-slot="table-header"
+  class={cn("[&_tr]:border-b", className)}
+  {...props}
+>
+  <slot />
+</thead>

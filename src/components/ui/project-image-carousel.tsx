@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
 
@@ -85,11 +84,10 @@ export function ProjectImageCarousel({
               className="embla__slide flex-[0_0_100%] min-w-0 relative"
             >
               <div className={cn("relative w-full", className)}>
-                <Image
+                <img
                   src={img}
                   alt={`${alt} - Image ${index + 1}`}
-                  fill
-                  className="object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>

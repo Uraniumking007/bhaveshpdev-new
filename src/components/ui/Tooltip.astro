@@ -1,0 +1,74 @@
+---
+/**
+ * Tooltip Component
+ *
+ * STATUS: KEPT AS REACT (src/components/ui/tooltip.tsx)
+ *
+ * RATIONALE FOR KEEPING AS REACT:
+ * This component uses @radix-ui/react-tooltip which provides:
+ * - Portal rendering for proper z-index layering
+ * - Complex positioning logic (top, bottom, left, right with sideOffset)
+ * - Hover/focus state management with delay timers
+ * - Arrow/pointer indicators with proper positioning
+ * - ARIA attributes and full accessibility support (role="tooltip")
+ * - Composable sub-components (Provider, Trigger, Content)
+ * - Animated open/close transitions
+ * - Keyboard navigation support (Escape to close)
+ * - Collision detection to keep tooltip visible in viewport
+ *
+ * Conversion Complexity Analysis:
+ * - Estimated ~400-600 lines of vanilla JS/Alpine.js to replicate
+ * - Extensive accessibility testing required
+ * - Custom portal positioning implementation needed
+ * - Hover delay logic and collision detection to implement from scratch
+ * - Currently used in sidebar.tsx for collapsed sidebar tooltips
+ *
+ * Decision: Keep as React component with @astrojs/react integration
+ * Use with `client:load` directive when needed in Astro pages
+ *
+ * USAGE IN ASTRO PAGES:
+ * ```astro
+ * ---
+ * import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+ * ---
+ *
+ * <Tooltip client:load>
+ *   <TooltipTrigger>Hover me</TooltipTrigger>
+ *   <TooltipContent>
+ *     <p>This is a tooltip</p>
+ *   </TooltipContent>
+ * </Tooltip>
+ * ```
+ *
+ * PROPS:
+ * - delayDuration?: number - Delay before showing tooltip (default: 0)
+ * - side?: 'top' | 'right' | 'bottom' | 'left' - Position relative to trigger
+ * - sideOffset?: number - Distance from trigger in px (default: 0)
+ * - align?: 'start' | 'center' | 'end' - Alignment along the side
+ * - alignOffset?: number - Offset from alignment position
+ * - arrowPadding?: number - Padding between arrow and trigger edges
+ * - avoidCollisions?: boolean - Enable collision detection
+ *
+ * ALTERNATIVES:
+ * 1. Native HTML title attribute (simple, no positioning control):
+ *    ```astro
+ *    <button title="Simple tooltip">Button</button>
+ *    ```
+ *
+ * 2. CSS-only tooltips (limited, no portal):
+ *    ```astro
+ *    <button data-tooltip="Tooltip text" class="has-tooltip">Button</button>
+ *    ```
+ *
+ * 3. Tippy.js (lightweight alternative to Radix):
+ *    ```bash
+ *    npx astro add tippy.js
+ *    ```
+ */
+---
+
+<div class="tooltip-usage-docs">
+  <p class="text-sm text-muted-foreground">
+    The Tooltip component is kept as React. See component documentation for usage.
+  </p>
+</div>

@@ -1,0 +1,90 @@
+---
+/**
+ * Popover Component
+ *
+ * STATUS: KEPT AS REACT (src/components/ui/popover.tsx)
+ *
+ * RATIONALE FOR KEEPING AS REACT:
+ * This component uses @radix-ui/react-popover which provides:
+ * - Portal rendering for proper z-index layering
+ * - Complex positioning logic (top, bottom, left, right with align options)
+ * - Trigger state management (click to toggle)
+ * - Optional arrow/pointer indicators
+ * - ARIA attributes and full accessibility support (role="dialog")
+ * - Composable sub-components (Root, Trigger, Content, Anchor)
+ * - Animated open/close transitions
+ * - Focus management (focus trap when open)
+ * - Click outside to close functionality
+ * - Escape key to close
+ * - Collision detection to keep popover visible in viewport
+ *
+ * Conversion Complexity Analysis:
+ * - Estimated ~500-700 lines of vanilla JS/Alpine.js to replicate
+ * - Extensive accessibility testing required
+ * - Custom portal positioning implementation needed
+ * - Focus trap logic and click-outside handling to implement from scratch
+ * - NOT currently used in the codebase (grep confirmed no usage)
+ * - Should consider if this component is actually needed
+ *
+ * Decision: Keep as React component with @astrojs/react integration
+ * Use with `client:load` directive when needed in Astro pages
+ *
+ * USAGE IN ASTRO PAGES:
+ * ```astro
+ * ---
+ * import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+ * ---
+ *
+ * <Popover client:load>
+ *   <PopoverTrigger>Open Popover</PopoverTrigger>
+ *   <PopoverContent>
+ *     <p>This is popover content</p>
+ *   </PopoverContent>
+ * </Popover>
+ * ```
+ *
+ * PROPS:
+ * - open?: boolean - Controlled open state
+ * - defaultOpen?: boolean - Uncontrolled default open state
+ * - onOpenChange?: (open: boolean) => void - Callback when open state changes
+ * - modal?: boolean - Whether to trap focus inside popover (default: true)
+ * - side?: 'top' | 'right' | 'bottom' | 'left' - Position relative to trigger
+ * - sideOffset?: number - Distance from trigger in px (default: 4)
+ * - align?: 'start' | 'center' | 'end' - Alignment along the side (default: "center")
+ * - alignOffset?: number - Offset from alignment position
+ * - arrowPadding?: number - Padding between arrow and trigger edges
+ * - avoidCollisions?: boolean - Enable collision detection
+ *
+ * ALTERNATIVES:
+ * 1. Native HTML details/summary (simple, no positioning control):
+ *    ```astro
+ *    <details class="popover">
+ *      <summary>Toggle</summary>
+ *      <p>Content</p>
+ *    </details>
+ *    ```
+ *
+ * 2. Dropdown menu component (similar functionality):
+ *    ```astro
+ *    ---
+ *    import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@/components/ui/dropdown-menu';
+ *    ---
+ *    ```
+ *
+ * 3. Tippy.js (lightweight alternative to Radix):
+ *    ```bash
+ *    npx astro add tippy.js
+ *    ```
+ *
+ * USAGE NOTE:
+ * This component is not currently used in the codebase. Consider whether
+ * a simpler alternative (like DropdownMenu or Dialog) would be more appropriate
+ * for your use case before implementing Popover.
+ */
+---
+
+<div class="popover-usage-docs">
+  <p class="text-sm text-muted-foreground">
+    The Popover component is kept as React. See component documentation for usage.
+  </p>
+</div>

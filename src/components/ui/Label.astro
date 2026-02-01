@@ -1,0 +1,21 @@
+---
+interface LabelProps {
+	class?: string;
+	for?: string;
+	[key: string]: any;
+}
+
+const { className, for: htmlFor, ...props } = Astro.props;
+
+// Merge the default class with any provided className
+const defaultClass = "text-sm font-medium text-white/90";
+const finalClass = [defaultClass, className].filter(Boolean).join(" ");
+---
+
+<label
+	for={htmlFor}
+	class={finalClass}
+	{...props}
+>
+	<slot />
+</label>

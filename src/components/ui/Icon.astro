@@ -1,0 +1,103 @@
+---
+/**
+ * Icon Component
+ *
+ * A wrapper component for rendering icons from @tabler/icons-react.
+ * This component uses React components with client:load for SSR compatibility.
+ *
+ * @example
+ * <Icon name="IconMail" />
+ * <Icon name="IconMail" size={24} />
+ * <Icon name="IconMail" className="text-blue-500" />
+ */
+
+interface IconProps {
+  /** The icon component name from @tabler/icons-react */
+  name: string;
+  /** Size of the icon in pixels (default: 20) */
+  size?: number;
+  /** Additional CSS classes */
+  class?: string;
+  /** Stroke width for outline icons (default: 1.5) */
+  strokeWidth?: number;
+  /** Color for the icon */
+  color?: string;
+}
+
+const {
+  name,
+  size = 20,
+  class: className = '',
+  strokeWidth = 1.5,
+  color,
+} = Astro.props;
+
+// Import icon components from @tabler/icons-react
+import {
+  IconMail,
+  IconLoader,
+  IconCheck,
+  IconX,
+  IconExternalLink,
+  IconArrowRight,
+  IconChevronLeft,
+  IconChevronRight,
+  IconFilter,
+  IconBrandGithub,
+  IconUpload,
+  IconClipboard,
+  IconBadge,
+  IconSquareRoundedX,
+  IconLayoutGrid,
+  IconTimeline,
+  IconBrandGmail,
+  IconBrandDiscord,
+  IconBrandX,
+} from '@tabler/icons-react';
+
+// Map icon names to components
+const iconMap: Record<string, any> = {
+  IconMail,
+  IconLoader,
+  IconCheck,
+  IconX,
+  IconExternalLink,
+  IconArrowRight,
+  IconChevronLeft,
+  IconChevronRight,
+  IconFilter,
+  IconBrandGithub,
+  IconUpload,
+  IconClipboard,
+  IconBadge,
+  IconSquareRoundedX,
+  IconLayoutGrid,
+  IconTimeline,
+  IconBrandGmail,
+  IconBrandDiscord,
+  IconBrandX,
+};
+
+// Get the icon component
+const IconComponent = iconMap[name];
+
+// Build props object
+const iconProps = {
+  size,
+  class: className,
+  strokeWidth,
+  ...(color && { color }),
+};
+
+// Warn if icon not found (will be logged during build)
+if (!IconComponent && name) {
+  console.warn(`Icon "${name}" not found. Available icons:`, Object.keys(iconMap));
+}
+---
+
+{(IconComponent && (
+  <IconComponent {...iconProps} client:load />
+)) || (
+  <span class="text-red-500">Icon "{name}" not found</span>
+)}
+

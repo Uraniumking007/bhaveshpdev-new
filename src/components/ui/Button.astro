@@ -1,0 +1,118 @@
+---
+/**
+ * Button Component
+ *
+ * Interactive button component with variants and sizes.
+ * Uses Alpine.js for click handling and state management.
+ *
+ * @example
+ * <Button variant="default" size="md" client:load>Click me</Button>
+ * <Button variant="outline" size="sm" client:load>Small button</Button>
+ * <Button loading={true} client:load>Loading...</Button>
+ */
+
+interface ButtonProps {
+	variant?: 'default' | 'outline' | 'ghost';
+	size?: 'sm' | 'md' | 'lg';
+	disabled?: boolean;
+	loading?: boolean;
+	type?: 'button' | 'submit' | 'reset';
+	class?: string;
+	onClick?: string;
+	[x: string]: any;
+}
+
+const {
+	variant = 'default',
+	size = 'md',
+	disabled = false,
+	loading = false,
+	type = 'button',
+	class: className = '',
+	onClick,
+	...attrs
+} = Astro.props;
+
+// Build base classes
+const baseClasses = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:pointer-events-none disabled:opacity-50";
+
+// Variant classes
+const variantClasses = {
+	default: "bg-white/10 hover:bg-white/20 text-white",
+	outline: "border border-white/10 bg-transparent hover:bg-white/10 text-white",
+	ghost: "bg-transparent hover:bg-white/10 text-white",
+};
+
+// Size classes
+const sizeClasses = {
+	sm: "h-8 px-3 text-sm",
+	md: "h-10 px-4",
+	lg: "h-12 px-6 text-lg",
+};
+
+const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim();
+
+// Generate unique ID for this button instance
+const buttonId = `btn-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<button
+	id={buttonId}
+	class:list={[combinedClasses]}
+	disabled={disabled || loading}
+	type={type}
+	aria-busy={loading}
+	{...attrs}
+>
+	<slot />
+</button>
+
+{onClick && (
+	<script define:vars={{ buttonId, onClick }}>
+		document.getElementById(buttonId)?.addEventListener('click', () => {
+			eval(onClick);
+		});
+	</script>
+)}
+
+<style>
+	/* Additional styles for loading state */
+	button[aria-busy="true"] {
+		position: relative;
+		color: transparent !important;
+		pointer-events: none;
+	}
+
+	button[aria-busy="true"]::before {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 1rem;
+		height: 1rem;
+		margin-left: -0.5rem;
+		margin-top: -0.5rem;
+		border: 2px solid currentColor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: spin 0.6s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	/* Focus visible styles for accessibility */
+	button:focus-visible {
+		outline: 2px solid white;
+		outline-offset: 2px;
+	}
+
+	/* Disabled state */
+	button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+</style>

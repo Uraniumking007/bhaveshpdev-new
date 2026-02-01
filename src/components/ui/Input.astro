@@ -1,0 +1,42 @@
+---
+/**
+ * Input Component - Astro version
+ * A simple text input field with styling
+ */
+interface InputProps {
+  type?: string;
+  class?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  name?: string;
+  id?: string;
+  value?: string;
+  required?: boolean;
+  minlength?: number;
+  maxlength?: number;
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
+  pattern?: string;
+  autofocus?: boolean;
+}
+
+const {
+  type = 'text',
+  class: className,
+  ...rest
+} = Astro.props;
+
+// Merge default classes with custom classes
+const defaultClasses = "flex h-10 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50";
+
+// Note: For className merging in Astro, we use template literals
+// For more complex merging, you'd use a utility function
+const finalClass = className ? `${defaultClasses} ${className}` : defaultClasses;
+---
+
+<input
+  type={type}
+  class={finalClass}
+  {...rest}
+/>

@@ -1,0 +1,23 @@
+---
+/**
+ * AlertTitle Component - Static variant for Astro
+ * Title text for alert components
+ */
+
+interface AlertTitleProps {
+  class?: string;
+  [key: string]: any;
+}
+
+const { class: className, ...props } = Astro.props;
+
+const classes = `col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight ${className || ''}`;
+---
+
+<div
+  data-slot="alert-title"
+  class={classes}
+  {...props}
+>
+  <slot />
+</div>

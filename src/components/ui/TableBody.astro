@@ -1,0 +1,18 @@
+---
+/**
+ * TableBody - Astro Component
+ * Table body (tbody) component
+ */
+
+import { cn } from "@/lib/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<tbody
+  data-slot="table-body"
+  class={cn("[&_tr:last-child]:border-0", className)}
+  {...props}
+>
+  <slot />
+</tbody>

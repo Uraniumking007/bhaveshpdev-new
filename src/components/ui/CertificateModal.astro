@@ -1,0 +1,224 @@
+---
+/**
+ * CertificateModal - Accessible modal component using Alpine.js
+ * Features:
+ * - Focus trap (keeps focus within modal when open)
+ * - Escape key to close
+ * - Click outside to close
+ * - Backdrop overlay
+ * - Smooth animations
+ * - ARIA accessibility
+ * - Body scroll lock when open
+ */
+
+interface CertificateModalProps {
+  certification: {
+    title: string;
+    issuer: string;
+    date: string;
+    imageUrl?: string;
+    description?: string;
+    pdfUrl?: string;
+  };
+  isOpen?: boolean;
+}
+
+const { certification } = Astro.props;
+---
+
+<div
+  x-data="{
+    isOpen: false,
+    previousFocus: null,
+
+    open() {
+      this.isOpen = true;
+      // Store the element that had focus before modal opened
+      this.previousFocus = document.activeElement;
+      // Trap focus within modal
+      this.$nextTick(() => {
+        this.$refs.closeButton?.focus();
+      });
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+    },
+
+    close() {
+      this.isOpen = false;
+      // Return focus to the element that opened the modal
+      this.$nextTick(() => {
+        this.previousFocus?.focus();
+      });
+      // Unlock body scroll
+      document.body.style.overflow = '';
+    },
+
+    handleBackdropClick(event) {
+      // Only close if clicking directly on backdrop (not its children)
+      if (event.target === event.currentTarget) {
+        this.close();
+      }
+    },
+
+    handleKeydown(event) {
+      // Close on Escape key
+      if (event.key === 'Escape' && this.isOpen) {
+        this.close();
+      }
+    },
+
+    handleTab(event) {
+      // Focus trap: keep Tab and Shift+Tab within modal
+      if (event.key !== 'Tab') return;
+
+      const focusableElements = this.$el.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey) {
+        // Shift+Tab: if on first element, move to last
+        if (document.activeElement === firstFocusable) {
+          event.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        // Tab: if on last element, move to first
+        if (document.activeElement === lastFocusable) {
+          event.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    }
+  }"
+  x-show="isOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition ease-in duration-200"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+  @keydown="handleKeydown($event)"
+  @keydown.tab="handleTab($event)"
+  class="fixed inset-0 z-50"
+  style="display: none;"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="certificate-title"
+  aria-describedby="certificate-description"
+>
+  <!-- Backdrop -->
+  <div
+    class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="handleBackdropClick($event)"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Modal Container -->
+  <div class="absolute inset-0 flex items-center justify-center p-4">
+    <div
+      class="relative w-full max-w-2xl bg-neutral-900 rounded-2xl border border-white/10 p-6 shadow-2xl"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 scale-95 translate-y-5"
+      x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+      x-transition:leave-end="opacity-0 scale-95 translate-y-5"
+    >
+      <!-- Close button -->
+      <button
+        x-ref="closeButton"
+        @click="close()"
+        class="absolute right-4 top-4 p-2 rounded-lg hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+        aria-label="Close modal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Content -->
+      <div class="space-y-6">
+        <!-- Header -->
+        <div class="space-y-2 pr-8">
+          <h2 id="certificate-title" class="text-2xl font-bold text-white">
+            {certification.title}
+          </h2>
+          <p class="text-white/70">{certification.issuer}</p>
+          <p class="text-sm text-white/50">
+            {
+              new Date(certification.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </p>
+        </div>
+
+        <!-- Image -->
+        {
+          certification.imageUrl && (
+            <div class="relative w-full h-64 rounded-xl overflow-hidden">
+              <img
+                src={certification.imageUrl}
+                alt={certification.title}
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          )
+        }
+
+        <!-- Description -->
+        {
+          certification.description && (
+            <div class="prose prose-invert max-w-none">
+              <p id="certificate-description" class="text-white/80 leading-relaxed">
+                {certification.description}
+              </p>
+            </div>
+          )
+        }
+
+        <!-- Actions -->
+        {
+          certification.pdfUrl && (
+            <div class="flex gap-4 pt-4">
+              <a
+                href={certification.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+              >
+                View PDF Certificate
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Ensure backdrop and modal layer correctly */
+  [role="dialog"] > div:first-child {
+    z-index: 1;
+  }
+  [role="dialog"] > div:last-child {
+    z-index: 2;
+  }
+</style>

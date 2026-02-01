@@ -1,0 +1,19 @@
+---
+/**
+ * CardTitle Component
+ * Title text for card headers
+ */
+interface CardTitleProps {
+	class?: string;
+}
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div
+	data-slot="card-title"
+	class:list={["leading-none font-semibold", className]}
+	{...rest}
+>
+	<slot />
+</div>

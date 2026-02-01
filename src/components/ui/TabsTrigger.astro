@@ -1,0 +1,40 @@
+---
+/**
+ * TabsTrigger Component - Astro + Alpine.js
+ * Individual tab button with active states and keyboard support
+ */
+
+interface TabsTriggerProps {
+  value: string;
+  class?: string;
+  disabled?: boolean;
+  [key: string]: any;
+}
+
+const { value, class: className, disabled = false, ...props } = Astro.props;
+---
+
+<button
+  x-data="{ tabValue: '{value}' }"
+  :aria-selected="$root.isActive(tabValue)"
+  :aria-disabled="disabled"
+  :data-state="$root.isActive(tabValue) ? 'active' : 'inactive'"
+  :tabindex="$root.isActive(tabValue) ? 0 : -1"
+  :class="{
+    'data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4': true,
+    '{className}': '{className}' !== 'undefined'
+  }"
+  role="tab"
+  type="button"
+  :disabled="disabled"
+  @click="$root.setActiveValue(tabValue)"
+  @keydown.home="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), $root.$data.orientation || 'horizontal')"
+  @keydown.end="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), $root.$data.orientation || 'horizontal')"
+  @keydown.arrow-left="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), 'horizontal')"
+  @keydown.arrow-right="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), 'horizontal')"
+  @keydown.arrow-up="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), 'vertical')"
+  @keydown.arrow-down="$root.handleKeydown($event, $el.parentElement.querySelectorAll('[role=\\'tab\\']'), 'vertical')"
+  {...props}
+>
+  <slot />
+</button>

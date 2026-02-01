@@ -1,0 +1,20 @@
+---
+/**
+ * Timeline - Astro wrapper
+ */
+import { Timeline as TimelineReact } from './timeline';
+
+interface TimelineEntry {
+	title: string;
+	content: string;
+}
+
+interface Props {
+	data: TimelineEntry[];
+	class?: string;
+}
+
+const { data, class: className } = Astro.props;
+---
+
+<TimelineReact data={data} className={className} client:load />

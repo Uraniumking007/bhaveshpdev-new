@@ -1,0 +1,38 @@
+---
+/**
+ * Textarea Component - Astro version
+ * A multi-line text input area with styling
+ */
+interface TextareaProps {
+  class?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  name?: string;
+  id?: string;
+  value?: string;
+  required?: boolean;
+  minlength?: number;
+  maxlength?: number;
+  rows?: number;
+  cols?: number;
+  wrap?: string;
+  readonly?: boolean;
+}
+
+const {
+  class: className,
+  rows,
+  ...rest
+} = Astro.props;
+
+// Merge default classes with custom classes
+const defaultClasses = "flex min-h-[80px] w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50";
+
+const finalClass = className ? `${defaultClasses} ${className}` : defaultClasses;
+---
+
+<textarea
+  class={finalClass}
+  rows={rows || 3}
+  {...rest}
+></textarea>

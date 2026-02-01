@@ -1,0 +1,18 @@
+---
+/**
+ * TableCaption - Astro Component
+ * Table caption component
+ */
+
+import { cn } from "@/lib/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<caption
+  data-slot="table-caption"
+  class={cn("text-muted-foreground mt-4 text-sm", className)}
+  {...props}
+>
+  <slot />
+</caption>

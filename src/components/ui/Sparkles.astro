@@ -1,0 +1,31 @@
+---
+/**
+ * Sparkles (SparklesCore) - Astro wrapper
+ */
+import { SparklesCore } from './sparkles';
+
+interface Props {
+	id?: string;
+	background?: string;
+	minSize?: number;
+	maxSize?: number;
+	speed?: number;
+	particleColor?: string;
+	particleDensity?: number;
+	class?: string;
+}
+
+const { id, background, minSize, maxSize, speed, particleColor, particleDensity, class: className } = Astro.props;
+---
+
+<SparklesCore
+	id={id}
+	background={background}
+	minSize={minSize}
+	maxSize={maxSize}
+	speed={speed}
+	particleColor={particleColor}
+	particleDensity={particleDensity}
+	className={className}
+	client:load
+/>

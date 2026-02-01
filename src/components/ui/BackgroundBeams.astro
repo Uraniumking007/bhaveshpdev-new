@@ -1,0 +1,14 @@
+---
+/**
+ * BackgroundBeams - Astro wrapper
+ */
+import { BackgroundBeams as BackgroundBeamsReact } from './background-beams';
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<BackgroundBeamsReact className={className} client:load />

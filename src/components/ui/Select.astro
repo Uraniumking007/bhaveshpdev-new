@@ -1,0 +1,58 @@
+---
+/**
+ * Select Component
+ *
+ * STATUS: KEPT AS REACT (src/components/ui/select.tsx)
+ *
+ * RATIONALE FOR KEEPING AS REACT:
+ * This component uses @radix-ui/react-select which provides:
+ * - Portal rendering for dropdown positioning (z-index layering)
+ * - Complex keyboard navigation (Arrow keys, Home, End, PageUp, PageDown, Enter, Escape)
+ * - Focus trap and focus management
+ * - Scroll buttons for long lists
+ * - ARIA attributes and full accessibility support
+ * - Composable sub-components (Trigger, Content, Item, Value, Group, Separator, ScrollUpButton, ScrollDownButton)
+ * - Animated open/close transitions
+ *
+ * Conversion Complexity Analysis:
+ * - Estimated ~500-700 lines of vanilla JS/Alpine.js to replicate
+ * - Extensive accessibility testing required
+ * - Custom portal positioning implementation needed
+ * - Focus trap logic to implement from scratch
+ * - Not currently used in the codebase (grep confirmed no usage)
+ *
+ * Decision: Keep as React component with @astrojs/react integration
+ * Use with `client:load` directive when needed in Astro pages
+ *
+ * USAGE IN ASTRO PAGES:
+ * ```astro
+ * ---
+ * import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+ * ---
+ *
+ * <Select client:load defaultValue="option1">
+ *   <SelectTrigger>
+ *     <SelectValue placeholder="Select an option" />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectItem value="option1">Option 1</SelectItem>
+ *     <SelectItem value="option2">Option 2</SelectItem>
+ *   </SelectContent>
+ * </Select>
+ * ```
+ *
+ * Alternative: Use native HTML <select> for simpler cases:
+ * ```astro
+ * <select class="...">
+ *   <option value="1">Option 1</option>
+ *   <option value="2">Option 2</option>
+ * </select>
+ * ```
+ */
+---
+
+<div class="select-usage-docs">
+  <p class="text-sm text-muted-foreground">
+    The Select component is kept as React. See component documentation for usage.
+  </p>
+</div>

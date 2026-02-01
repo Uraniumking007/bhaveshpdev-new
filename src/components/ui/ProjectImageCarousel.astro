@@ -1,0 +1,29 @@
+---
+/**
+ * ProjectImageCarousel - Astro wrapper
+ */
+import { ProjectImageCarousel as ProjectImageCarouselReact } from './project-image-carousel';
+
+interface Props {
+	images?: string[];
+	image?: string | null;
+	alt: string;
+	className?: string;
+	containerClassName?: string;
+	showDots?: boolean;
+	showButtons?: boolean;
+}
+
+const { images, image, alt, className, containerClassName, showDots = true, showButtons = true } = Astro.props;
+---
+
+<ProjectImageCarouselReact
+	images={images}
+	image={image}
+	alt={alt}
+	className={className}
+	containerClassName={containerClassName}
+	showDots={showDots}
+	showButtons={showButtons}
+	client:load
+/>

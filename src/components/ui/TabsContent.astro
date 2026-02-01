@@ -1,0 +1,36 @@
+---
+/**
+ * TabsContent Component - Astro + Alpine.js
+ * Content panel that shows/hides based on active tab
+ */
+
+interface TabsContentProps {
+  value: string;
+  class?: string;
+  forceMount?: boolean;
+  [key: string]: any;
+}
+
+const { value, class: className, forceMount = false, ...props } = Astro.props;
+---
+
+<div
+  x-data="{ contentValue: '{value}' }"
+  :aria-hidden="!$root.isActive(contentValue)"
+  :data-state="$root.isActive(contentValue) ? 'active' : 'inactive'"
+  :tabindex="$root.isActive(contentValue) ? 0 : -1"
+  x-show="$root.isActive(contentValue) || {forceMount}"
+  x-transition:enter="transition-opacity duration-200"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition-opacity duration-150"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+  role="tabpanel"
+  :id="`tabpanel-${contentValue}`"
+  :aria-labelledby="`tab-${contentValue}`"
+  class="flex-1 outline-none {className}"
+  {...props}
+>
+  <slot />
+</div>

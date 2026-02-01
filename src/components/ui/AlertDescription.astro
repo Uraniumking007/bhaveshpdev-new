@@ -1,0 +1,23 @@
+---
+/**
+ * AlertDescription Component - Static variant for Astro
+ * Description text for alert components
+ */
+
+interface AlertDescriptionProps {
+  class?: string;
+  [key: string]: any;
+}
+
+const { class: className, ...props } = Astro.props;
+
+const classes = `text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed ${className || ''}`;
+---
+
+<div
+  data-slot="alert-description"
+  class={classes}
+  {...props}
+>
+  <slot />
+</div>

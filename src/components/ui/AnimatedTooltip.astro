@@ -1,0 +1,22 @@
+---
+/**
+ * AnimatedTooltip - Astro wrapper
+ */
+import { AnimatedTooltip as AnimatedTooltipReact } from './animated-tooltip';
+
+interface TooltipItem {
+	id: number;
+	title: string;
+	description: string;
+	icon: string;
+	link: string;
+}
+
+interface Props {
+	items: TooltipItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<AnimatedTooltipReact items={items} client:load />

@@ -1,0 +1,27 @@
+---
+/**
+ * AvatarFallback Component
+ *
+ * Fallback content for avatars when image fails to load or no image provided.
+ * Displays initials or a placeholder icon.
+ *
+ * @example
+ * <AvatarFallback>JD</AvatarFallback>
+ * <AvatarFallback class="bg-blue-500">
+ *   <Icon name="IconUser" />
+ * </AvatarFallback>
+ */
+
+interface AvatarFallbackProps {
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span
+  class={`flex h-full w-full items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 ${className}`}
+>
+  <slot />
+</span>
