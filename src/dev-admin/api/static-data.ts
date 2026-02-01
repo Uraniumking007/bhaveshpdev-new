@@ -10,15 +10,9 @@ export const GET: APIRoute = async ({ request }) => {
 
   try {
     const data = await getStaticData();
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to read data' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return Response.json(data, { status: 200 });
+  } catch {
+    return Response.json({ error: 'Failed to read data' }, { status: 500 });
   }
 };
 
@@ -32,21 +26,15 @@ export const PUT: APIRoute = async ({ request }) => {
     const result = saveStaticDataSchema.safeParse(body);
 
     if (!result.success) {
-      return new Response(JSON.stringify({ error: 'Invalid data', details: result.error }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return Response.json(
+        { error: 'Invalid data', details: result.error.format() },
+        { status: 400 }
+      );
     }
 
     await saveStaticData(result.data);
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to save data' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return Response.json({ success: true }, { status: 200 });
+  } catch {
+    return Response.json({ error: 'Failed to save data' }, { status: 500 });
   }
 };
