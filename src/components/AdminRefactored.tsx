@@ -8,7 +8,7 @@ import { TechnologiesTab } from './admin/tabs/TechnologiesTab';
 import { CategoriesTab } from './admin/tabs/CategoriesTab';
 import { CertificationsTab } from './admin/tabs/CertificationsTab';
 import { TimelineTab } from './admin/tabs/TimelineTab';
-import type { TabType, SaveStatus, StaticData } from './admin/types';
+import type { TabType, StaticData } from './admin/types';
 
 interface AdminProps {
   title: string;
@@ -17,9 +17,7 @@ interface AdminProps {
 export default function Admin({ title }: AdminProps) {
   const [data, setData] = useState<StaticData | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('projects');
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -28,27 +26,6 @@ export default function Admin({ title }: AdminProps) {
       .then(setData)
       .finally(() => setLoading(false));
   }, []);
-
-  const handleSave = async () => {
-    if (!data) return;
-    setSaveStatus('saving');
-    try {
-      const res = await fetch('/api/admin/static-data', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        setSaveStatus('saved');
-        setUnsavedChanges(false);
-        setTimeout(() => setSaveStatus('idle'), 2000);
-      } else {
-        setSaveStatus('error');
-      }
-    } catch {
-      setSaveStatus('error');
-    }
-  };
 
   if (loading) {
     return (
@@ -79,22 +56,19 @@ export default function Admin({ title }: AdminProps) {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         data={data}
-        unsavedChanges={unsavedChanges}
-        saveStatus={saveStatus}
-        onSave={handleSave}
         onCloseMobile={() => setSidebarOpen(false)}
       />
 
       <AdminMain title={title} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
-        {activeTab === 'projects' && <ProjectsTab data={data} setData={setData} setUnsavedChanges={setUnsavedChanges} />}
+        {activeTab === 'projects' && <ProjectsTab data={data} setData={setData} />}
 
-        {activeTab === 'technologies' && <TechnologiesTab data={data} setData={setData} setUnsavedChanges={setUnsavedChanges} />}
+        {activeTab === 'technologies' && <TechnologiesTab data={data} setData={setData} />}
 
-        {activeTab === 'categories' && <CategoriesTab data={data} setData={setData} setUnsavedChanges={setUnsavedChanges} />}
+        {activeTab === 'categories' && <CategoriesTab data={data} setData={setData} />}
 
-        {activeTab === 'certifications' && <CertificationsTab data={data} setData={setData} setUnsavedChanges={setUnsavedChanges} />}
+        {activeTab === 'certifications' && <CertificationsTab data={data} setData={setData} />}
 
-        {activeTab === 'timeline' && <TimelineTab data={data} setData={setData} setUnsavedChanges={setUnsavedChanges} />}
+        {activeTab === 'timeline' && <TimelineTab data={data} setData={setData} />}
       </AdminMain>
     </AdminLayout>
   );

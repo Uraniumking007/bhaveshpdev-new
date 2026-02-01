@@ -32,10 +32,10 @@ const saveStaticDataSchema = z.object({
   projects: z.array(z.object({
     id: z.string(),
     name: z.string().min(1, 'Project name is required'),
-    description: z.string().min(1, 'Description is required'),
+    description: z.string(),
     image: z.string().min(1, 'Image is required'),
-    link: z.string().url().nullable(),
-    github: z.string().url().nullable(),
+    link: z.string().url().or(z.literal(null)).optional(),
+    github: z.string().url().or(z.literal(null)).optional(),
     technologies: z.array(z.object({
       projectId: z.string(),
       technologyId: z.string(),

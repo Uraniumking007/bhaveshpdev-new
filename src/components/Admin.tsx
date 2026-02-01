@@ -19,10 +19,18 @@ export default function Admin({ title }: { title: string }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/static-data')
-      .then(res => res.json())
-      .then(setData)
-      .finally(() => setLoading(false));
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/admin/static-data');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data = await res.json();
+        setData(data);
+      } catch {
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleSave = async () => {
@@ -34,13 +42,10 @@ export default function Admin({ title }: { title: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (res.ok) {
-        setSaveStatus('saved');
-        setUnsavedChanges(false);
-        setTimeout(() => setSaveStatus('idle'), 2000);
-      } else {
-        setSaveStatus('error');
-      }
+      if (!res.ok) throw new Error('Failed to save');
+      setSaveStatus('saved');
+      setUnsavedChanges(false);
+      setTimeout(() => setSaveStatus('idle'), 2000);
     } catch {
       setSaveStatus('error');
     }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Award, CheckCircle2, Github, Globe, Trash2, Folder, Tags, Calendar, Image as ImageIcon } from 'lucide-react';
+import { Plus, Award, CheckCircle2, Github, Globe, Trash2, Folder, Tags, Calendar, Image as ImageIcon, Save, Loader2 } from 'lucide-react';
 import { SectionHeader } from '../SectionHeader';
 import { EmptyState } from '../EmptyState';
 import { FormInput } from '../FormInput';
@@ -13,10 +13,9 @@ import type { StaticData, Project } from '../types';
 interface ProjectsTabProps {
   data: StaticData;
   setData: (data: StaticData) => void;
-  setUnsavedChanges: (val: boolean) => void;
 }
 
-export function ProjectsTab({ data, setData, setUnsavedChanges }: ProjectsTabProps) {
+export function ProjectsTab({ data, setData }: ProjectsTabProps) {
   const addProject = () => {
     setData({
       ...data,
@@ -42,21 +41,32 @@ export function ProjectsTab({ data, setData, setUnsavedChanges }: ProjectsTabPro
         ...data.projects,
       ],
     });
-    setUnsavedChanges(true);
   };
 
   const updateProject = (index: number, updates: Partial<Project>) => {
     const newProjects = [...data.projects];
     newProjects[index] = { ...newProjects[index], ...updates, updatedAt: new Date().toISOString() };
     setData({ ...data, projects: newProjects });
-    setUnsavedChanges(true);
   };
 
-  const deleteProject = (index: number) => {
+  const deleteProject = async (index: number) => {
     if (confirm('Are you sure you want to delete this project?')) {
-      const newProjects = data.projects.filter((_, i) => i !== index);
-      setData({ ...data, projects: newProjects });
-      setUnsavedChanges(true);
+      const project = data.projects[index];
+      try {
+        const response = await fetch(`/api/admin/projects/${project.id}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete project');
+        }
+
+        const newProjects = data.projects.filter((_, i) => i !== index);
+        setData({ ...data, projects: newProjects });
+      } catch (error) {
+        console.error('Error deleting project:', error);
+        alert('Failed to delete project. Please try again.');
+      }
     }
   };
 
@@ -69,12 +79,12 @@ export function ProjectsTab({ data, setData, setUnsavedChanges }: ProjectsTabPro
       ) : (
         <div className="space-y-4">
           {data.projects.map((project, index) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
+            <ProjectCard
+              key={project.id}
+              project={project}
               data={data}
-              onUpdate={(updates) => updateProject(index, updates)} 
-              onDelete={() => deleteProject(index)} 
+              onUpdate={(updates) => updateProject(index, updates)}
+              onDelete={() => deleteProject(index)}
             />
           ))}
         </div>
@@ -83,18 +93,21 @@ export function ProjectsTab({ data, setData, setUnsavedChanges }: ProjectsTabPro
   );
 }
 
-function ProjectCard({ 
-  project, 
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+
+function ProjectCard({
+  project,
   data,
-  onUpdate, 
-  onDelete 
-}: { 
-  project: Project; 
+  onUpdate,
+  onDelete
+}: {
+  project: Project;
   data: StaticData;
-  onUpdate: (updates: Partial<Project>) => void; 
+  onUpdate: (updates: Partial<Project>) => void;
   onDelete: () => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(!project.name);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
 
   const technologyOptions = data.technologies.map(tech => ({
     value: tech.id,
@@ -116,6 +129,7 @@ function ProjectCard({
         technologyId: techId,
       })),
     });
+    setSaveStatus('idle');
   };
 
   const handleCategoriesChange = (values: string[]) => {
@@ -125,6 +139,40 @@ function ProjectCard({
         categoryId: catId,
       })),
     });
+    setSaveStatus('idle');
+  };
+
+  const handleSave = async () => {
+    setSaveStatus('saving');
+    try {
+      const response = await fetch(`/api/admin/projects/${project.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(project),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save project');
+      }
+
+      const result = await response.json();
+      setSaveStatus('saved');
+      onUpdate(result.project);
+
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Error saving project:', error);
+      setSaveStatus('error');
+
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    }
+  };
+
+  const handleFieldUpdate = (updates: Partial<Project>) => {
+    onUpdate(updates);
+    setSaveStatus('idle');
   };
 
   return (
@@ -149,7 +197,7 @@ function ProjectCard({
             )}
           </div>
           <p className="text-sm text-gray-500 line-clamp-2">{project.description || 'No description'}</p>
-          
+
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
             {project.technologies.length > 0 && (
               <span className="flex items-center gap-1">
@@ -189,17 +237,17 @@ function ProjectCard({
         <div className="px-5 pb-5 border-t border-gray-100">
           <div className="pt-4 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormInput label="Project Name" value={project.name} onChange={val => onUpdate({ name: val })} placeholder="Enter project name" />
+              <FormInput label="Project Name" value={project.name} onChange={val => handleFieldUpdate({ name: val })} placeholder="Enter project name" />
 
-              <FormInput label="Main Image URL" value={project.image} onChange={val => onUpdate({ image: val })} placeholder="https://..." type="url" />
+              <FormInput label="Main Image URL" value={project.image} onChange={val => handleFieldUpdate({ image: val })} placeholder="https://..." type="url" />
             </div>
 
-            <FormTextarea label="Description" value={project.description} onChange={val => onUpdate({ description: val })} placeholder="Describe your project..." rows={3} />
+            <FormTextarea label="Description" value={project.description} onChange={val => handleFieldUpdate({ description: val })} placeholder="Describe your project..." rows={3} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormInput label="GitHub URL" value={project.github || ''} onChange={val => onUpdate({ github: val || null })} placeholder="https://github.com/..." type="url" icon={<Github size={18} />} />
+              <FormInput label="GitHub URL" value={project.github || ''} onChange={val => handleFieldUpdate({ github: val || null })} placeholder="https://github.com/..." type="url" icon={<Github size={18} />} />
 
-              <FormInput label="Live URL" value={project.link || ''} onChange={val => onUpdate({ link: val || null })} placeholder="https://..." type="url" icon={<Globe size={18} />} />
+              <FormInput label="Live URL" value={project.link || ''} onChange={val => handleFieldUpdate({ link: val || null })} placeholder="https://..." type="url" icon={<Globe size={18} />} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -224,32 +272,72 @@ function ProjectCard({
               <FormDatePicker
                 label="Project Initiated"
                 value={project.projectInitiated}
-                onChange={(val) => onUpdate({ projectInitiated: val })}
+                onChange={(val) => handleFieldUpdate({ projectInitiated: val })}
               />
 
               <FormDatePicker
                 label="Project Completed"
                 value={project.projectCompleted}
-                onChange={(val) => onUpdate({ projectCompleted: val })}
+                onChange={(val) => handleFieldUpdate({ projectCompleted: val })}
               />
 
               <FormDatePicker
                 label="End Date"
                 value={project.endDate}
-                onChange={(val) => onUpdate({ endDate: val })}
+                onChange={(val) => handleFieldUpdate({ endDate: val })}
               />
             </div>
 
             <ImageUrlArray
               label="Gallery Images"
               images={project.images}
-              onChange={(images) => onUpdate({ images })}
+              onChange={(images) => handleFieldUpdate({ images })}
             />
 
             <div className="flex flex-wrap gap-4 pt-2">
-              <FormCheckbox label="Featured Project" checked={project.isFeatured} onChange={val => onUpdate({ isFeatured: val })} />
+              <FormCheckbox label="Featured Project" checked={project.isFeatured} onChange={val => handleFieldUpdate({ isFeatured: val })} />
 
-              <FormCheckbox label="Completed" checked={project.isCompleted} onChange={val => onUpdate({ isCompleted: val })} />
+              <FormCheckbox label="Completed" checked={project.isCompleted} onChange={val => handleFieldUpdate({ isCompleted: val })} />
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+              <div className="text-sm text-gray-500">
+                {saveStatus === 'saved' && (
+                  <span className="text-green-600 font-medium">Project saved successfully!</span>
+                )}
+                {saveStatus === 'error' && (
+                  <span className="text-red-600 font-medium">Failed to save project</span>
+                )}
+              </div>
+
+              <button
+                onClick={handleSave}
+                disabled={saveStatus === 'saving'}
+                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  saveStatus === 'saving'
+                    ? 'bg-gray-400 text-white cursor-not-allowed'
+                    : saveStatus === 'saved'
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {saveStatus === 'saving' ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Saving...
+                  </>
+                ) : saveStatus === 'saved' ? (
+                  <>
+                    <CheckCircle2 size={16} />
+                    Saved
+                  </>
+                ) : (
+                  <>
+                    <Save size={16} />
+                    Save Project
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

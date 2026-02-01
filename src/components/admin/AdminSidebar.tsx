@@ -1,11 +1,11 @@
 /**
  * Admin Sidebar Component
  *
- * Navigation sidebar with tab links and save button.
+ * Navigation sidebar with tab links.
  * Shows count badges for each tab.
  */
 
-import { LayoutDashboard, Save, CheckCircle2, AlertCircle, Loader2, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, ChevronRight } from 'lucide-react';
 import { FolderGit2, Code2, Tags, Award, Clock } from 'lucide-react';
 import type { TabType, StaticData } from './types';
 
@@ -13,9 +13,6 @@ interface AdminSidebarProps {
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
   data: StaticData;
-  unsavedChanges: boolean;
-  saveStatus: 'idle' | 'saving' | 'saved' | 'error';
-  onSave: () => void;
   onCloseMobile?: () => void;
 }
 
@@ -31,9 +28,6 @@ export function AdminSidebar({
   activeTab,
   setActiveTab,
   data,
-  unsavedChanges,
-  saveStatus,
-  onSave,
   onCloseMobile,
 }: AdminSidebarProps) {
   return (
@@ -87,48 +81,6 @@ export function AdminSidebar({
           </button>
         ))}
       </nav>
-
-      {/* Save Status */}
-      <div className="p-4 border-t border-gray-200">
-        <button
-          onClick={onSave}
-          disabled={!unsavedChanges || saveStatus === 'saving'}
-          className={`
-            w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg
-            font-medium transition-all duration-200
-            ${unsavedChanges
-              ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
-              : saveStatus === 'saved'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            }
-          `}
-          aria-busy={saveStatus === 'saving'}
-        >
-          {saveStatus === 'saving' ? (
-            <>
-              <Loader2 size={18} className="animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : saveStatus === 'saved' ? (
-            <>
-              <CheckCircle2 size={18} aria-hidden="true" />
-              Saved!
-            </>
-          ) : (
-            <>
-              <Save size={18} aria-hidden="true" />
-              {unsavedChanges ? 'Save Changes' : 'All Saved'}
-            </>
-          )}
-        </button>
-        {unsavedChanges && (
-          <p className="text-center text-xs text-amber-600 mt-2 flex items-center justify-center gap-1">
-            <AlertCircle size={12} aria-hidden="true" />
-            Unsaved changes
-          </p>
-        )}
-      </div>
     </div>
   );
 }
