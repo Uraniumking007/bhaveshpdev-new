@@ -1,0 +1,16 @@
+---
+/**
+ * CertificationFilters - Astro wrapper
+ * Passes props to React CertificationFilters with client:load
+ */
+import { CertificationFilters as CertificationFiltersReact } from './certification-filters';
+
+interface Props {
+	years: string[];
+	issuers: string[];
+}
+
+const { years, issuers } = Astro.props;
+---
+
+<CertificationFiltersReact years={years} issuers={issuers} client:load />

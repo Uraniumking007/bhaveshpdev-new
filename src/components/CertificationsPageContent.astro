@@ -1,0 +1,16 @@
+---
+/**
+ * CertificationsPageContent - Astro wrapper
+ * Passes certifications to React CertificationsPageContent with client:load
+ */
+import { CertificationsPageContent as CertificationsPageContentReact } from './certifications-page-content';
+import type { Certification } from '@/types/static-data';
+
+interface Props {
+	certifications: Certification[];
+}
+
+const { certifications } = Astro.props;
+---
+
+<CertificationsPageContentReact certifications={certifications} client:load />

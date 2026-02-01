@@ -1,0 +1,15 @@
+---
+/**
+ * CertificationTimelineView - Astro wrapper
+ */
+import { CertificationTimelineView as CertificationTimelineViewReact } from './certification-timeline-view';
+import type { Certification } from '@/types/static-data';
+
+interface Props {
+	certifications: Certification[];
+}
+
+const { certifications } = Astro.props;
+---
+
+<CertificationTimelineViewReact certifications={certifications} client:load />
