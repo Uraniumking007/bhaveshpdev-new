@@ -1,8 +1,8 @@
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils/cn";
 import { cva } from "class-variance-authority";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
 }
@@ -26,7 +26,7 @@ const buttonVariants = cva(
   }
 );
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "md", ...props }, ref) => {
     return (
       <button
