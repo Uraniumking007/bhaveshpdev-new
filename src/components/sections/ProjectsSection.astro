@@ -1,0 +1,188 @@
+---
+/**
+ * Projects Section Component
+ *
+ * Displays featured projects with filtering, animations, and detailed cards.
+ * Uses client-side rendering for interactive elements.
+ *
+ * Category C - Complex Component (kept as React island)
+ * - Framer Motion animations
+ * - Complex state management (expand/collapse)
+ * - useInView hooks
+ */
+
+import { motion } from "framer-motion";
+import { ProjectImageCarousel } from "../ui/project-image-carousel";
+import { Meteors } from "../meteors";
+import type { ProjectWithRelations } from "../../types/projects";
+
+interface ProjectsSectionProps {
+	projects?: ProjectWithRelations[];
+}
+
+const { projects = [] } = Astro.props;
+
+const fadeInEase = [0.22, 1, 0.36, 1];
+---
+
+<div class="w-screen h-fit min-h-screen">
+	<div class="container mx-auto px-4 py-20">
+		<motion.h2
+			initial={{ opacity: 0, y: 20 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true }}
+			class="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
+			client:load
+		>
+			Featured Projects
+		</motion.h2>
+
+		<p class="text-center mb-12 text-neutral-600 dark:text-neutral-300">
+			Here are some of the projects I've worked on. Each one represents a unique
+			challenge and learning experience.
+		</p>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid" client:load>
+			{
+				projects.slice(0, 6).map((project) => (
+					<div class="project-card" data-project-id={project.id}>
+						<div class="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full">
+							<Meteors number={2} />
+
+							<div class="aspect-video relative">
+								<ProjectImageCarousel
+									images={project.images}
+									image={project.image}
+									alt={project.name}
+									className="aspect-video"
+								/>
+								{!project.isCompleted && (
+									<div class="absolute top-2 right-2 z-20">
+										<span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
+											Ongoing Project
+										</span>
+									</div>
+								)}
+							</div>
+
+							<div class="p-4 space-y-4">
+								<div>
+									<h3 class="text-lg font-semibold text-white mb-2">
+										{project.name}
+									</h3>
+									<div class="space-y-2">
+										<p class="text-white/70 text-sm line-clamp-2 project-description">
+											{project.description}
+										</p>
+										{project.description.length > 100 && (
+											<button
+												class="text-sm text-white/50 hover:text-white transition-colors expand-button"
+												data-expanded="false"
+											>
+												Read More
+											</button>
+										)}
+									</div>
+								</div>
+
+								{
+									project.technologies
+										?.map((pt) => pt.technology?.name)
+										.filter((n): n is string => n !== undefined).length > 0 && (
+										<div class="flex flex-wrap gap-2">
+											{project.technologies
+												?.map((pt) => pt.technology?.name)
+												.filter((n): n is string => n !== undefined)
+												.map((tech) => (
+													<span class="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70">
+														{tech}
+													</span>
+												))}
+										</div>
+									)}
+
+								<div class="flex flex-wrap gap-2">
+									{project.link && (
+										<a
+											href={project.link}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
+										>
+											Live Demo
+										</a>
+									)}
+									{project.github && (
+										<a
+											href={project.github}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
+										>
+											Source Code
+										</a>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+
+		<div class="text-center mt-12">
+			<a
+										href="/projects"
+										class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-colors"
+									>
+				View All Projects
+			</a>
+		</div>
+	</div>
+</div>
+
+<style>
+	.project-description {
+		transition: all 0.3s ease;
+	}
+	.expand-button.expanded + .project-description {
+		-webkit-line-clamp: unset;
+		line-clamp: unset;
+	}
+</style>
+
+<script>
+	// Add expand/collapse functionality
+	document.querySelectorAll('.expand-button').forEach(button => {
+		button.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const description = target.previousElementSibling as HTMLElement;
+			const isExpanded = target.dataset.expanded === 'true';
+
+			if (isExpanded) {
+				description.classList.add('line-clamp-2');
+				description.classList.remove('line-clamp-none');
+				target.textContent = 'Read More';
+				target.dataset.expanded = 'false';
+			} else {
+				description.classList.remove('line-clamp-2');
+				description.classList.add('line-clamp-none');
+				target.textContent = 'Show Less';
+				target.dataset.expanded = 'true';
+			}
+		});
+	});
+
+	// Add fade-in animation on scroll
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('fade-in');
+			}
+		});
+	}, { threshold: 0.3 });
+
+	document.querySelectorAll('.project-card').forEach(card => {
+		observer.observe(card);
+	});
+</script>

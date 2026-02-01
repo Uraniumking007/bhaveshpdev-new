@@ -1,0 +1,172 @@
+---
+/**
+ * Certifications Section Component
+ *
+ * Displays recent certifications in a carousel format.
+ *
+ * Category C - Complex Component
+ * - embla-carousel for carousel functionality
+ * - Complex navigation state
+ * - Requires client-side JavaScript
+ */
+
+import type { Certification } from "@/types/static-data";
+import { CertificationCarouselCard } from "../cards/certification-carousel-card";
+
+interface CertificationsSectionProps {
+	certifications?: Certification[];
+}
+
+const { certifications = [] } = Astro.props;
+
+// Get recent certifications (last 6 months) or most recent 6
+const recentCertifications = certifications
+	.filter((cert) => {
+		const certDate = new Date(cert.date).getTime();
+		const sixMonthsAgo = Date.now() - 6 * 30 * 24 * 60 * 60 * 1000;
+		return certDate > sixMonthsAgo;
+	})
+	.slice(0, 6)
+	.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const displayCertifications =
+	recentCertifications.length > 0
+		? recentCertifications
+		: certifications.slice(0, 6);
+
+if (displayCertifications.length === 0) {
+	return null;
+}
+---
+
+<div class="w-screen h-fit min-h-screen">
+	<div class="container mx-auto px-4 py-20">
+		<div class="text-center mb-12">
+			<h2 class="text-3xl font-bold text-white mb-4">
+				Recent Certifications
+			</h2>
+			<p class="text-white/70 max-w-2xl mx-auto">
+				Latest achievements and professional certifications that demonstrate
+				continuous learning and expertise.
+			</p>
+		</div>
+
+		<div class="relative certifications-carousel" client:load>
+			<div class="overflow-hidden embla-viewport">
+				<div class="flex gap-4 embla-container">
+					{displayCertifications.map((certification) => (
+						<div class="flex-[0_0_auto] min-w-0 embla-slide">
+							<CertificationCarouselCard certification={certification} />
+						</div>
+					))}
+				</div>
+			</div>
+
+			<!-- Navigation Buttons -->
+			{displayCertifications.length > 3 && (
+				<>
+					<button
+						class="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed backdrop-blur-sm border border-white/10 hidden md:flex embla-prev"
+						aria-label="Previous certifications"
+						disabled
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="15 18 9 12 15 6"></polyline>
+						</svg>
+					</button>
+					<button
+						class="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed backdrop-blur-sm border border-white/10 hidden md:flex embla-next"
+						aria-label="Next certifications"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="9 18 15 12 9 6"></polyline>
+						</svg>
+					</button>
+				</>
+			)}
+		</div>
+
+		<div class="text-center mt-12">
+			<a href="/certifications">
+				<button class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg text-white hover:bg-white/10 transition-colors">
+					View All Certifications
+				</button>
+			</a>
+		</div>
+	</div>
+</div>
+
+<style>
+	.embla-viewport {
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.embla-container {
+		display: flex;
+		gap: 1rem;
+		backface-visibility: hidden;
+	}
+
+	.embla-slide {
+		flex: 0 0 auto;
+		min-width: 0;
+	}
+
+	@media (min-width: 768px) {
+		.embla-slide {
+			flex: 0 0 calc(50% - 0.5rem);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.embla-slide {
+			flex: 0 0 calc(33.333% - 0.667rem);
+		}
+	}
+</style>
+
+<script>
+	// Simple carousel implementation (vanilla JS)
+	document.querySelectorAll('.certifications-carousel').forEach(carousel => {
+		const viewport = carousel.querySelector('.embla-viewport') as HTMLElement;
+		const container = carousel.querySelector('.embla-container') as HTMLElement;
+		const prevBtn = carousel.querySelector('.embla-prev') as HTMLButtonElement;
+		const nextBtn = carousel.querySelector('.embla-next') as HTMLButtonElement;
+
+		if (!viewport || !container) return;
+
+		let scrollPosition = 0;
+		const slideWidth = 100 / container.children.length;
+
+		const updateButtons = () => {
+			if (prevBtn) prevBtn.disabled = scrollPosition <= 0;
+			if (nextBtn) {
+				const maxScroll = container.scrollWidth - viewport.clientWidth;
+				if (nextBtn) nextBtn.disabled = scrollPosition >= maxScroll;
+			}
+		};
+
+		if (prevBtn) {
+			prevBtn.addEventListener('click', () => {
+				scrollPosition -= viewport.clientWidth * 0.5;
+				scrollPosition = Math.max(0, scrollPosition);
+				container.style.transform = `translateX(-${scrollPosition}px)`;
+				updateButtons();
+			});
+		}
+
+		if (nextBtn) {
+			nextBtn.addEventListener('click', () => {
+				const maxScroll = container.scrollWidth - viewport.clientWidth;
+				scrollPosition += viewport.clientWidth * 0.5;
+				scrollPosition = Math.min(scrollPosition, maxScroll);
+				container.style.transform = `translateX(-${scrollPosition}px)`;
+				updateButtons();
+			});
+		}
+
+		// Initial button state
+		updateButtons();
+	});
+</script>

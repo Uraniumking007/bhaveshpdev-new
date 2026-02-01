@@ -1,0 +1,187 @@
+---
+/**
+ * Timeline Section Component
+ *
+ * Displays experience and education timeline.
+ *
+ * Category C - Complex Component
+ * - Uses Timeline UI component (framer-motion based)
+ * - Complex animation coordination
+ * - Dynamic data transformation
+ */
+
+import type { Timeline } from "@/types/static-data";
+
+interface TimelineSectionProps {
+	timelineData?: Timeline[];
+}
+
+const { timelineData = [] } = Astro.props;
+
+const timelineEntries = timelineData.map((item, index) => {
+	const dateLabel =
+		item.yearStart && (item.yearEnd || item.ongoing)
+			? `${item.yearStart} - ${item.ongoing ? "Present" : item.yearEnd}`
+			: item.yearStart || item.yearEnd || "Timeline";
+
+	const typeLabel = item.type
+		? item.type
+				.replace(/[_-]+/g, " ")
+				.replace(/\b\w/g, (char) => char.toUpperCase())
+		: null;
+
+	return {
+		title: dateLabel,
+		content: {
+			title: item.title ?? "Untitled milestone",
+			dateLabel,
+			typeLabel,
+			description: item.description,
+			index,
+		},
+	};
+});
+---
+
+<section class="w-screen bg-white dark:bg-neutral-950 py-20">
+	<div class="container mx-auto px-4">
+		<div class="space-y-6 mb-12">
+			<h2 class="text-3xl md:text-5xl font-semibold text-neutral-900 dark:text-white timeline-title">
+				Experience & Education
+			</h2>
+			<p class="text-base md:text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl">
+				My journey through education and professional experience, marked by
+				continuous learning and growth.
+			</p>
+		</div>
+
+		<div class="timeline-container">
+			{timelineEntries.map((entry) => (
+				<div class="timeline-item" data-index={entry.content.index}>
+					<div class="timeline-item-content rounded-3xl border border-neutral-200/70 dark:border-neutral-800/80 bg-white/80 dark:bg-neutral-900/70 backdrop-blur-xl shadow-[0_20px_60px_rgba(15,23,42,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] p-6 md:p-8">
+						<div class="flex flex-col gap-3">
+							<div class="flex flex-wrap items-center gap-3 text-sm font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">
+								<span>{entry.content.dateLabel}</span>
+								{entry.content.typeLabel && (
+									<span class="inline-flex items-center gap-1 rounded-full border border-neutral-200/70 dark:border-neutral-700 px-3 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-300 bg-white/60 dark:bg-neutral-900/80">
+										{entry.content.typeLabel}
+									</span>
+								)}
+							</div>
+							<h3 class="text-2xl font-semibold text-neutral-900 dark:text-white">
+								{entry.content.title}
+							</h3>
+							{entry.content.description && (
+								<p class="text-neutral-600 dark:text-neutral-300 hidden md:block leading-relaxed">
+									{entry.content.description}
+								</p>
+							)}
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.timeline-container {
+		position: relative;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding-left: 2rem;
+	}
+
+	.timeline-container::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: linear-gradient(
+			to bottom,
+			rgba(148, 163, 184, 0.3),
+			rgba(148, 163, 184, 0.1)
+		);
+	}
+
+	.timeline-item {
+		position: relative;
+		margin-bottom: 3rem;
+		opacity: 0;
+		transform: translateY(24px);
+		animation: fadeInUp 0.6s ease-out both;
+	}
+
+	.timeline-item::before {
+		content: '';
+		position: absolute;
+		left: -2.375rem;
+		top: 1.5rem;
+		width: 0.75rem;
+		height: 0.75rem;
+		border-radius: 50%;
+		background: white;
+		border: 2px solid rgb(148 163 184);
+		z-index: 1;
+	}
+
+	.timeline-item:hover::before {
+		background: rgb(59 130 246);
+		border-color: rgb(59 130 246);
+		box-shadow: 0 0 0 4px rgb(59 130 246 / 0.2);
+	}
+
+	@keyframes fadeInUp {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.timeline-title {
+		animation: fadeInUp 0.6s ease-out 0.2s both;
+	}
+
+	/* Stagger animations based on index */
+	.timeline-item {
+		animation-delay: calc(var(--index) * 0.05s + 0.4s);
+	}
+
+	@media (max-width: 768px) {
+		.timeline-container {
+			padding-left: 1.5rem;
+		}
+
+		.timeline-item::before {
+			left: -1.875rem;
+		}
+
+		.timeline-item-content {
+			padding: 1.5rem !important;
+		}
+	}
+</style>
+
+<script>
+	// Add intersection observer for scroll animations
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.style.animationPlayState = 'running';
+				}
+			});
+		},
+		{
+			threshold: 0.4,
+			rootMargin: '0px 0px -100px 0px'
+		}
+	);
+
+	document.querySelectorAll('.timeline-item').forEach((item) => {
+		item.style.animationPlayState = 'paused';
+		observer.observe(item);
+	});
+</script>

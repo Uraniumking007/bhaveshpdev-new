@@ -1,0 +1,119 @@
+---
+/**
+ * Skills Section Component
+ *
+ * Displays technical skills with hover effects and animations.
+ *
+ * Category B/C - Interactive/Complex Component
+ * - Hover effects with drop-shadow
+ * - Framer Motion animations
+ * - Can be simplified to vanilla JS + CSS
+ */
+
+import type { Skill } from "@/types/static-data";
+import { skills } from "@/lib/data/skills";
+---
+
+<div class="w-screen h-fit min-h-screen">
+  <div class="container mx-auto px-4 py-20">
+    <h2
+      class="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white skills-title"
+    >
+      Technical Skills
+    </h2>
+
+    <p class="text-center mb-12 text-neutral-600 dark:text-neutral-300">
+      Here are the technologies and tools I work with to bring ideas to life.
+    </p>
+
+    <div
+      class="flex w-full flex-wrap items-center justify-center gap-4"
+      id="skills-container"
+    >
+      {
+        skills.map((skill: Skill, index: number) => (
+          <div
+            class="skill-item group relative m-2 flex h-max w-max flex-col items-center rounded-full p-2 text-center drop-shadow-lg transition-all duration-300 hover:scale-110"
+            style={`--skill-index: ${index}; --skill-color: ${skill.colorScheme || "#3b82f6"}`}
+            data-skill-color={skill.colorScheme || "#3b82f6"}
+          >
+            <img
+              src={skill.src}
+              class="h-16 w-16"
+              width={150}
+              height={150}
+              loading="lazy"
+              alt={skill.language}
+            />
+            <div class="skill-label relative w-full justify-center pt-1">
+              {skill.language.charAt(0).toUpperCase() + skill.language.slice(1)}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .skill-item {
+    filter: none;
+    transition:
+      filter 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .skill-item:hover {
+    filter: drop-shadow(0 0 10px var(--skill-color));
+    transform: scale(1.1);
+  }
+
+  .skill-label {
+    /* Start tucked inside/above the image; slide down into place on hover */
+    opacity: 0;
+    transform: translateY(-3rem);
+    filter: none;
+    transition:
+      filter 0.3s ease,
+      transform 0.35s ease-out,
+      opacity 0.35s ease-out;
+  }
+
+  .skill-item:hover .skill-label {
+    opacity: 1;
+    transform: translateY(0);
+    filter: drop-shadow(0 0 10px var(--skill-color));
+  }
+
+  .skills-title {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered animation for skill items */
+  .skill-item {
+    animation: scaleIn 0.4s ease-out both;
+    animation-delay: calc(var(--skill-index) * 0.1s);
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
