@@ -4,43 +4,54 @@
  * A button with a glowing gradient border effect
  */
 interface LitupBorderButtonProps {
-	class?: string;
-	type?: 'button' | 'submit' | 'reset';
-	disabled?: boolean;
+  class?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
-const { class: className = '', type = 'button', disabled = false, ...props } = Astro.props;
+const {
+  class: className = "",
+  type = "button",
+  disabled = false,
+  ...props
+} = Astro.props;
 ---
 
 <button
-	type={type}
-	class={`p-[3px] relative ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
-	disabled={disabled}
-	{...props}
+  type={type}
+  class={`p-[3px] relative block w-full ${disabled ? "opacity-80 cursor-not-allowed" : ""} ${className}`}
+  disabled={disabled}
+  {...props}
 >
-	<div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-	<div class="px-8 py-2 bg-black rounded-[6px] relative group transition duration-200 text-white hover:bg-transparent">
-		<slot />
-	</div>
+  <div
+    class="absolute inset-0 bg-linear-to-r from-indigo-500 to-purple-500 rounded-lg"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="relative flex items-center justify-center gap-2 px-8 py-2.5 bg-neutral-900 rounded-[6px] transition duration-200 text-white hover:bg-neutral-800 min-h-[44px] [&>*]:!text-white [&>*]:font-medium"
+  >
+    <slot />
+  </div>
 </button>
 
 <style>
-	/* Ensure button doesn't have default styles */
-	button {
-		border: none;
-		background: transparent;
-		cursor: pointer;
-		padding: 0;
-	}
+  /* Ensure button doesn't have default styles */
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
 
-	/* Disabled state */
-	button:disabled {
-		cursor: not-allowed;
-		pointer-events: none;
-	}
+  /* Disabled state */
+  button:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 
-	/* Hover effect only works when not disabled */
-	button:not(:disabled) div:last-child:hover {
-		background: transparent;
-	}
+  /* Hover effect only works when not disabled */
+  button:not(:disabled) div:last-child:hover {
+    background: transparent;
+  }
 </style>
