@@ -1,0 +1,14 @@
+---
+/**
+ * PDFViewer - Astro wrapper
+ */
+import PDFViewerReact from './PDFViewer';
+
+interface Props {
+	url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<PDFViewerReact url={url} client:load />
