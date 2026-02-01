@@ -1,0 +1,38 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import { HeroHighlight } from '@/components/hero-highlight';
+import PDFViewer from '@/components/PDFViewer';
+import { IconDownload } from '@tabler/icons-react';
+
+const metadata = {
+  title: 'Bhavesh Patil - Resume',
+  description: "Bhavesh Patil's resume.",
+};
+---
+
+<BaseLayout title={metadata.title} description={metadata.description}>
+  <HomeLayout>
+    <HeroHighlight>
+      <div class="w-full min-h-screen px-4 pt-28 pb-12 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold text-white">Resume</h1>
+            <a
+              href="/resume.pdf"
+              download
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all duration-300"
+            >
+              <IconDownload className="w-5 h-5" client:load />
+              Download Resume
+            </a>
+          </div>
+
+          <div class="bg-transparent rounded-xl p-6 border border-white/10">
+            <PDFViewer url="/resume.pdf" client:only="react" />
+          </div>
+        </div>
+      </div>
+    </HeroHighlight>
+  </HomeLayout>
+</BaseLayout>

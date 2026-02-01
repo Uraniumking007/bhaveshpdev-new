@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import { HeroHighlight } from '@/components/hero-highlight';
+import { CertificationsPageContent } from '@/components/certifications-page-content';
+import { getCertifications } from '@/lib/data';
+
+const certifications = await getCertifications();
+
+const metadata = {
+  title: 'Bhavesh Patil - Certifications',
+  description: "Bhavesh Patil's certifications and achievements.",
+};
+---
+
+<BaseLayout title={metadata.title} description={metadata.description}>
+  <HomeLayout>
+    <HeroHighlight>
+      <CertificationsPageContent certifications={certifications} client:visible />
+    </HeroHighlight>
+  </HomeLayout>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomeLayout from '@/layouts/HomeLayout.astro';
+import { HeroHighlight } from '@/components/hero-highlight';
+import SkillsSection from '@/components/sections/SkillsSection.astro';
+import { skills } from '@/lib/data/skills';
+
+const metadata = {
+  title: 'Bhavesh Patil - Skills',
+  description: "Bhavesh Patil's skills and technical expertise.",
+};
+---
+
+<BaseLayout title={metadata.title} description={metadata.description}>
+  <HomeLayout>
+    <HeroHighlight>
+      <div class="h-full">
+        <SkillsSection skills={skills} />
+      </div>
+    </HeroHighlight>
+  </HomeLayout>
+</BaseLayout>

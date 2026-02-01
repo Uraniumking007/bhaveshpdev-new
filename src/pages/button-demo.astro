@@ -1,0 +1,202 @@
+---
+/**
+ * Button Component Demo
+ *
+ * Demonstrates all variants and sizes of the Button component
+ * with client-side interactivity.
+ */
+
+import Button from '@/components/ui/Button.astro';
+import Layout from '@/layouts/Layout.astro';
+
+export const metadata = {
+	title: 'Button Component Demo',
+	description: 'Interactive button component with variants and sizes',
+};
+---
+
+<Layout title="Button Component Demo">
+	<main class="min-h-screen bg-background p-8">
+		<div class="max-w-4xl mx-auto space-y-12">
+			<div>
+				<h1 class="text-4xl font-bold mb-4">Button Component Demo</h1>
+				<p class="text-lg text-gray-600 dark:text-gray-400">
+					Interactive Astro button component with variants and sizes
+				</p>
+			</div>
+
+			<!-- Variants -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Variants</h2>
+				<div class="flex flex-wrap gap-4">
+					<Button variant="default">Default Button</Button>
+					<Button variant="outline">Outline Button</Button>
+					<Button variant="ghost">Ghost Button</Button>
+				</div>
+			</section>
+
+			<!-- Sizes -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+				<div class="flex flex-wrap items-center gap-4">
+					<Button size="sm">Small</Button>
+					<Button size="md">Medium</Button>
+					<Button size="lg">Large</Button>
+				</div>
+			</section>
+
+			<!-- Combined Variants and Sizes -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">All Combinations</h2>
+				<div class="space-y-4">
+					<div class="flex flex-wrap gap-4">
+						<Button variant="default" size="sm">Default Small</Button>
+						<Button variant="default" size="md">Default Medium</Button>
+						<Button variant="default" size="lg">Default Large</Button>
+					</div>
+					<div class="flex flex-wrap gap-4">
+						<Button variant="outline" size="sm">Outline Small</Button>
+						<Button variant="outline" size="md">Outline Medium</Button>
+						<Button variant="outline" size="lg">Outline Large</Button>
+					</div>
+					<div class="flex flex-wrap gap-4">
+						<Button variant="ghost" size="sm">Ghost Small</Button>
+						<Button variant="ghost" size="md">Ghost Medium</Button>
+						<Button variant="ghost" size="lg">Ghost Large</Button>
+					</div>
+				</div>
+			</section>
+
+			<!-- States -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">States</h2>
+				<div class="flex flex-wrap gap-4">
+					<Button disabled>Disabled</Button>
+					<Button loading>Loading</Button>
+				</div>
+			</section>
+
+			<!-- Interactive Example with Counter -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Interactive Example</h2>
+				<div class="space-y-4">
+					<p class="text-lg">
+						Count: <span id="count" class="font-bold">0</span>
+					</p>
+					<div class="flex gap-4">
+						<Button
+							variant="default"
+							onClick="incrementCounter()"						>
+							Increment
+						</Button>
+						<Button
+							variant="outline"
+							onClick="decrementCounter()"						>
+							Decrement
+						</Button>
+						<Button
+							variant="ghost"
+							onClick="resetCounter()"						>
+							Reset
+						</Button>
+					</div>
+				</div>
+			</section>
+
+			<!-- Type Examples -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Button Types</h2>
+				<div class="flex flex-wrap gap-4">
+					<Button type="button">Button Type</Button>
+					<Button type="submit">Submit Type</Button>
+					<Button type="reset">Reset Type</Button>
+				</div>
+			</section>
+
+			<!-- Custom Classes -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Custom Classes</h2>
+				<div class="flex flex-wrap gap-4">
+					<Button
+						variant="default"
+						class="shadow-lg"					>
+						With Shadow
+					</Button>
+					<Button
+						variant="outline"
+						class="rounded-full"					>
+						Rounded Full
+					</Button>
+					<Button
+						variant="ghost"
+						class="w-32"					>
+						Fixed Width
+					</Button>
+				</div>
+			</section>
+
+			<!-- Console Test -->
+			<section>
+				<h2 class="text-2xl font-semibold mb-4">Console Test</h2>
+				<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+					Click the button below and check the browser console for output
+				</p>
+				<Button
+					variant="default"
+					onClick="console.log('Button clicked! Timestamp:', new Date().toISOString())"				>
+					Console Log Test
+				</Button>
+			</section>
+		</div>
+	</main>
+</Layout>
+
+<script>
+	// Counter functionality for the interactive example
+	let count = 0;
+	const countElement = document.getElementById('count');
+
+	function incrementCounter() {
+		count++;
+		countElement.textContent = count;
+	}
+
+	function decrementCounter() {
+		count--;
+		countElement.textContent = count;
+	}
+
+	function resetCounter() {
+		count = 0;
+		countElement.textContent = count;
+	}
+
+	// Make functions globally available
+	(window as any).incrementCounter = incrementCounter;
+	(window as any).decrementCounter = decrementCounter;
+	(window as any).resetCounter = resetCounter;
+</script>
+
+<style>
+	section {
+		padding: 2rem 0;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	section:last-child {
+		border-bottom: none;
+	}
+
+	h2 {
+		color: #1f2937;
+		margin-bottom: 1rem;
+	}
+
+	:global(html.dark) h2 {
+		color: #f9fafb;
+	}
+
+	p {
+		color: #6b7280;
+	}
+</style>

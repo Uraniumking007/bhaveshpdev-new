@@ -1,0 +1,264 @@
+---
+/**
+ * Form Components Demo
+ * Demonstrates usage of Input, Textarea, Checkbox, and Switch components
+ */
+import Input from '../components/ui/Input.astro';
+import Textarea from '../components/ui/Textarea.astro';
+import Checkbox from '../components/ui/Checkbox.astro';
+import Switch from '../components/ui/Switch.astro';
+import Label from '../components/ui/Label.astro';
+import Card from '../components/ui/Card.astro';
+import CardHeader from '../components/ui/CardHeader.astro';
+import CardTitle from '../components/ui/CardTitle.astro';
+import CardDescription from '../components/ui/CardDescription.astro';
+import CardContent from '../components/ui/CardContent.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Form Components Demo">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <h1 class="text-3xl font-bold mb-8 text-white">Form Components Demo</h1>
+
+    <form class="space-y-8">
+      <!-- Input Examples -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Input Fields</CardTitle>
+          <CardDescription>Basic text input examples</CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div>
+            <Label for="text-input">Text Input</Label>
+            <Input
+              id="text-input"
+              type="text"
+              placeholder="Enter text..."
+              name="text"
+              required
+            />
+          </div>
+
+          <div>
+            <Label for="email-input">Email Input</Label>
+            <Input
+              id="email-input"
+              type="email"
+              placeholder="your@email.com"
+              name="email"
+              required
+            />
+          </div>
+
+          <div>
+            <Label for="password-input">Password Input</Label>
+            <Input
+              id="password-input"
+              type="password"
+              placeholder="Enter password..."
+              name="password"
+              minlength={8}
+            />
+          </div>
+
+          <div>
+            <Label for="number-input">Number Input</Label>
+            <Input
+              id="number-input"
+              type="number"
+              placeholder="0"
+              name="number"
+              min={0}
+              max={100}
+            />
+          </div>
+
+          <div>
+            <Label for="disabled-input">Disabled Input</Label>
+            <Input
+              id="disabled-input"
+              type="text"
+              placeholder="This is disabled"
+              disabled
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Textarea Examples -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Textarea Fields</CardTitle>
+          <CardDescription>Multi-line text input examples</CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div>
+            <Label for="message">Message</Label>
+            <Textarea
+              id="message"
+              placeholder="Enter your message..."
+              name="message"
+              rows={4}
+            />
+          </div>
+
+          <div>
+            <Label for="description">Description</Label>
+            <Textarea
+              id="description"
+              placeholder="Enter a detailed description..."
+              name="description"
+              rows={6}
+              maxlength={500}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Checkbox Examples -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Checkboxes</CardTitle>
+          <CardDescription>Checkbox selection examples</CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <Checkbox id="accept-terms" name="terms" required />
+            <Label for="accept-terms" class="cursor-pointer">
+              I accept the terms and conditions
+            </Label>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <Checkbox id="newsletter" name="newsletter" checked />
+            <Label for="newsletter" class="cursor-pointer">
+              Subscribe to newsletter
+            </Label>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <Checkbox id="notifications" name="notifications" />
+            <Label for="notifications" class="cursor-pointer">
+              Enable notifications
+            </Label>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <Checkbox id="disabled-checkbox" name="disabled" disabled checked />
+            <Label for="disabled-checkbox" class="cursor-pointer opacity-50">
+              Disabled option (pre-selected)
+            </Label>
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Switch Examples -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Switches</CardTitle>
+          <CardDescription>Toggle switch examples</CardDescription>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div class="flex items-center justify-between">
+            <Label for="dark-mode">Dark Mode</Label>
+            <Switch id="dark-mode" name="dark-mode" checked />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <Label for="notifications-switch">Notifications</Label>
+            <Switch id="notifications-switch" name="notifications" />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <Label for="auto-save">Auto Save</Label>
+            <Switch id="auto-save" name="auto-save" checked />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <Label for="disabled-switch">Disabled Switch</Label>
+            <Switch id="disabled-switch" name="disabled" disabled checked />
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- Form Actions -->
+      <div class="flex gap-4">
+        <button
+          type="submit"
+          class="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+        >
+          Submit Form
+        </button>
+        <button
+          type="reset"
+          class="px-6 py-2 bg-input text-white rounded-md hover:bg-input/80 transition-colors"
+        >
+          Reset
+        </button>
+      </div>
+    </form>
+
+    <!-- Usage Documentation -->
+    <Card class="mt-8">
+      <CardHeader>
+        <CardTitle>Usage Examples</CardTitle>
+        <CardDescription>How to use these components in your Astro pages</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div class="space-y-4 text-sm">
+          <div>
+            <h3 class="font-semibold mb-2 text-white">Import:</h3>
+            <pre class="bg-black/50 p-4 rounded-md overflow-x-auto"><code>import Input from '@/components/ui/Input.astro';
+import Textarea from '@/components/ui/Textarea.astro';
+import Checkbox from '@/components/ui/Checkbox.astro';
+import Switch from '@/components/ui/Switch.astro';</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold mb-2 text-white">Input Component:</h3>
+            <pre class="bg-black/50 p-4 rounded-md overflow-x-auto"><code>&lt;Input
+  type="text"
+  placeholder="Enter text..."
+  name="fieldName"
+  required
+/&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold mb-2 text-white">Textarea Component:</h3>
+            <pre class="bg-black/50 p-4 rounded-md overflow-x-auto"><code>&lt;Textarea
+  placeholder="Enter message..."
+  name="message"
+  rows={4}
+&gt;&lt;/Textarea&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold mb-2 text-white">Checkbox Component:</h3>
+            <pre class="bg-black/50 p-4 rounded-md overflow-x-auto"><code>&lt;Checkbox
+  id="checkbox-id"
+  name="fieldName"
+  checked
+/&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold mb-2 text-white">Switch Component:</h3>
+            <pre class="bg-black/50 p-4 rounded-md overflow-x-auto"><code>&lt;Switch
+  id="switch-id"
+  name="fieldName"
+  checked
+/&gt;</code></pre>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Additional demo-specific styles */
+  form {
+    /* Default form styling */
+  }
+</style>
