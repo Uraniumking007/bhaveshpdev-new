@@ -1,0 +1,22 @@
+---
+// HomeLayout.astro - Home page layout with navigation, footer, and effects
+import NavBar from "../components/NavBar.astro";
+import Footer from "../components/Footer.astro";
+import { HomeBackgroundEffects } from "../components/home-background-effects";
+---
+
+<div class="relative min-h-screen flex flex-col">
+  <NavBar />
+  <main class="flex-grow">
+    <slot />
+  </main>
+  <Footer />
+  <HomeBackgroundEffects client:load />
+</div>
+
+<style>
+  /* Home-specific styles */
+  main {
+    width: 100%;
+  }
+</style>

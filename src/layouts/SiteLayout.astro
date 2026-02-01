@@ -1,0 +1,95 @@
+---
+// SiteLayout.astro - Complete page layout with header, main content, and footer
+import NavBar from '../components/NavBar.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
+  showNavigation?: boolean;
+  class?: string;
+}
+
+const {
+  title = 'Bhavesh Patil | Full Stack Developer',
+  description = 'Portfolio of Bhavesh Patil - Full Stack Developer specializing in React, Next.js, and modern web technologies.',
+  showHeader = false,
+  showFooter = true,
+  showNavigation = true,
+  class: className = ''
+} = Astro.props;
+---
+
+<div class={`site-layout ${className}`}>
+  <!-- Optional Site Header (logo, branding) -->
+  {showHeader && (
+    <SiteHeader title={title} showNavigation={false} />
+  )}
+
+  <!-- Navigation Bar -->
+  {showNavigation && (
+    <NavBar />
+  )}
+
+  <!-- Main Content Area -->
+  <main class="flex-grow">
+    <slot />
+  </main>
+
+  <!-- Site Footer -->
+  {showFooter && (
+    <SiteFooter />
+  )}
+</div>
+
+<style>
+  /* Layout container */
+  .site-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Main content area */
+  main {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Content wrapper for pages */
+  main > * {
+    max-width: 100%;
+  }
+</style>
+
+<script>
+  // Add smooth scroll behavior for anchor links
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+  });
+</script>
