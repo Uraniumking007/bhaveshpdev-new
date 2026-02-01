@@ -8,21 +8,36 @@
       "link": "https://bhaveshpatil.dev",
       "github": "https://github.com/bhaveshpatil/bhaveshpdev-new",
       "technologies": [
-        { "projectId": "1", "technologyId": "1" },
-        { "projectId": "1", "technologyId": "2" },
-        { "projectId": "1", "technologyId": "3" }
+        {
+          "projectId": "1",
+          "technologyId": "1"
+        },
+        {
+          "projectId": "1",
+          "technologyId": "2"
+        },
+        {
+          "projectId": "1",
+          "technologyId": "3"
+        }
       ],
       "categories": [
-        { "projectId": "1", "categoryId": "1" }
+        {
+          "projectId": "1",
+          "categoryId": "1"
+        }
       ],
       "createdAt": "2024-01-01T00:00:00.000Z",
-      "updatedAt": "2024-01-15T00:00:00.000Z",
+      "updatedAt": "2026-02-01T10:54:05.856Z",
       "projectInitiated": "2024-01-01T00:00:00.000Z",
       "projectCompleted": "2024-01-15T00:00:00.000Z",
       "isCompleted": true,
       "endDate": "2024-01-15T00:00:00.000Z",
       "isFeatured": true,
-      "images": ["/images/projects/portfolio-1.jpg", "/images/projects/portfolio-2.jpg"]
+      "images": [
+        "/images/projects/portfolio-1.jpg",
+        "/images/projects/portfolio-2.jpg"
+      ]
     },
     {
       "id": "2",
@@ -32,12 +47,24 @@
       "link": null,
       "github": "https://github.com/bhaveshpatil/task-manager",
       "technologies": [
-        { "projectId": "2", "technologyId": "2" },
-        { "projectId": "2", "technologyId": "4" },
-        { "projectId": "2", "technologyId": "5" }
+        {
+          "projectId": "2",
+          "technologyId": "2"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "4"
+        },
+        {
+          "projectId": "2",
+          "technologyId": "5"
+        }
       ],
       "categories": [
-        { "projectId": "2", "categoryId": "2" }
+        {
+          "projectId": "2",
+          "categoryId": "2"
+        }
       ],
       "createdAt": "2024-02-01T00:00:00.000Z",
       "updatedAt": "2024-03-01T00:00:00.000Z",
