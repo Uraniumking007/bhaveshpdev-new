@@ -1,0 +1,190 @@
+---
+// SiteFooter.astro - Comprehensive site footer with all sections
+import Footer from './Footer.astro';
+import FooterLinks from './FooterLinks.astro';
+
+interface SiteFooterProps {
+  showSocial?: boolean;
+  showQuickLinks?: boolean;
+  showAbout?: boolean;
+  class?: string;
+}
+
+const {
+  showSocial = true,
+  showQuickLinks = true,
+  showAbout = true,
+  class: className = ''
+} = Astro.props;
+
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Certifications', href: '/certifications' },
+  { label: 'Skills', href: '/skills' },
+  { label: 'Resume', href: '/resume' },
+];
+
+const resourceLinks = [
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<Footer class={className}>
+
+  <!-- Additional footer content can be added here -->
+  <div class="container mx-auto px-4 pb-8">
+    <!-- Optional: Newsletter signup -->
+    <div class="mb-8 max-w-md mx-auto">
+      <h3 class="text-white font-semibold mb-2 text-center">Stay Updated</h3>
+      <p class="text-neutral-400 text-sm text-center mb-4">
+        Subscribe to my newsletter for the latest updates
+      </p>
+      <form class="flex gap-2">
+        <input
+          type="email"
+          placeholder="your@email.com"
+          class="flex-1 px-4 py-2 rounded-lg bg-neutral-800 border border-neutral-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          required
+        />
+        <button
+          type="submit"
+          class="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium text-sm hover:opacity-90 transition-opacity"
+        >
+          Subscribe
+        </button>
+      </form>
+    </div>
+
+    <!-- Additional Links Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      {showQuickLinks && (
+        <FooterLinks
+          title="Quick Links"
+          links={quickLinks}
+        />
+      )}
+
+      <FooterLinks
+        title="Resources"
+        links={resourceLinks}
+      />
+
+      <!-- Contact Info -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-white">Contact</h3>
+        <ul class="space-y-2 text-sm">
+          <li class="text-neutral-400">
+            <a href="mailto:contact@bhaveshp.dev" class="hover:text-white transition-colors">
+              contact@bhaveshp.dev
+            </a>
+          </li>
+          <li class="text-neutral-400">
+            San Francisco, CA
+          </li>
+        </ul>
+      </div>
+
+      <!-- Additional Info -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-white">About</h3>
+        <p class="text-neutral-400 text-sm leading-relaxed">
+          Full Stack Developer passionate about building exceptional digital experiences.
+          Specializing in React, Next.js, and modern web technologies.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-neutral-800">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-neutral-500 text-sm text-center md:text-left">
+          &copy; {currentYear} Bhavesh Patil. All rights reserved.
+        </p>
+
+        <div class="flex gap-6 text-sm">
+          <a href="/privacy" class="text-neutral-500 hover:text-white transition-colors">
+            Privacy
+          </a>
+          <a href="/terms" class="text-neutral-500 hover:text-white transition-colors">
+            Terms
+          </a>
+          <a href="/sitemap" class="text-neutral-500 hover:text-white transition-colors">
+            Sitemap
+          </a>
+        </div>
+
+        <p class="text-neutral-600 text-xs">
+          Built with ❤️ using Astro
+        </p>
+      </div>
+    </div>
+  </div>
+</Footer>
+
+<style>
+  /* Newsletter form */
+  form input:focus {
+    border-color: rgb(168 85 247);
+  }
+
+  form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  }
+
+  form button:active {
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  // Newsletter form handling
+  const form = document.querySelector('form');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = form.querySelector('input[type="email"]') as HTMLInputElement;
+    const button = form.querySelector('button') as HTMLButtonElement;
+
+    if (!email || !email.value) return;
+
+    // Show loading state
+    button.textContent = 'Subscribing...';
+    button.disabled = true;
+
+    // Simulate API call (replace with actual implementation)
+    try {
+      // Replace with actual newsletter API endpoint
+      // await fetch('/api/newsletter', {
+      //   method: 'POST',
+      //   body: JSON.stringify({ email: email.value }),
+      // });
+
+      // Show success message
+      button.textContent = 'Subscribed!';
+      button.classList.remove('from-purple-500', 'to-blue-500');
+      button.classList.add('bg-green-500');
+
+      setTimeout(() => {
+        button.textContent = 'Subscribe';
+        button.classList.add('from-purple-500', 'to-blue-500');
+        button.classList.remove('bg-green-500');
+        button.disabled = false;
+        email.value = '';
+      }, 2000);
+    } catch (error) {
+      button.textContent = 'Error';
+      setTimeout(() => {
+        button.textContent = 'Subscribe';
+        button.disabled = false;
+      }, 2000);
+    }
+  });
+</script>

@@ -1,0 +1,32 @@
+---
+/**
+ * Hamburger - Astro version (pure Astro)
+ * Animated hamburger menu icon
+ */
+interface Props {
+	isOpen?: boolean;
+}
+
+const { isOpen = false } = Astro.props;
+---
+
+<div class="w-6 h-6 sm:w-8 sm:h-8 flex justify-around flex-col z-50 lg:hidden">
+	<div
+		class:list={[
+			'w-6 h-[0.1rem] sm:w-8 sm:h-[0.15rem] rounded-sm bg-white origin-[1px] transition-all duration-300 ease-linear',
+			isOpen ? 'rotate-[45deg]' : 'rotate-0'
+		]}
+	/>
+	<div
+		class:list={[
+			'w-6 h-[0.1rem] sm:w-8 sm:h-[0.15rem] rounded-sm bg-white origin-[1px] transition-all duration-300 ease-linear',
+			isOpen ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100'
+		]}
+	/>
+	<div
+		class:list={[
+			'w-6 h-[0.1rem] sm:w-8 sm:h-[0.15rem] rounded-sm bg-white origin-[1px] transition-all duration-300 ease-linear',
+			isOpen ? 'rotate-[-45deg]' : 'rotate-0'
+		]}
+	/>
+</div>

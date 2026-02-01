@@ -1,0 +1,54 @@
+---
+// FooterLinks.astro - Reusable footer links section
+interface LinkItem {
+  label: string;
+  href: string;
+}
+
+interface FooterLinksProps {
+  title: string;
+  links: LinkItem[];
+  class?: string;
+}
+
+const { title, links, class: className = '' } = Astro.props;
+---
+
+<div class={`footer-links-section ${className}`}>
+  <h3 class="text-lg font-semibold mb-4 text-white">{title}</h3>
+  <ul class="space-y-2">
+    {links.map((link) => (
+      <li>
+        <a
+          href={link.href}
+          class="text-neutral-400 hover:text-white transition-colors text-sm relative group inline-block"
+        >
+          {link.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  /* Link hover animation */
+  a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+
+  a:hover::after {
+    width: 100%;
+  }
+</style>

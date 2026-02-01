@@ -1,0 +1,163 @@
+---
+// Footer.astro - Main footer component with social links and copyright
+interface SocialLink {
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+}
+
+interface FooterProps {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const socialLinks: SocialLink[] = [
+  {
+    title: "G-Mail",
+    description: "contact@bhaveshp.dev",
+    icon: "/icons/outline/brand-gmail.svg",
+    link: "mailto:contact@bhaveshp.dev",
+  },
+  {
+    title: "Discord",
+    description: "Join the community",
+    icon: "/icons/outline/brand-discord.svg",
+    link: "https://discord.gg/smCjSmMw9D",
+  },
+  {
+    title: "X",
+    description: "@UraniumKing0",
+    icon: "/icons/outline/brand-x.svg",
+    link: "https://x.com/UraniumKing0",
+  },
+  {
+    title: "Github",
+    description: "Uraniumking007",
+    icon: "/icons/outline/brand-github.svg",
+    link: "https://github.com/Uraniumking007",
+  },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class={`w-full bg-neutral-900/50 dark:bg-neutral-950/50 backdrop-blur-sm border-t border-neutral-800 ${className}`}>
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About Section -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-white">Bhavesh Patil</h3>
+        <p class="text-neutral-400 text-sm">
+          Full Stack Developer specializing in React, Next.js, and modern web technologies.
+          Building exceptional digital experiences.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-white">Quick Links</h3>
+        <ul class="space-y-2">
+          <li>
+            <a href="/" class="text-neutral-400 hover:text-white transition-colors text-sm">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/projects" class="text-neutral-400 hover:text-white transition-colors text-sm">
+              Projects
+            </a>
+          </li>
+          <li>
+            <a href="/certifications" class="text-neutral-400 hover:text-white transition-colors text-sm">
+              Certifications
+            </a>
+          </li>
+          <li>
+            <a href="/skills" class="text-neutral-400 hover:text-white transition-colors text-sm">
+              Skills
+            </a>
+          </li>
+          <li>
+            <a href="/resume" class="text-neutral-400 hover:text-white transition-colors text-sm">
+              Resume
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Social Links -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-white">Connect</h3>
+        <div class="flex flex-wrap gap-4">
+          {socialLinks.map((social) => (
+            <a
+              href={social.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group relative w-12 h-12 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center transition-all duration-300"
+              aria-label={social.title}
+            >
+              <img
+                src={social.icon}
+                alt={social.title}
+                class="w-5 h-5 text-neutral-400 group-hover:text-white transition-colors"
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="mt-8 pt-8 border-t border-neutral-800">
+      <p class="text-center text-neutral-400 text-sm">
+        &copy; {currentYear} Bhavesh Patil. All rights reserved.
+      </p>
+      <p class="text-center text-neutral-500 text-xs mt-2">
+        Built with Astro, React, and Tailwind CSS
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Footer link hover effects */
+  a {
+    position: relative;
+    text-decoration: none;
+  }
+
+  a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+
+  a:hover::after {
+    width: 100%;
+  }
+
+  /* Social button animation */
+  .group:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    footer {
+      padding: 2rem 0;
+    }
+
+    .grid {
+      gap: 2rem;
+    }
+  }
+</style>
