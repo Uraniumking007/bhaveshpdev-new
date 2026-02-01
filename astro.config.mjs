@@ -2,11 +2,13 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import alpinejs from '@astrojs/alpinejs';
+import { devAdmin } from './src/integrations/dev-admin.ts';
 
 export default defineConfig({
   integrations: [
     react(),
     alpinejs(),
+    devAdmin(),
   ],
   vite: {
     plugins: [tailwindcss()],
