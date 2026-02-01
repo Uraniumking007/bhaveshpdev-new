@@ -1,0 +1,27 @@
+---
+/**
+ * TextGenerateEffectUI.astro - Astro wrapper for ui/text-generate-effect
+ */
+import { TextGenerateEffect as TextGenerateEffectReact } from './ui/text-generate-effect';
+
+interface Props {
+	words: string;
+	className?: string;
+	textClassName?: string;
+	textStyle?: Record<string, string>;
+	filter?: boolean;
+	duration?: number;
+}
+
+const { words, className, textClassName, textStyle, filter, duration } = Astro.props;
+---
+
+<TextGenerateEffectReact
+	words={words}
+	className={className}
+	textClassName={textClassName}
+	textStyle={textStyle}
+	filter={filter}
+	duration={duration}
+	client:load
+/>
