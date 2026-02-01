@@ -1,10 +1,9 @@
 "use client";
-import Image from "next/image";
-import { Skills, type skill } from "@/lib/utils/data";
+import { skills, type Skill } from "@/lib/data/skills";
 import { useHover } from "usehooks-ts";
 import { useRef } from "react";
 
-const SkillIcon = ({ language, colorScheme, src }: skill) => {
+const SkillIcon = ({ language, colorScheme, src }: Skill) => {
   const hoverRef = useRef<HTMLDivElement>(null);
   const isHover: boolean = useHover(hoverRef as React.RefObject<HTMLElement>);
   const languageCapz = language.charAt(0).toUpperCase() + language.slice(1);
@@ -16,7 +15,7 @@ const SkillIcon = ({ language, colorScheme, src }: skill) => {
           filter: isHover ? `drop-shadow( 0 0 10px ${colorScheme})` : "none",
         }}
       >
-        <Image
+        <img
           src={src}
           className="h-16 w-16"
           width={150}
@@ -44,7 +43,7 @@ const SkillIcon = ({ language, colorScheme, src }: skill) => {
 const SkillIcons = () => {
   return (
     <div className="flex w-full flex-wrap items-center justify-center">
-      {Skills.map((skill, key) => {
+      {skills.map((skill, key) => {
         return (
           <div key={key}>
             <SkillIcon {...skill} />

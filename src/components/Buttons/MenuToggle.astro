@@ -1,0 +1,134 @@
+---
+// MenuToggle.astro - Animated hamburger menu button
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<button
+  id="menu-toggle"
+  class={`w-6 h-6 sm:w-8 sm:h-8 flex justify-around flex-col z-50 lg:hidden ${className}`}
+  aria-label="Toggle menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+>
+  <svg width="23" height="23" viewBox="0 0 23 23" class="menu-icon">
+    <path
+      class="top-line"
+      fill="transparent"
+      stroke-width="3"
+      stroke="white"
+      stroke-linecap="round"
+      d="M 2 2.5 L 20 2.5"
+    />
+    <path
+      class="middle-line"
+      fill="transparent"
+      stroke-width="3"
+      stroke="white"
+      stroke-linecap="round"
+      d="M 2 9.423 L 20 9.423"
+      style="transition: opacity 0.1s ease; opacity: 1;"
+    />
+    <path
+      class="bottom-line"
+      fill="transparent"
+      stroke-width="3"
+      stroke="white"
+      stroke-linecap="round"
+      d="M 2 16.346 L 20 16.346"
+    />
+  </svg>
+</button>
+
+<style>
+  #menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  #menu-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  /* Open state for menu icon */
+  #menu-toggle[aria-expanded="true"] .top-line {
+    d: path("M 3 16.5 L 17 2.5");
+    transition: d 0.3s ease;
+  }
+
+  #menu-toggle[aria-expanded="true"] .middle-line {
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
+
+  #menu-toggle[aria-expanded="true"] .bottom-line {
+    d: path("M 3 2.5 L 17 16.346");
+    transition: d 0.3s ease;
+  }
+</style>
+
+<script define:vars={{}}>
+  // Menu toggle functionality
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  let isOpen = false;
+
+  const toggleMenu = () => {
+    isOpen = !isOpen;
+    menuToggle?.setAttribute('aria-expanded', isOpen.toString());
+
+    // Animate the menu icon
+    const topLine = menuToggle?.querySelector('.top-line');
+    const middleLine = menuToggle?.querySelector('.middle-line');
+    const bottomLine = menuToggle?.querySelector('.bottom-line');
+
+    if (isOpen) {
+      topLine?.setAttribute('d', 'M 3 16.5 L 17 2.5');
+      middleLine?.setAttribute('style', 'opacity: 0;');
+      bottomLine?.setAttribute('d', 'M 3 2.5 L 17 16.346');
+    } else {
+      topLine?.setAttribute('d', 'M 2 2.5 L 20 2.5');
+      middleLine?.setAttribute('style', 'opacity: 1;');
+      bottomLine?.setAttribute('d', 'M 2 16.346 L 20 16.346');
+    }
+
+    // Show/hide mobile menu
+    if (mobileMenu) {
+      if (isOpen) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('flex');
+      } else {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+      }
+    }
+  };
+
+  // Attach click handler
+  menuToggle?.addEventListener('click', toggleMenu);
+
+  // Close menu on route change
+  document.addEventListener('astro:after-preparation', () => {
+    if (isOpen) {
+      isOpen = false;
+      menuToggle?.setAttribute('aria-expanded', 'false');
+
+      const topLine = menuToggle?.querySelector('.top-line');
+      const middleLine = menuToggle?.querySelector('.middle-line');
+      const bottomLine = menuToggle?.querySelector('.bottom-line');
+
+      topLine?.setAttribute('d', 'M 2 2.5 L 20 2.5');
+      middleLine?.setAttribute('style', 'opacity: 1;');
+      bottomLine?.setAttribute('d', 'M 2 16.346 L 20 16.346');
+
+      mobileMenu?.classList.add('hidden');
+      mobileMenu?.classList.remove('flex');
+    }
+  });
+</script>

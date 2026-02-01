@@ -1,11 +1,7 @@
-import { MotionProps, SVGMotionProps, motion } from "framer-motion";
-import React from "react";
+import { motion } from "framer-motion";
+import type { ComponentProps } from "react";
 
-const Path = (
-  props: React.JSX.IntrinsicAttributes &
-    SVGMotionProps<SVGPathElement> &
-    React.RefAttributes<SVGPathElement>
-) => (
+const Path = (props: ComponentProps<typeof motion.path>) => (
   <motion.path
     fill="transparent"
     strokeWidth="3"

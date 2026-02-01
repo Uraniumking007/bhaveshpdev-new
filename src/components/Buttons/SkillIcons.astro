@@ -1,0 +1,49 @@
+---
+/**
+ * SkillIcons - Astro version
+ * Grid of skill icons with hover effects (CSS-only)
+ */
+import { skills } from '@/lib/data/skills';
+---
+
+<div class="flex w-full flex-wrap items-center justify-center">
+	{skills.map((skill) => {
+		const languageCapz = skill.language.charAt(0).toUpperCase() + skill.language.slice(1);
+		return (
+			<div class="skill-icon-wrapper m-2 flex h-max w-max flex-col items-center rounded-full p-2 text-center drop-shadow-lg">
+				<img
+					src={skill.src}
+					class="h-16 w-16 skill-icon-img"
+					width={64}
+					height={64}
+					loading="lazy"
+					alt={skill.language}
+				/>
+				<div
+					class="skill-icon-label relative w-full justify-center pt-1 transition-all duration-150 ease-in-out"
+					style={`--skill-color: ${skill.colorScheme}`}
+				>
+					{languageCapz}
+				</div>
+			</div>
+		);
+	})}
+</div>
+
+<style>
+	.skill-icon-wrapper:hover .skill-icon-img,
+	.skill-icon-wrapper:hover .skill-icon-label {
+		filter: drop-shadow(0 0 10px var(--skill-color));
+	}
+	.skill-icon-label {
+		filter: none;
+	}
+	.skill-icon-wrapper:hover .skill-icon-label {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	.skill-icon-wrapper:not(:hover) .skill-icon-label {
+		transform: translateY(-3rem);
+		opacity: 0;
+	}
+</style>

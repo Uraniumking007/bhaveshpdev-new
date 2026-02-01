@@ -1,7 +1,5 @@
-"use client";
 import { IconClipboard } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/cn";
-import Link from "next/link";
 import React from "react";
 
 interface LitupBorderButtonProps
@@ -38,9 +36,9 @@ const LitupBorderButtonLink: React.FC<LitupBorderButtonLinkProps> = ({
   ...props
 }: LitupBorderButtonLinkProps) => {
   return (
-    <Link href={path} {...props}>
+    <a href={path} {...props}>
       <LitupBorderButton>{children}</LitupBorderButton>
-    </Link>
+    </a>
   );
 };
 

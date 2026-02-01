@@ -1,0 +1,57 @@
+---
+// MagicBorderButtonLink.astro - Animated button link with spinning gradient border
+interface Props {
+  path: string;
+  class?: string;
+  variant?: 'default' | 'resume';
+  children: any;
+}
+
+const { path, class: className = '', variant = 'default', children } = Astro.props;
+---
+
+<a
+  href={path}
+  class={`relative w-full inline-flex md:h-12 h-10 drop-shadow-2xl overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 ${className}`}
+  data-label={typeof children === 'string' ? children : undefined}
+>
+  <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]"></span>
+  <span class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+    {children}
+  </span>
+</a>
+
+<style>
+  a {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  a:focus-visible {
+    outline: 2px solid #94a3b8;
+    outline-offset: 2px;
+  }
+
+  /* Smooth hover on background */
+  a > span:last-child {
+    transition: background-color 0.2s ease;
+  }
+
+  a:hover > span:last-child {
+    background-color: rgb(2 6 23 / 0.9);
+  }
+</style>
+
+<script define:vars={{ path }}>
+  // Track navigation for analytics or state management
+  const link = document.querySelector(`a[href="${path}"]`);
+
+  link?.addEventListener('click', (e) => {
+    // Allow default navigation
+    // Can add custom logic here if needed (e.g., analytics tracking)
+  });
+</script>

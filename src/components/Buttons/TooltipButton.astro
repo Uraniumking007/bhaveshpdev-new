@@ -1,0 +1,23 @@
+---
+/**
+ * TooltipButton - Astro wrapper
+ * Passes items to React TooltipButton with client:load
+ */
+import { TooltipButton as TooltipButtonReact } from './tooltip-button';
+
+interface TooltipItem {
+	id: number;
+	title: string;
+	description: string;
+	icon: string;
+	link: string;
+}
+
+interface Props {
+	items: TooltipItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<TooltipButtonReact items={items} client:load />
