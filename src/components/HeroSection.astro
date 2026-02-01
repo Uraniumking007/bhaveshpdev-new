@@ -6,7 +6,7 @@
 import TextType from './TextType.astro';
 import { ImageWithMovingBorder } from './moving-block';
 import { Highlight } from './hero-highlight';
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
+import TextGenerateEffect from "./TextGenerateEffectUI.astro";
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
 
 const contactInfo = [
@@ -23,7 +23,7 @@ const contactInfo = [
       className="select-none"
       imageSrc="/bhaveshcloseup.jpg"
       imageAlt="Bhavesh Patil"
-      client:visible
+      client:load
     />
     <div
       x-data="{ typeNextText: false, showNameHighlight: false }"
@@ -49,7 +49,7 @@ const contactInfo = [
           <span x-show="typeNextText" x-cloak class="text-black dark:text-white">Hi! I'm</span>
 
           <div x-show="showNameHighlight" x-cloak>
-            <Highlight className="text-black dark:text-white" client:visible>
+            <Highlight className="text-black dark:text-white" client:load>
               Bhavesh Patil.
             </Highlight>
           </div>
@@ -78,10 +78,9 @@ const contactInfo = [
             fontVariationSettings: '"wdth" 100',
           }}
           words="I'm a computer engineering student passionate about building dynamic, user-friendly web applications with JavaScript, TypeScript, Next.js, and Tailwind CSS. Alongside my projects, I gained hands-on experience during a two-month internship, supporting real-world applications. Let's connect and create something great together!"
-          client:visible
         />
         <div class="flex flex-row gap-4 items-center justify-center mt-6 w-full">
-          <AnimatedTooltip items={contactInfo} client:visible />
+          <AnimatedTooltip items={contactInfo} client:load />
         </div>
       </h1>
     </div>

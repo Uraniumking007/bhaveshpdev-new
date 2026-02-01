@@ -25,7 +25,7 @@ const { formId = 'contact-form', class: className = '' } = Astro.props;
 const FORMSPREE_FORM_ID = import.meta.env.PUBLIC_FORMSPREE_FORM_ID || '';
 ---
 
-<div id={formId} class={className} x-data="contactFormData()">
+<div id={formId} class={className} x-data="contactForm()">
 	<form @submit.prevent="handleSubmit" class="space-y-4" :class="{ 'opacity-50 pointer-events-none': isSubmitting }">
 		<!-- Honeypot field -->
 		<input
@@ -102,11 +102,11 @@ const FORMSPREE_FORM_ID = import.meta.env.PUBLIC_FORMSPREE_FORM_ID || '';
 			type="submit"
 			variant="default"
 			size="md"
-			class="w-full"
+			class="w-full text-white"
 			:disabled="isSubmitting"
 			client:load
 		>
-			<span x-show="!isSubmitting">Send Message</span>
+			<span x-show="!isSubmitting" class="inline-block">Send Message</span>
 			<span x-show="isSubmitting" class="flex items-center justify-center">
 				<svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
