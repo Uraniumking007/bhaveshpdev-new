@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { HeroHighlight } from "../hero-highlight";
 import { TextGenerateEffect } from "../text-generate-effect";
 import { TooltipButton } from "../Buttons/tooltip-button";
-import { LitupBorderButton } from "../Buttons/litup-border-button";
+import LitupBorderButton from "../Buttons/litup-border-button";
 import { IconLoader, IconCheck } from "@tabler/icons-react";
 
 const contactInfo = [
@@ -51,8 +50,8 @@ const ContactSection = () => {
 
     try {
       const formData = new FormData(e.currentTarget);
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         body: formData,
       });
 
@@ -63,11 +62,11 @@ const ContactSection = () => {
         e.currentTarget.reset();
       } else {
         setSuccess(false);
-        setError(result.error || 'Something went wrong. Please try again.');
+        setError(result.error || "Something went wrong. Please try again.");
       }
     } catch (err) {
       setSuccess(false);
-      setError('Failed to send message. Please try again.');
+      setError("Failed to send message. Please try again.");
     } finally {
       setSubmitted(true);
       setIsSubmitting(false);
@@ -86,7 +85,7 @@ const ContactSection = () => {
           Get in Touch
         </motion.h2>
         <TextGenerateEffect
-          className="text-center mb-12 text-neutral-600 dark:text-neutral-300"
+          className="text-center mb-12 text-neutral-600 dark:text-neutral-300 font-medium italic"
           words="Have a question or want to work together? Feel free to reach out!"
         />
         <div className="max-w-4xl mx-auto">
@@ -168,7 +167,10 @@ const ContactSection = () => {
                   )}
                 </LitupBorderButton>
                 {submitted && success && (
-                  <div className="flex items-center gap-2 text-green-600 mt-2" aria-live="polite">
+                  <div
+                    className="flex items-center gap-2 text-green-600 mt-2"
+                    aria-live="polite"
+                  >
                     <IconCheck size={16} />
                     <span>Message sent successfully!</span>
                   </div>

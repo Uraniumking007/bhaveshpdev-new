@@ -31,7 +31,7 @@ const fadeInEase = [0.22, 1, 0.36, 1];
 			initial={{ opacity: 0, y: 20 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
-			class="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
+			className="text-3xl font-bold text-center mb-12 text-neutral-700 dark:text-white"
 			client:load
 		>
 			Featured Projects
@@ -44,71 +44,101 @@ const fadeInEase = [0.22, 1, 0.36, 1];
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid" client:load>
 			{
-				projects.slice(0, 6).map((project) => (
-					<div class="project-card" data-project-id={project.id}>
-						<div class="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20 w-full">
+				projects.slice(0, 6).map((project: ProjectWithRelations, index: number) => (
+					<div class="project-card" data-project-id={project.id} style={`animation-delay: ${index * 100}ms`}>
+						<article 
+							class="group relative bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-white/25 hover:shadow-2xl hover:shadow-white/10 hover:-translate-y-1 w-full"
+							tabindex="0"
+							aria-label={`Project: ${project.name}`}
+						>
+							<div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 							<Meteors number={2} />
 
-							<div class="aspect-video relative">
+							<div class="aspect-video relative overflow-hidden">
 								<ProjectImageCarousel
 									images={project.images}
 									image={project.image}
 									alt={project.name}
 									className="aspect-video"
 								/>
+								<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 								{!project.isCompleted && (
-									<div class="absolute top-2 right-2 z-20">
-										<span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
-											Ongoing Project
+									<div class="absolute top-3 right-3 z-20">
+										<span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-sm shadow-lg shadow-amber-500/20">
+											<span class="relative flex h-2 w-2">
+												<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+												<span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+											</span>
+											Ongoing
 										</span>
 									</div>
 								)}
 							</div>
 
-							<div class="p-4 space-y-4">
-								<div>
-									<h3 class="text-lg font-semibold text-white mb-2">
+							<div class="p-5 space-y-4 relative z-10">
+								<div class="space-y-3">
+									<h3 class="text-xl font-bold text-white mb-1 group-hover:text-white/90 transition-colors">
 										{project.name}
 									</h3>
 									<div class="space-y-2">
-										<p class="text-white/70 text-sm line-clamp-2 project-description">
+										<p class="text-white/60 text-sm leading-relaxed line-clamp-2 project-description">
 											{project.description}
 										</p>
 										{project.description.length > 100 && (
 											<button
-												class="text-sm text-white/50 hover:text-white transition-colors expand-button"
+												class="text-xs font-medium text-white/40 hover:text-white/70 transition-colors expand-button inline-flex items-center gap-1 group/btn"
 												data-expanded="false"
+												aria-expanded="false"
+												aria-label="Read more about this project"
 											>
-												Read More
+												<span>Read More</span>
+												<svg class="w-3 h-3 transition-transform group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+												</svg>
 											</button>
 										)}
 									</div>
 								</div>
 
 								{
+									project.technologies !== undefined &&
+									project.technologies.length > 0 &&
 									project.technologies
-										?.map((pt) => pt.technology?.name)
-										.filter((n): n is string => n !== undefined).length > 0 && (
-										<div class="flex flex-wrap gap-2">
+										?.map((pt: any) => pt.technology?.name)
+										.filter((n: any): n is string => n !== undefined).length > 0 && (
+										<div class="flex flex-wrap gap-1.5" role="list" aria-label="Technologies used">
 											{project.technologies
-												?.map((pt) => pt.technology?.name)
-												.filter((n): n is string => n !== undefined)
-												.map((tech) => (
-													<span class="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70">
+												?.map((pt: any) => pt.technology?.name)
+												.filter((n: any): n is string => n !== undefined)
+												.slice(0, 5)
+												.map((tech: string) => (
+													<span 
+														class="px-2.5 py-1 text-xs font-medium rounded-lg bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 hover:text-white/80 hover:border-white/20 transition-all duration-200 cursor-default"
+														role="listitem"
+													>
 														{tech}
 													</span>
 												))}
+											{(project.technologies?.length ?? 0) > 5 && (
+												<span class="px-2 py-1 text-xs font-medium rounded-lg bg-white/5 text-white/50 border border-white/10">
+													+{(project.technologies?.length ?? 0) - 5}
+												</span>
+											)}
 										</div>
 									)}
 
-								<div class="flex flex-wrap gap-2">
+								<div class="flex flex-wrap gap-2 pt-2">
 									{project.link && (
 										<a
 											href={project.link}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
+											class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 rounded-xl transition-all duration-200 text-sm font-medium text-white hover:shadow-lg hover:shadow-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black"
+											aria-label={`View live demo of ${project.name}`}
 										>
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+											</svg>
 											Live Demo
 										</a>
 									)}
@@ -117,14 +147,18 @@ const fadeInEase = [0.22, 1, 0.36, 1];
 											href={project.github}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm text-white"
+											class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl transition-all duration-200 text-sm font-medium text-white/70 hover:text-white hover:shadow-lg hover:shadow-white/5 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-black"
+											aria-label={`View source code for ${project.name}`}
 										>
-											Source Code
+											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+												<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+											</svg>
+											Source
 										</a>
 									)}
 								</div>
 							</div>
-						</div>
+						</article>
 					</div>
 				))
 			}
