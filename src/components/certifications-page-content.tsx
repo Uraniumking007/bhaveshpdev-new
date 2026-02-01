@@ -9,6 +9,7 @@ import { CertificationTimelineView } from "./certification-timeline-view";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { IconLayoutGrid, IconTimeline } from "@tabler/icons-react";
 import { format } from "date-fns";
+import { ShootingStars } from "./ui/shooting-stars";
 
 interface CertificationsPageContentProps {
   certifications: Certification[];
@@ -71,7 +72,8 @@ export function CertificationsPageContent({
   }, [certifications, searchQuery, selectedYears, selectedIssuers]);
 
   return (
-    <div className="w-full min-h-screen px-4 mt-28 sm:px-6 lg:px-8">
+    <div className="w-full min-h-screen px-4 mt-28 sm:px-6 lg:px-8 relative">
+      <ShootingStars minDelay={400} maxDelay={1200} className="pointer-events-none" />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">

@@ -110,8 +110,12 @@ export function ProjectsList({ projects }: ProjectsListProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full">
-      {filteredProjects.map((project) => (
-        <ProjectViewerCard key={project.id} project={project} />
+      {filteredProjects.map((project, index) => (
+        <ProjectViewerCard
+          key={project.id}
+          project={project}
+          index={index}
+        />
       ))}
     </div>
   );
