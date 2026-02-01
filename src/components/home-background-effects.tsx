@@ -1,28 +1,24 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { lazy, Suspense } from "react";
 
-const ShootingStars = dynamic(
-  () =>
-    import("@/components/ui/shooting-stars").then((m) => ({
-      default: m.ShootingStars,
-    })),
-  { ssr: false }
+const ShootingStars = lazy(() =>
+  import("@/components/ui/shooting-stars").then((m) => ({
+    default: m.ShootingStars,
+  }))
 );
 
-const StarsBackground = dynamic(
-  () =>
-    import("@/components/ui/stars-background").then((m) => ({
-      default: m.StarsBackground,
-    })),
-  { ssr: false }
+const StarsBackground = lazy(() =>
+  import("@/components/ui/stars-background").then((m) => ({
+    default: m.StarsBackground,
+  }))
 );
 
 export function HomeBackgroundEffects() {
   return (
-    <>
+    <Suspense fallback={null}>
       <ShootingStars />
       <StarsBackground />
-    </>
+    </Suspense>
   );
 }

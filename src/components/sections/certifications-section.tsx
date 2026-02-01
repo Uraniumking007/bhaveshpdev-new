@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import type { Certification } from "@/types/static-data";
 import { useCallback, useEffect, useState } from "react";
@@ -7,7 +5,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { CertificationCarouselCard } from "../cards/certification-carousel-card";
 import { cn } from "@/lib/utils/cn";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 interface CertificationsSectionProps {
@@ -146,14 +143,14 @@ export default function CertificationsSection({
         </div>
 
         <div className="text-center mt-12">
-          <Link href="/certifications">
+          <a href="/certifications">
             <Button
               variant="outline"
               className="border-white/20 text-white hover:bg-white/10"
             >
               View All Certifications
             </Button>
-          </Link>
+          </a>
         </div>
       </div>
     </div>
