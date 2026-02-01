@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AdminApp from '../components/Admin';
+
+const title = "Admin - Portfolio Manager";
+const description = "Admin panel for managing portfolio data";
+---
+
+<BaseLayout title={title} description={description}>
+  <AdminApp title={title} client:load />
+</BaseLayout>
