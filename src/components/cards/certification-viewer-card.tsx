@@ -7,6 +7,9 @@ import { IconExternalLink, IconArrowRight, IconBadge } from "@tabler/icons-react
 import { cn } from "@/lib/utils/cn";
 import { CertificateModal } from "../ui/certificate-modal";
 
+const PLACEHOLDER_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23374151' width='400' height='300'/%3E%3Ctext fill='%239ca3af' font-family='system-ui' font-size='18' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3ENo image%3C/text%3E%3C/svg%3E";
+
 interface CertificationViewerCardProps {
   certification: Certification;
   index?: number;
@@ -18,6 +21,7 @@ export const CertificationViewerCard = ({
 }: CertificationViewerCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imageLoadFailed, setImageLoadFailed] = useState(false);
 
   // Check if certification is recent (within last 6 months)
   const isRecent =
@@ -70,9 +74,14 @@ export const CertificationViewerCard = ({
               transition={{ duration: 0.3 }}
             >
               <img
-                src={certification.imageUrl}
+                src={
+                  imageLoadFailed
+                    ? PLACEHOLDER_IMAGE
+                    : certification.imageUrl
+                }
                 alt={certification.title}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                onError={() => setImageLoadFailed(true)}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.div>
