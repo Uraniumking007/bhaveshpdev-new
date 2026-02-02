@@ -1,6 +1,38 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: "Bilbo Swash Caps";
+  src: url("/fonts/Bilbo_Swash_Caps/BilboSwashCaps-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bilbo";
+  src: url("/fonts/Bilbo/Bilbo-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tangerine";
+  src: url("/fonts/Tangerine/Tangerine-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tangerine";
+  src: url("/fonts/Tangerine/Tangerine-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -209,4 +241,16 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-bilbo {
+  font-family: "Bilbo Swash Caps", cursive;
+}
+
+.font-bilbo-plain {
+  font-family: "Bilbo", cursive;
+}
+
+.font-tangerine {
+  font-family: "Tangerine", cursive;
 }
