@@ -16,9 +16,14 @@ const StarsBackground = lazy(() =>
 
 export function HomeBackgroundEffects() {
   return (
-    <Suspense fallback={null}>
-      <ShootingStars />
-      <StarsBackground />
-    </Suspense>
+    <div
+      className="fixed inset-0 pointer-events-none -z-10"
+      aria-hidden
+    >
+      <Suspense fallback={null}>
+        <ShootingStars />
+        <StarsBackground />
+      </Suspense>
+    </div>
   );
 }
