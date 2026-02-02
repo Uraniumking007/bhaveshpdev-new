@@ -3,22 +3,47 @@
  * HeroSection.astro - Hero with typing animation (Astro + Alpine)
  * Uses TextType.astro (vanilla JS) and React islands only where needed.
  */
-import TextType from './TextType.astro';
-import { ImageWithMovingBorder } from './moving-block';
-import { Highlight } from './hero-highlight';
-import TextGenerateEffect from "./TextGenerateEffectUI.astro";
-import { AnimatedTooltip } from '@/components/ui/animated-tooltip';
+import TextType from "./TextType.astro";
+import { ImageWithMovingBorder } from "./moving-block";
+import { Highlight } from "./hero-highlight";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 
 const contactInfo = [
-  { id: 0, title: 'G-Mail', description: 'contact@bhaveshp.dev', icon: '/icons/outline/brand-gmail.svg', link: 'mailto:contact@bhaveshp.dev' },
-  { id: 1, title: 'Discord', description: 'discord.gg/smCjSmMw9D', icon: '/icons/outline/brand-discord.svg', link: 'https://discord.gg/smCjSmMw9D' },
-  { id: 2, title: 'X', description: 'x.com/UraniumKing0', icon: '/icons/outline/brand-x.svg', link: 'https://x.com/UraniumKing0' },
-  { id: 3, title: 'Github', description: 'github.com/Uraniumking007', icon: '/icons/outline/brand-github.svg', link: 'https://github.com/Uraniumking007' },
+  {
+    id: 0,
+    title: "G-Mail",
+    description: "contact@bhaveshp.dev",
+    icon: "/icons/outline/brand-gmail.svg",
+    link: "mailto:contact@bhaveshp.dev",
+  },
+  {
+    id: 1,
+    title: "Discord",
+    description: "discord.gg/smCjSmMw9D",
+    icon: "/icons/outline/brand-discord.svg",
+    link: "https://discord.gg/smCjSmMw9D",
+  },
+  {
+    id: 2,
+    title: "X",
+    description: "x.com/UraniumKing0",
+    icon: "/icons/outline/brand-x.svg",
+    link: "https://x.com/UraniumKing0",
+  },
+  {
+    id: 3,
+    title: "Github",
+    description: "github.com/Uraniumking007",
+    icon: "/icons/outline/brand-github.svg",
+    link: "https://github.com/Uraniumking007",
+  },
 ];
 ---
 
 <div class="w-screen h-screen">
-  <div class="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row">
+  <div
+    class="flex flex-col justify-center w-full h-full items-center lg:pl-40 lg:flex-row"
+  >
     <ImageWithMovingBorder
       className="select-none"
       imageSrc="/bhaveshcloseup.jpg"
@@ -29,7 +54,9 @@ const contactInfo = [
       x-data="{ typeNextText: false, showNameHighlight: false }"
       @texttypecomplete.window="const d = $event.detail; if (d && d.id === 'intro') typeNextText = true; if (d && d.id === 'name') showNameHighlight = true"
     >
-      <h1 class="hero-title text-2xl px-4 md:text-4xl mt-4 lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto flex flex-col justify-center items-center">
+      <h1
+        class="hero-title text-2xl px-4 md:text-4xl mt-4 lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto flex flex-col justify-center items-center"
+      >
         <div class="w-full flex justify-center flex-wrap items-center gap-2">
           <div x-show="!typeNextText" x-cloak>
             <TextType
@@ -46,7 +73,9 @@ const contactInfo = [
               hideCursorWhileTyping
             />
           </div>
-          <span x-show="typeNextText" x-cloak class="text-black dark:text-white">Hi! I'm</span>
+          <span x-show="typeNextText" x-cloak class="text-black dark:text-white"
+            >Hi! I'm</span
+          >
 
           <div x-show="showNameHighlight" x-cloak>
             <Highlight className="text-black dark:text-white" client:load>
@@ -69,17 +98,24 @@ const contactInfo = [
             />
           </div>
         </div>
-        <TextGenerateEffect
-          className="w-full max-w-3xl px-4 sm:px-6 lg:pt-4 font-normal"
-          textClassName="text-base sm:text-lg md:text-xl leading-7 md:leading-8 tracking-wide"
-          textStyle={{
-            fontFamily: '"Zalando Sans", sans-serif',
-            fontOpticalSizing: 'auto',
-            fontVariationSettings: '"wdth" 100',
-          }}
-          words="I'm a computer engineering student passionate about building dynamic, user-friendly web applications with JavaScript, TypeScript, Next.js, and Tailwind CSS. Alongside my projects, I gained hands-on experience during a two-month internship, supporting real-world applications. Let's connect and create something great together!"
-        />
-        <div class="flex flex-row gap-4 items-center justify-center mt-6 w-full">
+        <p
+          class="w-full max-w-3xl px-4 sm:px-6 lg:pt-4 font-normal text-lg sm:text-xl md:text-2xl leading-8 md:leading-9 tracking-wide text-neutral-700 dark:text-neutral-300 font-bilbo"
+        >
+          I'm a <span class="font-bilbo-plain">IT</span> Engineering student passionate
+          about building dynamic, user-friendly web applications with <span
+            class="font-bilbo-plain">JavaScript</span
+          >,
+          <span class="font-bilbo-plain">TypeScript</span>, <span
+            class="font-bilbo-plain">Next.js</span
+          >, <span class="font-bilbo-plain">Tailwind CSS</span>, and <span
+            class="font-bilbo-plain">Astro</span
+          >. Alongside my projects, I gained hands-on experience during a
+          two-month internship, supporting real-world applications. Let's
+          connect and create something great together!
+        </p>
+        <div
+          class="flex flex-row gap-4 items-center justify-center mt-6 w-full"
+        >
           <AnimatedTooltip items={contactInfo} client:load />
         </div>
       </h1>
@@ -92,9 +128,20 @@ const contactInfo = [
     animation: hero-title-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
   @keyframes hero-title-in {
-    0% { opacity: 0; transform: translateY(20px); }
-    70% { opacity: 1; transform: translateY(-5px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(-5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  [x-cloak] { display: none !important; }
+  [x-cloak] {
+    display: none !important;
+  }
 </style>
