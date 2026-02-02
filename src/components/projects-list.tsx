@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "@/hooks/use-search-params";
-import { ProjectViewerCard } from "./cards/project-viewer-card";
+import ProjectViewerCard from "./cards/ProjectViewerCard.astro";
 import type { ProjectWithRelations } from "@/types/projects";
 
 interface ProjectsListProps {

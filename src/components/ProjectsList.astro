@@ -1,29 +1,173 @@
 ---
 /**
- * ProjectsList - Astro wrapper
- * Passes projects to React ProjectsList with client:load
+ * ProjectsList - Astro version with Alpine.js filtering
+ * Displays projects with filtering by categories, technologies, status, and search
  */
-import { ProjectsList as ProjectsListReact } from './projects-list';
+import ProjectViewerCard from "./cards/ProjectViewerCard.astro";
+import type { ProjectWithRelations } from "@/types/projects";
 
-interface ProjectWithRelations {
-	id: string;
-	name: string;
-	description: string;
-	image?: string;
-	link?: string | null;
-	github?: string | null;
-	images?: string[];
-	isCompleted?: boolean;
-	technologies?: Array<{ technology?: { name: string } }>;
-	projectCategories?: Array<{ category?: { name: string } }>;
-	[key: string]: unknown;
-}
-
-interface Props {
-	projects: ProjectWithRelations[];
+interface ProjectsListProps {
+  projects: ProjectWithRelations[];
 }
 
 const { projects } = Astro.props;
+
+// Prepare project data for filtering
+const projectsWithData = projects.map(
+  (project: ProjectWithRelations, index: number) => {
+    const techNames = (project.technologies ?? [])
+      .map((pt) => pt.technology?.name)
+      .filter((t): t is string => t !== undefined);
+
+    const categoryNames = (project.projectCategories ?? [])
+      .map((pc) => pc.category?.name)
+      .filter((c): c is string => c !== undefined);
+
+    return {
+      project: {
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        image: project.image,
+        link: project.link,
+        github: project.github,
+        isFeatured: project.isFeatured,
+        isCompleted: project.isCompleted,
+        technologies: project.technologies,
+        projectCategories: project.projectCategories,
+      },
+      index,
+      dataCategories: categoryNames.map((c) => c.toLowerCase()).join(","),
+      dataTechnologies: techNames.map((t) => t.toLowerCase()).join(","),
+      dataCompleted: project.isCompleted ? "true" : "false",
+    };
+  }
+);
 ---
 
-<ProjectsListReact projects={projects} client:load />
+<div
+  x-data="{
+    search: '',
+    categories: [],
+    technologies: [],
+    completed: true,
+    ongoing: true,
+
+    get filteredProjects() {
+      let filtered = Array.from(document.querySelectorAll('[data-project-id]'));
+
+      // Filter by categories (OR logic)
+      if (this.categories.length > 0) {
+        filtered = filtered.filter(el => {
+          const cats = el.dataset.categories?.split(',') || [];
+          return this.categories.some(c => cats.includes(c.toLowerCase()));
+        });
+      }
+
+      // Filter by technologies (OR logic)
+      if (this.technologies.length > 0) {
+        filtered = filtered.filter(el => {
+          const techs = el.dataset.technologies?.split(',') || [];
+          return this.technologies.some(t => techs.includes(t.toLowerCase()));
+        });
+      }
+
+      // Filter by completion status
+      if (this.completed && !this.ongoing) {
+        filtered = filtered.filter(el => el.dataset.completed === 'true');
+      } else if (!this.completed && this.ongoing) {
+        filtered = filtered.filter(el => el.dataset.completed !== 'true');
+      }
+
+      // Filter by search query
+      if (this.search.trim()) {
+        const searchLower = this.search.toLowerCase();
+        filtered = filtered.filter(el => {
+          const name = el.dataset.name?.toLowerCase() || '';
+          const desc = el.dataset.description?.toLowerCase() || '';
+          const techs = el.dataset.technologies?.split(',') || [];
+          const cats = el.dataset.categories?.split(',') || [];
+
+          return (
+            name.includes(searchLower) ||
+            desc.includes(searchLower) ||
+            techs.some(t => t.includes(searchLower)) ||
+            cats.some(c => c.includes(searchLower))
+          );
+        });
+      }
+
+      return filtered;
+    },
+
+    showProjects() {
+      const allCards = document.querySelectorAll('[data-project-id]');
+      const filteredIds = new Set(this.filteredProjects.map(el => el.dataset.projectId));
+
+      allCards.forEach(card => {
+        if (filteredIds.has(card.dataset.projectId)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show/hide empty state
+      const emptyState = document.querySelector('[data-empty-state]');
+      if (emptyState) {
+        emptyState.style.display = filteredIds.size === 0 ? 'block' : 'none';
+      }
+    }
+  }"
+  x-init="showProjects()"
+  @filter-categories.window="categories = $event.detail; showProjects()"
+  @filter-technologies.window="technologies = $event.detail; showProjects()"
+  @filter-status.window="completed = $event.detail.completed; ongoing = $event.detail.ongoing; showProjects()"
+  @filter-search.window="search = $event.detail; showProjects()"
+  @filter-clear.window="search = ''; categories = []; technologies = []; completed = true; ongoing = true; showProjects()"
+  class="w-full"
+>
+  <!-- Projects Grid -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 w-full"
+  >
+    {
+      projectsWithData.map(
+        (item: {
+          project: ProjectWithRelations;
+          index: number;
+          dataCategories: string;
+          dataTechnologies: string;
+          dataCompleted: string;
+        }) => {
+          return (
+            <div
+              data-project-id={item.project.id}
+              data-name={item.project.name}
+              data-description={item.project.description}
+              data-categories={item.dataCategories}
+              data-technologies={item.dataTechnologies}
+              data-completed={item.dataCompleted}
+              class="project-card"
+            >
+              <ProjectViewerCard project={item.project} index={item.index} />
+            </div>
+          );
+        }
+      )
+    }
+  </div>
+
+  <!-- Empty State -->
+  <div data-empty-state style="display: none;" class="text-center py-12">
+    <p class="text-white/70 text-lg">
+      No projects found matching your filters.
+    </p>
+  </div>
+</div>
+
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
