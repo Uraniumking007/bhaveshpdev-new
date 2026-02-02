@@ -39,9 +39,10 @@ const isCompact = variant === "compact";
     "transition-all duration-300 ease-out",
     "hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1",
     "hover:border-primary/30",
+    "flex flex-col",
     isCompact && "aspect-auto"
   )}
-  style={`animation-delay: ${index * 50}ms;`}
+  style={`animation-delay: ${index * 50}ms; height: 480px;`}
 >
   <!-- Featured Badge -->
   {isFeatured && (
@@ -54,26 +55,34 @@ const isCompact = variant === "compact";
   )}
 
   <!-- Image Section - group/card so overlay only shows when hovering this image block -->
-  <div class={cn(
-    "group/card relative overflow-hidden aspect-video",
-    isCompact && "aspect-[16/9]"
-  )}>
-    <!-- Gradient Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+  <div
+    class={cn(
+      "group/card relative overflow-hidden aspect-video",
+      isCompact && "aspect-[16/9]"
+    )}
+  >
+    <a
+      href={`/projects/${project.id}`}
+      class="block w-full h-full"
+      transition:name={`project-image-${project.id}`}
+    >
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-    <!-- Image with Alpine.js error handling -->
-    <img
-      src={imageSrc}
-      alt={project.name}
-      class={cn(
-        "absolute inset-0 w-full h-full object-cover",
-        "transition-transform duration-700 ease-out",
-        "group-hover/card:scale-105"
-      )}
-      loading="lazy"
-      x-data={`{ imageLoadFailed: false }`}
-      @error={`imageLoadFailed = true; $el.src = '${PLACEHOLDER_IMAGE}'`}
-    />
+      <!-- Image with Alpine.js error handling -->
+      <img
+        src={imageSrc}
+        alt={project.name}
+        class={cn(
+          "absolute inset-0 w-full h-full object-cover",
+          "transition-transform duration-700 ease-out",
+          "group-hover/card:scale-105"
+        )}
+        loading="lazy"
+        x-data={`{ imageLoadFailed: false }`}
+        @error={`imageLoadFailed = true; $el.src = '${PLACEHOLDER_IMAGE}'`}
+      />
+    </a>
 
     <!-- Hover Actions Overlay - visible only when hovering this card's image -->
     <div
@@ -136,7 +145,7 @@ const isCompact = variant === "compact";
   </div>
 
   <!-- Content Section -->
-  <div class={cn("p-5 space-y-4", isCompact && "p-4 space-y-3")}>
+  <div class={cn("p-5 space-y-4 flex flex-col flex-1", isCompact && "p-4 space-y-3")}>
     <!-- Header -->
     <div class="space-y-2">
       <h3
@@ -144,12 +153,13 @@ const isCompact = variant === "compact";
           "font-bold text-xl text-[var(--foreground)] tracking-tight",
           "group-hover:text-primary transition-colors duration-200"
         )}
+        transition:name={`project-title-${project.id}`}
       >
         {project.name}
       </h3>
       <p
         class={cn(
-          "text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-2"
+          "text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-3"
         )}
       >
         {project.description}
@@ -157,11 +167,11 @@ const isCompact = variant === "compact";
     </div>
 
     <!-- Tech Stack Tags -->
-    {
-      techNames.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {techNames
-            .slice(0, 5)
+    <div class="flex flex-wrap gap-2">
+      {
+        techNames.length > 0 && (
+          techNames
+            .slice(0, 4)
             .map((tech: string) => (
               <span
                 class={cn(
@@ -175,50 +185,68 @@ const isCompact = variant === "compact";
                 {tech}
               </span>
             ))
-          }
-          {techNames.length > 5 && (
-            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-muted/50 text-muted-foreground text-xs font-medium">
-              +{techNames.length - 5}
-            </span>
-          )}
-        </div>
-      )
-    }
+          )
+        }
+      </div>
 
-    <!-- Footer Links (text only; icons are shown only on image hover overlay) -->
-    <div class="pt-2 flex items-center gap-3 text-sm">
-      {
-        project.link && (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            class={cn(
-              "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
-              "hover:text-primary transition-colors duration-200",
-              "focus:outline-none focus:underline focus:underline-offset-2"
-            )}
-          >
-            <span>Live Demo</span>
-          </a>
-        )
-      }
-      {
-        project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class={cn(
-              "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
-              "hover:text-primary transition-colors duration-200",
-              "focus:outline-none focus:underline focus:underline-offset-2"
-            )}
-          >
-            <span>Source</span>
-          </a>
-        )
-      }
+    <!-- Spacer to push content to bottom -->
+    <div class="flex-1"></div>
+
+    <!-- Footer Actions -->
+    <div class="pt-2 flex items-center justify-between gap-3 text-sm">
+      <div class="flex items-center gap-3">
+        {
+          project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={cn(
+                "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
+                "hover:text-primary transition-colors duration-200",
+                "focus:outline-none focus:underline focus:underline-offset-2"
+              )}
+            >
+              <span>Live</span>
+            </a>
+          )
+        }
+        {
+          project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={cn(
+                "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
+                "hover:text-primary transition-colors duration-200",
+                "focus:outline-none focus:underline focus:underline-offset-2"
+              )}
+            >
+              <span>Code</span>
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Read More Link -->
+      <a
+        href={`/projects/${project.id}`}
+        class={cn(
+          "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg",
+          "bg-primary/10 hover:bg-primary/20 text-primary",
+          "text-xs font-semibold",
+          "border border-primary/20",
+          "transition-all duration-200",
+          "focus:outline-none focus:ring-2 focus:ring-primary/50"
+        )}
+        aria-label={`Read more about ${project.name}`}
+      >
+        <span>Read More</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
     </div>
   </div>
 </article>
