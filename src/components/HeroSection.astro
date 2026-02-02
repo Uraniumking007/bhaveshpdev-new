@@ -78,7 +78,10 @@ const contactInfo = [
           >
 
           <div x-show="showNameHighlight" x-cloak>
-            <Highlight className="text-black dark:text-white" client:load>
+            <Highlight
+              className="text-black dark:text-white font-bilbo"
+              client:load
+            >
               Bhavesh Patil.
             </Highlight>
           </div>
@@ -86,7 +89,7 @@ const contactInfo = [
             <TextType
               id="name"
               as="span"
-              className="text-black dark:text-white"
+              className="text-black dark:text-white font-bilbo"
               text="Bhavesh Patil."
               typingSpeed={60}
               deletingSpeed={35}
@@ -99,19 +102,18 @@ const contactInfo = [
           </div>
         </div>
         <p
-          class="w-full max-w-3xl px-4 sm:px-6 lg:pt-4 font-normal text-lg sm:text-xl md:text-2xl leading-8 md:leading-9 tracking-wide text-neutral-700 dark:text-neutral-300 font-bilbo"
+          class="w-full max-w-3xl px-4 sm:px-6 lg:pt-4 font-normal text-base sm:text-lg md:text-xl leading-7 md:leading-8 tracking-wide text-neutral-700 dark:text-neutral-300 font-poppins"
         >
-          I'm a <span class="font-bilbo-plain">IT</span> Engineering student passionate
-          about building dynamic, user-friendly web applications with <span
-            class="font-bilbo-plain">JavaScript</span
-          >,
-          <span class="font-bilbo-plain">TypeScript</span>, <span
-            class="font-bilbo-plain">Next.js</span
-          >, <span class="font-bilbo-plain">Tailwind CSS</span>, and <span
-            class="font-bilbo-plain">Astro</span
-          >. Alongside my projects, I gained hands-on experience during a
-          two-month internship, supporting real-world applications. Let's
-          connect and create something great together!
+          I'm a <span class="font-poppins">IT</span> Engineering student passionate
+          about building dynamic, user-friendly web applications with
+          <span class="font-poppins font-bold">JavaScript</span>,
+          <span class="font-poppins font-bold">TypeScript</span>,
+          <span class="font-poppins font-bold">Next.js</span>,
+          <span class="font-poppins font-bold">Tailwind CSS</span>, and
+          <span class="font-poppins font-bold">Astro</span>. Alongside my
+          projects, I gained hands-on experience during a two-month internship,
+          supporting real-world applications. Let's connect and create something
+          great together!
         </p>
         <div
           class="flex flex-row gap-4 items-center justify-center mt-6 w-full"
