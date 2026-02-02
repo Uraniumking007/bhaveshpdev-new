@@ -3,7 +3,7 @@
  * Icon Component
  *
  * A wrapper component for rendering icons from @tabler/icons-react.
- * This component uses React components with client:load for SSR compatibility.
+ * This component uses React components from @tabler/icons-react, server-rendered to static HTML.
  *
  * @example
  * <Icon name="IconMail" />
@@ -53,6 +53,7 @@ import {
   IconBrandGmail,
   IconBrandDiscord,
   IconBrandX,
+  IconStar,
 } from '@tabler/icons-react';
 
 // Map icon names to components
@@ -76,6 +77,7 @@ const iconMap: Record<string, any> = {
   IconBrandGmail,
   IconBrandDiscord,
   IconBrandX,
+  IconStar,
 };
 
 // Get the icon component
@@ -96,7 +98,7 @@ if (!IconComponent && name) {
 ---
 
 {(IconComponent && (
-  <IconComponent {...iconProps} client:load />
+  <IconComponent {...iconProps} />
 )) || (
   <span class="text-red-500">Icon "{name}" not found</span>
 )}
