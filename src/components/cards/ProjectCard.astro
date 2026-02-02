@@ -3,78 +3,94 @@
  * ProjectCard - Astro version
  * Displays a project with image, links, and tech tags
  */
-import Icon from '../ui/Icon.astro';
+import Icon from "../ui/Icon.astro";
 
 interface ProjectTechnology {
-	technology?: { name: string };
+  technology?: { name: string };
 }
 interface ProjectCardProps {
-	project: {
-		name: string;
-		description: string;
-		image?: string;
-		link?: string | null;
-		github?: string | null;
-		technologies?: ProjectTechnology[];
-	};
+  project: {
+    name: string;
+    description: string;
+    image?: string;
+    link?: string | null;
+    github?: string | null;
+    technologies?: ProjectTechnology[];
+  };
 }
 
 const { project } = Astro.props;
-const imageSrc = project.image || '/placeholder.png';
+const imageSrc = project.image || "/placeholder.png";
 const techNames = (project.technologies ?? [])
-	.map((pt) => pt.technology?.name)
-	.filter(Boolean);
+  .map((pt: ProjectTechnology) => pt.technology?.name)
+  .filter(Boolean);
 ---
 
-<div class="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
-	<div class="aspect-video relative">
-		<img
-			src={imageSrc}
-			alt={project.name}
-			class="absolute inset-0 w-full h-full object-cover"
-		/>
-		<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-			{project.link && (
-				<a
-					href={project.link}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-					aria-label="View project"
-				>
-					<Icon name="IconExternalLink" size={20} class="text-white" client:load />
-				</a>
-			)}
-			{project.github && (
-				<a
-					href={project.github}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-					aria-label="View on GitHub"
-				>
-					<Icon name="IconBrandGithub" size={20} class="text-white" client:load />
-				</a>
-			)}
-		</div>
-	</div>
+<div
+  class="relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20"
+>
+  <div class="group/card aspect-video relative">
+    <img
+      src={imageSrc}
+      alt={project.name}
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div
+      class="absolute inset-0 bg-black/50 flex items-center justify-center gap-4 transition-opacity duration-300 opacity-0 pointer-events-none group-hover/card:opacity-100 group-hover/card:pointer-events-auto"
+    >
+      {
+        project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            aria-label="View project"
+          >
+            <Icon
+              name="IconExternalLink"
+              size={20}
+              class="text-white"
+            />
+          </a>
+        )
+      }
+      {
+        project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            aria-label="View on GitHub"
+          >
+            <Icon
+              name="IconBrandGithub"
+              size={20}
+              class="text-white"
+            />
+          </a>
+        )
+      }
+    </div>
+  </div>
 
-	<div class="p-4 space-y-4">
-		<div>
-			<h3 class="text-lg font-semibold text-white mb-2">{project.name}</h3>
-			<p class="text-white/70 text-sm line-clamp-2">{project.description}</p>
-		</div>
+  <div class="p-4 space-y-4">
+    <div>
+      <h3 class="text-lg font-semibold text-white mb-2">{project.name}</h3>
+      <p class="text-white/70 text-sm line-clamp-2">{project.description}</p>
+    </div>
 
-		{techNames.length > 0 && (
-			<div class="flex flex-wrap gap-2">
-				{techNames.map((tech) => (
-					<span
-						class="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70"
-					>
-						{tech}
-					</span>
-				))}
-			</div>
-		)}
-	</div>
+    {
+      techNames.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {techNames.map((tech: string) => (
+            <span class="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70">
+              {tech}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </div>
