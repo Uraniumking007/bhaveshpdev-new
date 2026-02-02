@@ -1,78 +1,224 @@
 ---
 /**
- * ProjectViewerCard - Astro version
- * Same as ProjectCard; accepts project with optional technologies array
+ * ProjectViewerCard - Enhanced Astro version
+ * Full-featured project card with hover effects, badges, and image fallback
  */
-import Icon from '../ui/Icon.astro';
+import Icon from "../ui/Icon.astro";
+import { cn } from "@/lib/utils/cn";
 
 interface ProjectTechnology {
-	technology?: { name: string };
-}
-interface ProjectViewerCardProps {
-	project: {
-		name: string;
-		description: string;
-		image?: string;
-		link?: string | null;
-		github?: string | null;
-		technologies?: ProjectTechnology[];
-	};
+  technology?: { name: string };
 }
 
-const { project } = Astro.props;
-const imageSrc = project.image || '/placeholder.png';
+interface ProjectViewerCardProps {
+  project: any;
+  index?: number;
+  variant?: "default" | "featured" | "compact";
+}
+
+const { project, index = 0, variant = project?.isFeatured ? "featured" : "default" } = Astro.props;
+
+// Fallback when project image is missing or fails to load
+const PLACEHOLDER_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23374151' width='400' height='300'/%3E%3Ctext fill='%239ca3af' font-family='system-ui' font-size='18' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3ENo image%3C/text%3E%3C/svg%3E";
+
+const imageSrc = project.image || PLACEHOLDER_IMAGE;
+
 const techNames = (project.technologies ?? [])
-	.map((pt) => pt.technology?.name)
-	.filter(Boolean);
+  .map((pt: ProjectTechnology) => pt.technology?.name)
+  .filter(Boolean);
+
+const isFeatured = variant === "featured";
+const isCompact = variant === "compact";
 ---
 
-<div class="group relative bg-black/50 border border-white/10 rounded-lg overflow-hidden transition-all duration-300 hover:border-white/20">
-	<div class="aspect-video relative">
-		<img
-			src={imageSrc}
-			alt={project.name}
-			class="absolute inset-0 w-full h-full object-cover"
-		/>
-		<div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-			{project.link && (
-				<a
-					href={project.link}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-					aria-label="View project"
-				>
-					<Icon name="IconExternalLink" size={20} class="text-white" client:load />
-				</a>
-			)}
-			{project.github && (
-				<a
-					href={project.github}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-					aria-label="View on GitHub"
-				>
-					<Icon name="IconBrandGithub" size={20} class="text-white" client:load />
-				</a>
-			)}
-		</div>
-	</div>
+<article
+  class={cn(
+    "group relative overflow-hidden rounded-xl",
+    "bg-[var(--card)] border border-[var(--border)]",
+    "transition-all duration-300 ease-out",
+    "hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1",
+    "hover:border-primary/30",
+    isCompact && "aspect-auto"
+  )}
+  style={`animation-delay: ${index * 50}ms;`}
+>
+  <!-- Featured Badge -->
+  {isFeatured && (
+    <div class="absolute top-3 right-3 z-20">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 backdrop-blur-sm">
+        <Icon name="IconStar" size={14} class="text-amber-400 fill-amber-400" />
+        <span class="text-xs font-semibold text-amber-300">Featured</span>
+      </span>
+    </div>
+  )}
 
-	<div class="p-4 space-y-4">
-		<div>
-			<h3 class="text-lg font-semibold text-white mb-2">{project.name}</h3>
-			<p class="text-white/70 text-sm line-clamp-2">{project.description}</p>
-		</div>
+  <!-- Image Section - group/card so overlay only shows when hovering this image block -->
+  <div class={cn(
+    "group/card relative overflow-hidden aspect-video",
+    isCompact && "aspect-[16/9]"
+  )}>
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-		{techNames.length > 0 && (
-			<div class="flex flex-wrap gap-2">
-				{techNames.map((tech) => (
-					<span class="px-2 py-1 text-xs rounded-full bg-white/10 text-white/70">
-						{tech}
-					</span>
-				))}
-			</div>
-		)}
-	</div>
-</div>
+    <!-- Image with Alpine.js error handling -->
+    <img
+      src={imageSrc}
+      alt={project.name}
+      class={cn(
+        "absolute inset-0 w-full h-full object-cover",
+        "transition-transform duration-700 ease-out",
+        "group-hover/card:scale-105"
+      )}
+      loading="lazy"
+      x-data={`{ imageLoadFailed: false }`}
+      @error={`imageLoadFailed = true; $el.src = '${PLACEHOLDER_IMAGE}'`}
+    />
+
+    <!-- Hover Actions Overlay - visible only when hovering this card's image -->
+    <div
+      class={cn(
+        "absolute inset-0 bg-black/60 flex items-end justify-center gap-3 pb-6 transition-opacity duration-300",
+        "opacity-0 pointer-events-none",
+        "group-hover/card:opacity-100 group-hover/card:pointer-events-auto"
+      )}
+      aria-hidden="true"
+    >
+      {
+        project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(
+              "p-3 rounded-xl backdrop-blur-sm",
+              "bg-white/10 hover:bg-white/20 border border-white/20",
+              "transition-all duration-200 hover:scale-110",
+              "focus:outline-none focus:ring-2 focus:ring-primary/50"
+            )}
+            aria-label={`View ${project.name} live`}
+          >
+            <Icon name="IconExternalLink" size={20} class="text-white" strokeWidth={2} />
+          </a>
+        )
+      }
+      {
+        project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(
+              "p-3 rounded-xl backdrop-blur-sm",
+              "bg-white/10 hover:bg-white/20 border border-white/20",
+              "transition-all duration-200 hover:scale-110",
+              "focus:outline-none focus:ring-2 focus:ring-primary/50"
+            )}
+            aria-label={`View ${project.name} source code`}
+          >
+            <Icon name="IconBrandGithub" size={20} class="text-white" strokeWidth={2} />
+          </a>
+        )
+      }
+    </div>
+
+    <!-- Completion Badge -->
+    {
+      project.isCompleted && (
+        <div class="absolute bottom-3 left-3 z-20">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-500/20 border border-emerald-500/30 backdrop-blur-sm">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
+            <span class="text-xs font-medium text-emerald-300">Complete</span>
+          </span>
+        </div>
+      )
+    }
+  </div>
+
+  <!-- Content Section -->
+  <div class={cn("p-5 space-y-4", isCompact && "p-4 space-y-3")}>
+    <!-- Header -->
+    <div class="space-y-2">
+      <h3
+        class={cn(
+          "font-bold text-xl text-[var(--foreground)] tracking-tight",
+          "group-hover:text-primary transition-colors duration-200"
+        )}
+      >
+        {project.name}
+      </h3>
+      <p
+        class={cn(
+          "text-sm text-[var(--muted-foreground)] leading-relaxed line-clamp-2"
+        )}
+      >
+        {project.description}
+      </p>
+    </div>
+
+    <!-- Tech Stack Tags -->
+    {
+      techNames.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {techNames
+            .slice(0, 5)
+            .map((tech: string) => (
+              <span
+                class={cn(
+                  "inline-flex items-center px-2.5 py-1 rounded-lg",
+                  "bg-primary/10 text-primary text-xs font-medium",
+                  "border border-primary/20",
+                  "transition-colors duration-200",
+                  "hover:bg-primary/20 hover:border-primary/30"
+                )}
+              >
+                {tech}
+              </span>
+            ))
+          }
+          {techNames.length > 5 && (
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-muted/50 text-muted-foreground text-xs font-medium">
+              +{techNames.length - 5}
+            </span>
+          )}
+        </div>
+      )
+    }
+
+    <!-- Footer Links (text only; icons are shown only on image hover overlay) -->
+    <div class="pt-2 flex items-center gap-3 text-sm">
+      {
+        project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(
+              "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
+              "hover:text-primary transition-colors duration-200",
+              "focus:outline-none focus:underline focus:underline-offset-2"
+            )}
+          >
+            <span>Live Demo</span>
+          </a>
+        )
+      }
+      {
+        project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={cn(
+              "inline-flex items-center gap-1.5 text-[var(--muted-foreground)]",
+              "hover:text-primary transition-colors duration-200",
+              "focus:outline-none focus:underline focus:underline-offset-2"
+            )}
+          >
+            <span>Source</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>

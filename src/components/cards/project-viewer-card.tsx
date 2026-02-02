@@ -93,7 +93,7 @@ export function ProjectViewerCard({
         {/* Hover Actions Overlay - only visible when card is hovered */}
         <div
           className={cn(
-            "absolute inset-0 bg-black/60 transition-opacity duration-300 flex items-center justify-center gap-3",
+            "absolute inset-0 bg-black/60 transition-opacity duration-300 flex items-end justify-center gap-3 pb-6",
             isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
           )}
           aria-hidden={!isHovered}
