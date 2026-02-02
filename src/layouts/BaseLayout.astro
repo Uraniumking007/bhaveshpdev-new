@@ -1,6 +1,7 @@
 ---
 // BaseLayout.astro - Root layout wrapper
 import "../pages/globals.css";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
   title?: string;
@@ -30,6 +31,7 @@ const {
     />
 
     <title>{title}</title>
+    <ViewTransitions />
   </head>
   <body class="w-full min-h-screen overflow-x-hidden dark font-sans">
     <slot />
