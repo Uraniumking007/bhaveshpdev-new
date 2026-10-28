@@ -23,7 +23,7 @@ export default function RootLayout({
       >
         <Script
           src="https://analytics.bhaveshp.dev/script.js"
-          data-website-id="711e7bc2-cee7-4f07-bae4-f8cb22c643f4"
+          data-website-id="b342d5fa-f525-4014-a97e-b2a1978f55d0"
           strategy="afterInteractive"
         />
         <TransitionProvider>
